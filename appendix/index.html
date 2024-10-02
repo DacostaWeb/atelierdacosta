@@ -1,0 +1,847 @@
+
+<!DOCTYPE html>
+<!--   __      ___            __                 __
+ ___ _/ /____ / (____ _______/ ___ ________  ___/ /____ _
+/ _ `/ __/ -_/ / / -_/ __/ _  / _ `/ __/ _ \(_-/ __/ _ `/
+\_,_/\__/\__/_/_/\__/_/  \_,_/\_,_/\__/\___/___\__/\_,_/
+        https://cdn.rawgit.com/asvd/dragscroll/master/dragscroll.js      -->
+
+<html lang="pt">
+<head>
+  <!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-106609615-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-106609615-1');
+</script>
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Organization",
+  "url": "http://www.atelierdacosta.com",
+  "logo": "http://www.atelierdacosta.com/logotipo-63.png"
+
+}
+</script>
+  <meta charset="utf-8">
+  <meta name="author" content="Eduardo Barros">
+  <meta name="description" content="info@atelierdacosta.com
+~
++351 913 586 843
++351 917 777 945
+~
+Sede: Rua Avelino Barros 303, 4490-479, Póvoa de Varzim
+Delegação(em construção): Rua de Entreparedes 25/27, 4000-198 Porto">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, target-densityDpi=device-dpi" />
+  <link rel="stylesheet" type="text/css" href="../style.css">
+  <title>APPENDIX</title>
+<link rel="icon" sizes="192x192" href="../favicon.ico">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<meta name="google-site-verification" content="sbNtRFqW4b7_Af-jCpZybr9JxYmdaALAtpg6lLpSi0U"/>
+
+
+
+
+
+
+
+<script>
+
+$(document).ready(function(){
+  $(".backtop").click(function () { //#A_ID is an example. Use the id of your Anchor
+
+      $(this).parent( ".p2" ).animate({
+          scrollTop: 0 //#DIV_ID is an example. Use the id of your destination on the page
+      }, 'slow');
+
+  });
+});
+
+</script>
+
+
+<!-- papiro click -->
+<!--  if ($('.backtop:hover').length == 0) { -->
+<script>
+  $(document).ready(function() {
+    var winwid = $(window).width() - 65;
+    $('.leftclick')
+      .on('mousedown', function() { $(this).one("click", handleClick); })
+      .on('mousemove mouseout', function() { $(this).off('click'); });
+
+  function handleClick(){
+
+
+
+        if ($(window).width() > 575) {
+   $('.appcontainer').animate( { scrollLeft: '-=559' }, 200);
+  }
+  else {
+  $('.appcontainer').animate( { scrollLeft: '-=250' }, 200);
+  }
+
+
+  }
+  });
+</script> -->
+<script>
+  $(document).ready(function() {
+      var winwid = $(window).width() - 65;
+    $('.rightclick')
+      .on('mousedown', function() { $(this).one("click", handleClick); })
+      .on('mousemove mouseout', function() { $(this).off('click'); });
+
+  function handleClick(){
+
+
+
+        if ($(window).width() > 575) {
+   $('.appcontainer').animate( { scrollLeft: '+=559' }, 200);
+  }
+  else {
+  $('.appcontainer').animate( { scrollLeft: ' $(window).width()*0.07' }, 200);
+  }
+
+
+
+  }
+  });
+</script>
+
+<!-- papiro que antes estava no head -->
+<!--
+<script type="text/javascript"  defer>
+  /**
+   * @fileoverview dragscroll - scroll area by dragging
+   * @version 0.0.8
+   *
+   * @license MIT, see http://github.com/asvd/dragscroll
+   * @copyright 2015 asvd <heliosframework@gmail.com>
+   */
+
+
+  (function (root, factory) {
+      if (typeof define === 'function' && define.amd) {
+          define(['exports'], factory);
+      } else if (typeof exports !== 'undefined') {
+          factory(exports);
+      } else {
+          factory((root.appcontainer = {}));
+      }
+  }(this, function (exports) {
+      var _window = window;
+      var _document = document;
+      var mousemove = 'mousemove';
+      var mouseup = 'mouseup';
+      var mousedown = 'mousedown';
+
+      var EventListener = 'EventListener';
+      var addEventListener = 'add'+EventListener;
+      var removeEventListener = 'remove'+EventListener;
+      var newScrollX;
+
+      var dragged = [];
+      var reset = function(i, el) {
+          for (i = 0; i < dragged.length;) {
+              el = dragged[i++];
+              el = el.container || el;
+              el[removeEventListener](mousedown, el.md, 0);
+              _window[removeEventListener](mouseup, el.mu, 0);
+              _window[removeEventListener](mousemove, el.mm, 0);
+          }
+
+          // cloning into array since HTMLCollection is updated dynamically
+          dragged = [].slice.call(_document.getElementsByClassName('appcontainer'));
+          for (i = 0; i < dragged.length;) {
+              (function(el, lastClientX, pushed, scroller, cont){
+                  (cont = el.container || el)[addEventListener](
+                      mousedown,
+                      cont.md = function(e) {
+                          if (!el.hasAttribute('nochilddrag') ||
+                              _document.elementFromPoint(
+                                  e.pageX
+                              ) == cont
+                          ) {
+                              pushed = 1;
+                              lastClientX = e.clientX;
+
+
+                              e.preventDefault();
+                          }
+                      }, 0
+                  );
+
+                  _window[addEventListener](
+                      mouseup, cont.mu = function() {pushed = 0;}, 0
+                  );
+
+                  _window[addEventListener](
+                      mousemove,
+                      cont.mm = function(e) {
+                          if (pushed) {
+                              (scroller = el.scroller||el).scrollLeft -=
+                                  newScrollX = (- lastClientX + (lastClientX=e.clientX));
+
+                              if (el == _document.body) {
+                                  (scroller = _document.documentElement).scrollLeft -= newScrollX;
+
+                              }
+                          }
+                      }, 0
+                  );
+               })(dragged[i++]);
+          }
+      }
+
+
+      if (_document.readyState == 'complete') {
+          reset();
+      } else {
+          _window[addEventListener]('load', reset, 0);
+      }
+
+      exports.reset = reset;
+}));</script>
+-->
+
+<!--
+<script type="text/javascript"  defer>
+  /**
+   * @fileoverview dragscroll - scroll area by dragging
+   * @version 0.0.8
+   *
+   * @license MIT, see http://github.com/asvd/dragscroll
+   * @copyright 2015 asvd <heliosframework@gmail.com>
+   */
+
+
+  (function (root, factory) {
+      if (typeof define === 'function' && define.amd) {
+          define(['exports'], factory);
+      } else if (typeof exports !== 'undefined') {
+          factory(exports);
+      } else {
+          factory((root.p2 = {}));
+      }
+  }(this, function (exports) {
+      var _window = window;
+      var _document = document;
+      var mousemove = 'mousemove';
+      var mouseup = 'mouseup';
+      var mousedown = 'mousedown';
+
+      var EventListener = 'EventListener';
+      var addEventListener = 'add'+EventListener;
+      var removeEventListener = 'remove'+EventListener;
+      var newScrollY;
+
+      var dragged = [];
+      var reset = function(i, el) {
+          for (i = 0; i < dragged.length;) {
+              el = dragged[i++];
+              el = el.container || el;
+              el[removeEventListener](mousedown, el.md, 0);
+              _window[removeEventListener](mouseup, el.mu, 0);
+              _window[removeEventListener](mousemove, el.mm, 0);
+          }
+
+          // cloning into array since HTMLCollection is updated dynamically
+          dragged = [].slice.call(_document.getElementsByClassName('p2'));
+          for (i = 0; i < dragged.length;) {
+              (function(el, lastClientY, pushed, scroller, cont){
+                  (cont = el.container || el)[addEventListener](
+                      mousedown,
+                      cont.md = function(e) {
+                          if (!el.hasAttribute('nochilddrag') ||
+                              _document.elementFromPoint(
+                                  e.pageY
+                              ) == cont
+                          ) {
+                              pushed = 1;
+                              lastClientY = e.clientY;
+
+
+                              e.preventDefault();
+                          }
+                      }, 0
+                  );
+
+                  _window[addEventListener](
+                      mouseup, cont.mu = function() {pushed = 0;}, 0
+                  );
+
+                  _window[addEventListener](
+                      mousemove,
+                      cont.mm = function(e) {
+                          if (pushed) {
+                              (scroller = el.scroller||el).scrollTop -=
+                                  newScrollY = (- lastClientY + (lastClientY=e.clientY));
+
+                              if (el == _document.body) {
+                                  (scroller = _document.documentElement).scrollTop -= newScrollY;
+
+                              }
+                          }
+                      }, 0
+                  );
+               })(dragged[i++]);
+          }
+      }
+
+
+      if (_document.readyState == 'complete') {
+          reset();
+      } else {
+          _window[addEventListener]('load', reset, 0);
+      }
+
+      exports.reset = reset;
+}));</script>
+-->
+
+
+</head>
+
+
+
+
+<body>
+
+
+  <div class="pngs">
+    <a href="../about/index.html"> <img    class="aboutpng leftpng" src="../atelierdacosta.svg" alt=""></a>
+      <a target="_blank" href="https://atlasdacosta.tumblr.com/">
+        <img    class="atlaspng rightpng" src="../atlas.svg" 
+        alt="">
+        </a>
+    
+        <a href="../index/index.html">
+          <img    class="indexpng hidepng" src="../index.svg"  alt="">
+          </a>
+    
+    <a href="../index.html">
+          <img    style="background-color: transparent" class="instapng hidepng" src="../appendix.svg"  alt="">
+          </a>
+      </div>
+  
+<!--   <div class="linha">
+
+  </div>
+
+ -->
+
+    <div class="leftclick">
+
+    </div>
+    <div class="rightclick">
+
+    </div>
+
+    <div class="gradientup">
+
+    </div>
+    <div class="gradientbottom">
+
+    </div>
+
+<div class="appcontainer">
+
+
+  <div class="outer" id="APP.07">
+    <div class="p2">
+    
+        <h2 style="margin-bottom: 33px">
+          2022 - Exposition Graz_Colors_GRAZ diskursiv.xyz
+      </h2>
+    
+      <img src="graz/8.jpg" alt="">
+      <!-- <h2>&nbsp<br>
+      (equipa: Hugo Barros e Sara Garcia)
+      </h2> -->
+        <br><br><br>
+             <p2><pre>
+<b>favorite color</b>
+Can’t say favorite colors, only color combinations, e.g: plain red, blue, green, yellow with raw textured materials<br>
+<b>favorite surface</b>
+Wood, even if always afraid to be more beautiful if left raw<br>
+<b>favorite technique</b>
+Brushes for the reason given above. With aqueous paint you still get the raw texture beneath<br>
+<b>favorite colorful house</b>
+Brummel House, Adolf Loos
+</pre>
+           
+        </p2>
+              <br><br><br>
+              <img src="graz/9.jpg" alt="">
+           <br>
+           
+        
+    <div class="backtop">
+      <h2>↑</h2>
+    </div>
+    
+    
+    
+      <div class="tracejado">
+    
+      </div>
+    
+    </div>
+    </div>
+    
+
+
+
+
+  <div class="outer" id="APP.06">
+    <div class="p2">
+    
+        <h2 style="margin-bottom: 33px">
+          2021 - 0MODELS_GRAZ_diskursiv.xyz
+      </h2>
+    
+      <img src="graz/1.jpg" alt="">
+      <!-- <h2>&nbsp<br>
+      (equipa: Hugo Barros e Sara Garcia)
+      </h2> -->
+        <br><br><br>
+             <p2><pre>
+<b>favorite material</b>
+Foam<br>
+<b>favorite scale</b>
+1:1, but until we get there we try 1:100 and 1:20<br>
+<b>favorite tool</b>
+The cutter to freestyle the manipulation of the favourite material<br>
+<b>favorite model</b>
+One of the study models we keep, despite the storage limitations<br>
+</pre>
+           
+        </p2>
+              <br><br>
+              <img src="graz/2.jpg" alt="">
+           <br>
+           <img src="graz/3.jpg" alt="">
+           <br>
+           <img src="graz/4.jpg" alt="">
+           <br>
+           <img src="graz/5.jpg" alt="">
+           <br>
+           <img src="graz/6.jpg" alt="">
+           <br>
+           <img src="graz/7.jpg" alt="">
+        
+    <div class="backtop">
+      <h2>↑</h2>
+    </div>
+    
+    
+    
+      <div class="tracejado">
+    
+      </div>
+    
+    </div>
+    </div>
+    
+
+
+
+
+
+  <div class="outer" id="APP.05">
+    <div class="p2">
+    
+        <h2 style="margin-bottom: 33px">
+          O que mudavas no RGEU<br>4 caminhos teóricos - projectos de lei para a lei do projecto
+      </h2>
+   <!--    <img src="rgeu/1.png" alt=""><br> -->
+      
+      <!-- <h2>&nbsp<br>
+      (equipa: Hugo Barros e Sara Garcia)
+      </h2> -->
+        
+        <p2> <br>
+         <b>Discussão de atelier</b><br><i>reescrito a partir da oralidade real</i><sup>10</sup><br><br><br>
+          </p2>  
+          <img class="full" src="rgeu/1.jpg" alt=""><br><br>
+          <p2>
+          <b>I</b><br><br>
+<pre>
+  pessoa A: Malta, parece que temos de discutir o que deve ser o novo RGEU, divertido não?  
+  pessoa B: Ui, nem sei por onde começar!
+  pessoa C: POR MIM NEM HAVIA RGEU. 
+  B: Como assim, não haver RGEU?
+  C: então, não serve para nada, hoje está tudo na legislação própria de cada especialidade!
+  A: Os revestimentos, acabamentos e coisas do género não, continuam a ser “arquitectura”! As dimensões mínimas dos espaços e dos fogos também!
+  C: pois pois, e a reação ao fogo dos revestimentos, não defines em SCIE? 
+  A: Certo, mas a SCIE não abrange todos os materiais, uma torneira ou um puxador, por exemplo. 
+  B: Já nos estamos a desviar um bocado do cerne da questão, isso é muito construtivo e nunca vai aparecer numa lei...
+</pre>
+           
+        </p2>
+              <br><br>
+            <img class="full" src="rgeu/2.jpg" alt="">
+           <br><br>
+           <p2><b>Confissões de um infractor ligeiro</b><sup>11</sup><br><br>
+            </p2>
+            <p2>Sobre a questão “O que eliminaria do RGEU?”: não é difícil de ver que 
+              em boa parte é já um “tratado” em descrédito, pouco usado e, ainda 
+              pior, desconsiderado pelas entidades. Alguns exemplos soltos de que 
+              me lembro do nosso projecto da Casa de Férias, em Esposende:</p2><br><br>
+            <p2>Artigo 69º -  o acesso aos quartos não é feito propriamente por um 
+              corredor. É, na verdade, por uma sala mais privada, usada como tal. 
+              Podemos chamá-lo corredor sobredimensionado mas, na realidade, 
+              funciona com espaço de estadia de pessoas.
+               O quarto principal tem um espaço fundo que junta closet e área de 
+              dormir, sem qualquer divisão.
+               O comprimento de ambos os espaços têm mais do dobro da largura, 
+              apesar de janelas nos dois lados opostos mais distantes, no caso da 
+              sala privada. No entanto, lá não cabe um círculo de diâmetro de 2,7 m. 
+              Apesar de não cumprirem à letra este artigo, o projecto foi aprovado e 
+              não parece haver problemas de salubridade. (ver imagem 5)</p2>  <br><br>
+              <p2>Artigo 65º -  nesta área comum do piso térreo coloca-se o velho tema 
+                do pé direito para o qual há legislação muito dispersa. Tem 2,4 m em 
+                70% da área térrea e 2,2 m no restante. (ver imagem 7)</p2><br><br>
+                <img src="rgeu/3.jpg" alt="">
+                <br><br>
+                <p2>Artigo 17º  -  este artigo tem muito a ver com a reflexão da conver
+                  sa acima transcrita. Posso confirmar que não fomos obter nenhum 
+                  parecer prévio junto do LNEC dos materiais usados. Diria que 
+                  madeira termo-tratada e outros encaixam na definição de novos mate
+                  riais, sujeitos a parecer técnico. (ver imagem 6)</p2><br><br>
+                  <p2>Artigo 67º - todos conhecemos aquele amigo com um T1 que, por 
+                    esta ou aquela razão, tem de estar registado como T0 ou estúdio. 
+                    Este artigo e outros sobre as condições associadas a um fogo fecham 
+                    por completo uma diversificação das tipologias habitacionais, no
+                    meadamente num habitar comum para cozinhar, trabalhar, conviver, 
+                    associado à célula individual, em vez do triste T1 ou o actual muito 
+                    precário aluguer de quartos (que tantos profissionais acabam por 
+                    ocupar quando se mudam de cidade). Essa discussão, do advento de 
+                    uma certa cultura de erimitismo urbano por necessidade e de como 
+                    resolvê-lo espacialmente, obrigaria a rever o conceito de fogo e de 
+                    propriedade horizontal. Contendo riscos, é algo que precisa de ser 
+                    repensado se queremos agitar o marasmo actual da oferta tipológica.</p2>
+
+                    <br><br>
+                      <img src="rgeu/4.jpg" alt="">
+                      <br><br>
+                      <p2>
+                      <b>II</b><br><br>
+<pre> A: Se for um código da construção, pode não falar só de salubridade por via dos afastamentos, áreas e larguras mínimas - que em boa parte já estão contemplados noutras leis - mas também de como se construir com qualidade hoje. Não vos parece haver uma espécie de vazio de critério em relação a isso?
+  B: Para mim deveria ser só uma espécie de lei geral da construção, falando das boas práticas, bastante genérico e não vinculativo.
+  A: UMA CONSTITUIÇÃO da construção, mas, já agora, tirando as considerações estéticas do actual RGEU, é isso? 
+  B: Exacto, algo assim.
+  C: Mas se, à imagem da constituição, não for para aplicar, não serve de nada, será uma bela prosa. Continuo a achar que é possível “engavetar” tudo o que o RGEU actual tem na legislação própria de cada especialidade, muito complexificada desde 1951. Reparem que mesmo a largura de um corredor é hoje definida pelas acessibilidades. Na prática, a área de uma casa de banho e mesmo outros espaços estão totalmente condicionados pelo 163/2006. E o resto, da construção, é uma resposta específica que cada projectista, em cada projecto, tem de dar com as condições actuais de documentação dos materiais, etc. 
+  A: Sim, em abstrato não me importava de ter um RGEU minimalista, a conter apenas aquelas coisas que, por lógica, não possam ser incluídas na legislação específica (que também precisa de uma grande arrumação e limpeza).</pre>
+                    </p2><br><br>
+
+                    <img src="rgeu/5.jpg" alt="">
+                    <br><br>
+                    <p2>
+                    <b>III</b><br><br>
+<pre> A: Era importante exigir uma sistematização, para maior compreensão do que se está realmente a propor e a aplicar em cada material, de cada marca - a garantia não é suficiente e ficarmos reféns da marca não é caminho. A marca tem o monopólio do conhecimento construtivo do material mas depois, na articulação com outros materiais na obra, como é?  Não é suficiente a publicação nos sites próprios de cada uma, com parâmetros e possibilidades de aplicação díspares. Aplicamos um Mapalestic SMART ou um SIKA TOP - 107 SEAL ES e facilmente escapa que são ambas argamassas de impermeabilização bicomponente, que devem ser aplicadas nisto ou naquilo e fiscalizadas desta ou daquela forma. Já para não falar da miríade de subcategorias de produto ininteligíveis, se são só soluções mais baratas, vulgo piores, ou outra coisa qualquer.
+  B: Estás a limitar muito os sistemas não certificados. Imagina um senhor que faça um excelente perpianho de base com tijolo maciço daí para cima, ligados por algum engenho próprio. Excluis da construção?
+  A: Não, pelo contrário, inclur-se-iam esses materiais mais elementares e muito testados, podendo isso dar até aso a um maior uso após a “inscrição oficial”. A proposta visa ordenar esta selva fragmentária, que só encontro paralelo na vitrine dos iogurtes do supermercado: perco sempre imenso tempo a comparar e a escolher o que realmente quero! Seria um instrumento que obrigaria as marcas a enquadrarem-se e compararem-se com as demais, sem mitos comerciais ou publicitários. Há várias pistas muito operativas noutros países, porque já temos uma percentagem enorme de materiais com marca numa obra, faltam critérios de aplicação e responsabilização comuns. Todos estes temas estão muito ligados às lacunas enormes na formação que uma lei não pode resolver, claro. Mas é importante haver algo como uma entidade reguladora da construção, que agisse com base numa legislação robusta e coerente. O novo RGEU, se quiser ser útil, devia tomar uma direcção “MAIS CONSTRUTIVA” e suprir o vazio que temos na sistematização das soluções construtivas*. Pensem, era um descanso, eram logo cancelados os fenólicos e imitações para as fachadas, que começam a ganhar barriga e ficam com os parafusos zincados todos soltos. Claramente as fichas técnicas não chegam e os exemplos de outros países, França e Suiça à cabeça, são prova disso. 
+  B: Hmmm, ok, esta conversa deu-me fome.</pre><br><br></p2>
+  <p2> * organizado por um instituto 
+    nacional, no caso português 
+    o LNEC seria o mais indica
+    do aparentemente. Poderia 
+    também ser adequado como 
+    entidade reguladora, não co
+    nhecemos em detalhe essa 
+    possibilidade.</p2><br><br>
+  <img class="full" src="rgeu/7.jpg" alt="">
+  <br><br>
+  <img src="rgeu/6.jpg" alt="">
+  <br><br>
+  <p2>
+  <b>IV</b><br><br>
+<pre> A: Pode parecer absurdo, especulativo e significar um caminho menos óbvio para uma nova lei, mas há partes do actual RGEU que me recordam uma certa TRATADÍSTICA CLÁSSICA, pela forma quase absoluta como alguns artigos são escritos. Muitíssimo tardia em Portugal para organizar o advento de uma expansão da construção do séc. XX, sente-se que esta lei moderna e, em certa medida, modernista, procura preencher em definitivo um certo vazio doutrinal pós revivalismos fin de siècle. Logo, vai além das questões de salubridade, visa iluminar um caminho para os projectistas, tanto do ponto de vista construtivo, como do ponto de vista estílistico, reiterando as opções de materiais, tipos de cobertura, etc. É o tipo de empreitada que não é estranha aos Tratados de Alberti, Palladio, Serlio, entre outros. Aliás, sempre que vejo a nossa obra Casa César, parece-me saída da visão do RGEU, mas prometo que as coberturas inclinadas, os beirais à portuguesa, os alpendres, o perpianho, as chaminés e o reboco foram tudo pedidos do cliente que procuramos compor. Ao contrário, há obras, aparentemente mais racionais, como a Casa de Férias, que parecem distantes do vocabulário do RGEU, seja na configuração espacial ou na materialidade.
+</pre><br><br></p2>
+<img class="full" src="rgeu/8.jpg" alt="">
+  <br><br>
+  <img class="full" src="rgeu/9.jpg" alt="">
+  <br><br>
+                    
+           
+       
+          <p2>
+            (1) - Yona Friedman, Structures Serving the Unpredictable, NAi Publishers, 1999.<br>
+ (2) - Constituição da República Portuguesa, 1976.<br>
+ (3)- Andrea Deplazes, Construir la Arquitectura, Gustavo Gili, 2010.<br>
+ (4)- Andrea Palladio, Four Books Of Architecture, MIT Press, 1997 (capa original) e 
+Leon Battista Alberti, On the Art of Building in Ten Books, MIT Press, 1988 (capa 
+original).<br>
+ (5), (6), (7)- Casa de Férias, ATELIERDACOSTA, fotografia de Tiago Casanova.<br>
+ (8)- Casa César, ATELIERDACOSTA, fotografia de ATELIERDACOSTA.<br>
+ (9)- Vitrine de iogurtes em supermercado brasileiro e Prateleira de arquivo de catálo
+gos de materiais no ATELIERDACOSTA.<br>
+ (10) - textos de Hugo Barros a partir da referida discussão de atelier.<br>
+ (11)- texto de Hugo Barros.<br>
+          </p2>
+    
+    <div class="backtop">
+      <h2>↑</h2>
+    </div>
+    
+    
+    
+      <div class="tracejado">
+    
+      </div>
+    
+    </div>
+    </div>
+    
+
+
+
+
+
+  <div class="outer" id="APP.04">
+    <div class="p2">
+    
+        <h2 style="margin-bottom: 33px">
+          Exposição "ÁLVARO SIZA-90 anos"<br>na @note.galeriadearquitectura, em Lisboa.
+      </h2>
+    
+      <img src="siza/1.jpg" alt="">
+      <!-- <h2>&nbsp<br>
+      (equipa: Hugo Barros e Sara Garcia)
+      </h2> -->
+        <br><br><br>
+        <p2>
+          Desenho/texto do @hugobarrosferreira "Siza, Rómulos e Remos". Curadoria de @bs_barbarasilva and Ana Sofia Pereira da Silva.
+          <br><br><br>
+             <pre>
+<b>Gosto de Siza</b>
+
+
+Gosto de Siza porque foi, para mim:
+primeiro vizinho - na rua das duas casas -
+a Alves dos Santos. ainda interiorizada -
+e a Beires - consta que a primeira que
+inflecte essa tendência -, primeiro 
+arquitecto da História da Arquitectura
+e primeira sereia encantatória
+
+Gosto de Siza alterado. com tijoleiras do
+Maxmat - Malagueira. São Vitor, Caxinas -
+porque mostra a potência intacta dos seus
+alçados, pensados, como diz o próprio,
+autonomamente de qualquer
+materialidade.
+
+Gosto que os textos de Siza sobre a sua
+obra sejam tão secos e a vejamos sempre
+tão poética. ao contrário do que se faz
+hoje.
+
+Não gosto que se esqueça de vez em
+quando de pôr o chapim.
+
+Siza é bom demais para o agora. 
+              </pre>
+           
+        </p2>
+              <br><br>
+            <img class="full" src="siza/2.jpg" alt="">
+           <br>
+           <img class="full" src="siza/3.jpg" alt="">
+        
+    <div class="backtop">
+      <h2>↑</h2>
+    </div>
+    
+    
+    
+      <div class="tracejado">
+    
+      </div>
+    
+    </div>
+    </div>
+    
+
+
+
+
+
+  <div class="outer" id="APP.03">
+    <div class="p2">
+    
+        <h2 style="margin-bottom: 50px">
+          Periaktoi para SCHULD    
+      </h2>
+    
+      <img src="schuld/1.jpg" alt="">
+      <!-- <h2>&nbsp<br>
+      (equipa: Hugo Barros e Sara Garcia)
+      </h2> -->
+        <br><br><br>
+        <p2>
+          “Começa assim a mudança de sentido pela qual a culpa se torna dívida,(…) o espírito do dever místico do reembolso” (Peter Sloterdijk).        </p2>
+    
+          <div style="text-indent: 28px">
+            <p2>
+              Um peso sobre um corpo. Que peso é esse – o do reembolso? Que corpo é esse – exposto à tácita e contemporânea autoexploração – insaciável, acumulador de culpa e dívida? Schuld, simultaneamente culpa e dívida em alemão, é ação física invisível e coletiva, destino pesado como manto que cobre todos os que não se entreguem à “subjetividade empreendedora”.             </p2>
+              </div>
+              <div style="text-indent: 28px">
+                <p2>
+                  &nbsp<br>
+                  “Deixa o espinho/colhe a rosa/Tu vais procurar/a tua dor” (Benedetto Pamphili, Lascia la spina, cogli la rosa).
+        </p2>
+          </div>
+              <br><br>
+            <img class="full, fulldesenho" src="schuld/2.JPG" alt="">
+           <br>
+           <img class="full" src="schuld/3.jpg" alt="">
+           <img class="full" src="schuld/4.jpg" alt="">
+    <div class="backtop">
+      <h2>↑</h2>
+    </div>
+    
+    
+    
+      <div class="tracejado">
+    
+      </div>
+    
+    </div>
+    </div>
+    
+       
+    
+    
+
+
+<div class="outer" id="APP.02">
+<div class="p2">
+
+    <h2 style="margin-bottom: 33px">
+  Cenografia para “Martha”<br>estreado no Teatro Constantino Nery em Matosinhos
+
+  </h2>
+
+  <img src="m/1.jpg" alt="">
+  <h2>&nbsp<br>
+  (equipa: Hugo Barros e Pedro Oliveira)
+  </h2>
+    <br><br><br>
+    <p2>
+      A partir de uma peça de Martha Graham, - “Lamentation”, à qual prestam de alguma forma tributo, Pedro Carvalho e Sara Garcia compõem um solo de dança, cujo único personagem se move invariavelmente em torno de uma cadeira (na peça de Graham era um banco).
+    </p2>
+
+      <div style="text-indent: 28px">
+        <p2>
+          O pedido inicial era claro, mas ia sendo ajustado nos ensaios, ainda realizados com uma qualquer cadeira que serviu como espécie de detector das incompatibilidades do seu desenho com o movimento que se pretendia desenrolar sobre ela.  Uma cadeira que tivesse dois assentos e uma costa, dois sentares distintos, um com reclinação e apoio , à cota baixa, outro mais efémero e pontual, à cota alta . Esta demanda exigia um reforço da estrutura da cadeira, sem o qual o assento à cota alta, instalado sobre a costa do primeiro assento, poderia tornar-se demasiado instável, por se tratar de uma outra cadeira suspensa na mesma cadeira mas só ligada à primeira pela estrutura das costas. Essa dificuldade estrutural, juntamente com a observação do movimento dançado e o figurino dos clips de “Lamentation”, deram o mote para o desenho da cadeira e a sua disposição no espaço do palco.
+        </p2>
+          </div>
+          <br><br>
+        <img class="full, fulldesenho" src="m/d1.png" alt="">
+       <br>
+       <img class="full" src="m/2.jpg" alt="">
+      &nbsp<br>
+       <img class="full" src="m/3.jpg" alt="">
+       &nbsp<br>
+        <img class="full" src="m/4.jpg" alt="">
+          <div style="text-indent: 28px">
+            <p2>
+              &nbsp<br>
+              O movimento era, em grande parte, lido pela (de)formação do figurino usado, uma espécie de túnica lilás elástica, dentro da qual a bailarina parece querer desconfinar-se, quebrando os limites espaciais aparentemente impostos pela roupagem, em vez de o serem pela flexibilidade muscular. Neste constante exercício plástico, lêem-se as linhas definidoras dos membros superiores e inferiores, apenas de um dos lados: o lado terminal para onde o tecido está a ser esticado. Ao contrário do habitual, vemos uma bailarina só com a definição do contorno exterior dos seus membros, tendo um aspecto quase líquido, invertebrado e animalesco, qual medusa, castrador da leitura estrutural do corpo, que é obtida só em momentos específicos da performance. Seria também uma túnica, neste caso carmim, que seria usada na peça a estrear. Dada a necessidade de reforço estrutural,  propõe-se que a cadeira pudesse contrastar com a personagem e atribuir-lhe o protagonismo de grande mancha, ao ser dotada apenas com estrutura, de secção quadrangular e, suplementarmente a eixo, uma coluna vertebral de secção circular que suporta o segundo assento pedido. A cadeira, só vertebrada mas imóvel, pronta a receber o corpo movediço, líquido e instável, aumenta o seu sentido de profundidade e tridimensionalidade em palco, com a sua forma trapezóidal e as secções que diminuem da sua frente para o seu tardoz.
+              Cenografia para “Discursos”, estreado no Teatro Municipal do Porto.
+    </p2>
+      </div>
+
+<div class="backtop">
+  <h2>↑</h2>
+</div>
+
+
+
+  <div class="tracejado">
+
+  </div>
+
+</div>
+</div>
+
+
+
+
+
+
+
+<div class="outer" id="APP.01">
+  <div class="p2">
+
+    <h2 style="margin-bottom: 33px">
+  "A CRATERA"<br>(integrado na exposição "O que está de errado na (tua) casa?")
+  </h2>
+
+
+
+  <img src="c/1.jpg" alt="">
+<!--  <h2>&nbsp<br>
+  (integrado na exposição "O que está de errado na (tua) casa?")
+  </h2> --> 
+
+    <br><br><br>
+    <p2>
+      Dá-se a conhecer o projecto de remodelação dos dois pisos do atelierdacosta pelo registo fotográfico do tecto da sua cave - agora espaço de trabalho, antes de atendimento. Sobre a sua projecção, está desenhado o mobiliário actual e real, denunciando a acomodação do uso, mais ou menos espontâneo, ao único elemento organizador do espaço sem janelas: o tecto e o seu desenho da luz – seja artificial, seja natural, pela abertura de uma cratera na laje.
+    </p2>
+
+      <div style="text-indent: 28px">
+        <p2>
+  Antes do projecto, acumulavam-se, numa espécie de cartografia sintomática, desajuste e erro que instituíram (e instruíram) o projecto – já não havia margem para toda a inquietude das práticas do quotidiano sobre o espaço, sem recorrer a esse último expediente que é o projecto e a obra, reprogramadores da vida tal como ela já quer ser. O erro que é sintoma é rapidamente conversível, no projecto, em erro que é recurso, sobretudo se nos reportarmos à origem latina da palavra, e assim entendê-la como um dilema, um percurso contínuo e não linear de dúvida e experimentação, potencialmente errático; e, retomando a pergunta de partida, esta é uma maneira de a colocar que preferimos: talvez por sorrateiramente nos ilibar.</p2>
+  </div>
+  <div style="text-indent: 28px">
+  <p2>
+      Sem nos apercebermos imediatamente, e sem a clareza exibida no conto dos Sapatos do Senhor Valéry<sup>1</sup>, discutíamos permanentemente dois conceitos aplicados ao quadro do habitar pre-existente e o imaginado: o de lógica e o de convenção. No habitar da casa, o seu desequilíbrio pode significar perturbação – que experimentámos e que pretendíamos que o projecto renegociasse. Com a cratera ainda em execução, ouvíamos constantemente: “este buraco vai ser para umas novas escadas, não vai?”; mas talvez estas tenham sido formulações de desejo travestidas de convenção, nostálgicas da anterior relação directa e à cota da rua com o núcleo de trabalho do atelier. Surgiam também os alertas para a lógica – sempre bastante generalistas e criadores de espécies de aforismos indiferentes às diversas nuances - com especial enfoque no espaço de trabalho que “deveria ser sempre aquele com mais luz natural”. Também nas decisões construtivas ouvíamos: “depois com reboco no topo das vigas cortadas e fica rematadinho, não é?”. Pois bem, também aí encontramos campo fértil para a subversão negociada e deixamo-las com o corte à vista, denunciando o acto produzido sobre a estrutura.
+      </p2>
+  <div style="text-indent: 28px">
+    <p2>  Evitando declarar tabula rasa da existência e o consequente desperdício, procurávamos não fazer um mero makeup dos espaços só para conseguir mais intimidade no trabalho, só para obter mais luz no atendimento ou maior desafogo na entrada, mas ultrapassar essas barreiras politicamente impostas pela convenção ou por uma lógica convencionada. Essencialmente, luz e matéria foram alvo de uma transformação operada pela cratera que desmontou a homogeneidade dos dois pisos – um homogeneamente escuro e outro homogeneamente iluminado – para gerar atributos mais complexos e heterogéneos, desdobradores das possibilidades de vida no espaço. </p2></div>
+  <br>  <img class="full, fulldesenho" src="c/d1.jpg" alt="">
+  <br><br><br><br>
+  <p2>
+      (1) - Tavares, Gonçalo M., A estranha Casa do Senhor Walser, in Pensar a Casa, Conferências da Casa, Associação Casa da Arquitectura, 2011
+  </p2>
+  </div>
+
+  <div class="backtop">
+    <h2>↑</h2>
+  </div>
+
+
+
+    <div class="tracejado">
+
+    </div>
+</div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+</body>
+
+
+
+</html>
