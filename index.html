@@ -1,0 +1,2020 @@
+
+<!DOCTYPE html>
+<!--   __      ___            __                 __
+ ___ _/ /____ / (____ _______/ ___ ________  ___/ /____ _
+/ _ `/ __/ -_/ / / -_/ __/ _  / _ `/ __/ _ \(_-/ __/ _ `/
+\_,_/\__/\__/_/_/\__/_/  \_,_/\_,_/\__/\___/___\__/\_,_/
+        https://cdn.rawgit.com/asvd/dragscroll/master/dragscroll.js      -->
+
+<html lang="pt">
+
+<!--
+<script>
+window.onload = function(){ document.getElementById("loading").style.display = "none" }
+
+</script>
+ -->
+
+<head>
+  <script>
+        /**
+       * @fileoverview dragscroll - scroll area by dragging
+       * @version 0.0.8
+       *
+       * @license MIT, see http://github.com/asvd/dragscroll
+       * @copyright 2015 asvd <heliosframework@gmail.com>
+       */
+
+
+      (function (root, factory) {
+            if (typeof define === 'function' && define.amd) {
+                define(['exports'], factory);
+            } else if (typeof exports !== 'undefined') {
+                factory(exports);
+            } else {
+                factory((root.dragscroll = {}));
+            }
+        }(this, function (exports) {
+            var _window = window;
+            var _document = document;
+            var mousemove = 'mousemove';
+            var mouseup = 'mouseup';
+            var mousedown = 'mousedown';
+            var EventListener = 'EventListener';
+            var addEventListener = 'add'+EventListener;
+            var removeEventListener = 'remove'+EventListener;
+            var newScrollX, newScrollY;
+
+            var dragged = [];
+            var reset = function(i, el) {
+                for (i = 0; i < dragged.length;) {
+                    el = dragged[i++];
+                    el = el.container || el;
+                    el[removeEventListener](mousedown, el.md, 0);
+                    _window[removeEventListener](mouseup, el.mu, 0);
+                    _window[removeEventListener](mousemove, el.mm, 0);
+                }
+
+                // cloning into array since HTMLCollection is updated dynamically
+                dragged = [].slice.call(_document.getElementsByClassName('dragscroll'));
+                for (i = 0; i < dragged.length;) {
+                    (function(el, lastClientX,
+                      // lastClientY,
+                      pushed, scroller, cont){
+                        (cont = el.container || el)[addEventListener](
+                            mousedown,
+                            cont.md = function(e) {
+                                if (!el.hasAttribute('nochilddrag') ||
+                                    _document.elementFromPoint(
+                                        e.pageX
+                                        // , e.pageY
+                                    ) == cont
+                                ) {
+                                    pushed = 1;
+                                    lastClientX = e.clientX;
+                                    // lastClientY = e.clientY;
+
+                                    e.preventDefault();
+                                }
+                            }, 0
+                        );
+
+                        _window[addEventListener](
+                            mouseup, cont.mu = function() {pushed = 0;}, 0
+                        );
+
+                        _window[addEventListener](
+                            mousemove,
+                            cont.mm = function(e) {
+                                if (pushed) {
+                                    (scroller = el.scroller||el).scrollLeft -=
+                                        newScrollX = (- lastClientX + (lastClientX=e.clientX));
+                                    // scroller.scrollTop -=
+                                    //     newScrollY = (- lastClientY + (lastClientY=e.clientY));
+                                    if (el == _document.body) {
+                                        (scroller = _document.documentElement).scrollLeft -= newScrollX;
+                                        // scroller.scrollTop -= newScrollY;
+                                    }
+                                }
+                            }, 0
+                        );
+                     })(dragged[i++]);
+                }
+            }
+
+
+            if (_document.readyState == 'complete') {
+                reset();
+            } else {
+                _window[addEventListener]('load', reset, 0);
+            }
+
+            exports.reset = reset;
+        }));
+
+  </script>
+  <!-- Global Site Tag (gtag.js) - Google Analytics -->
+<!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-106609615-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-106609615-1');
+</script> -->
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Organization",
+  "url": "http://www.atelierdacosta.com",
+  "logo": "http://www.atelierdacosta.com/favicon.ico"
+
+}
+</script>
+  <meta charset="utf-8">
+  <meta name="author" content="Eduardo Barros">
+  <meta name="description" content="info@atelierdacosta.com
+~
++351 913 586 843
++351 917 777 945
+~
+Sede: Rua Avelino Barros 303, 4490-479, Póvoa de Varzim
+Delegação(em construção): Rua de Entreparedes 25/27, 4000-198 Porto">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, target-densityDpi=device-dpi" />
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <title>ATELIERDACOSTA — ARQUITETURA & REABILITAÇÃO</title>
+<link rel="icon" sizes="192x192" href="favicon.ico">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- <meta name="google-site-verification" content="sbNtRFqW4b7_Af-jCpZybr9JxYmdaALAtpg6lLpSi0U"/> -->
+
+<script>
+$(document).ready(function() {
+
+  var current = $(window).scrollTop();
+  if(window.location.href.indexOf("#") < 1) {
+    $(window).off('scroll');
+
+    // $(window).scroll(function() {
+    //     $(window).scrollTop(current);
+    // });
+  }
+
+
+  if(window.location.href.indexOf("#") > 1) {
+    $(window).off('scroll');
+
+  }
+  })
+
+
+</script>
+
+
+<script >
+  $(document).ready(function() {
+if(window.location.href.indexOf("#") < 1) {
+
+    //  $(".fotos").css("display", "none");
+    //  $("#fotos0").css("display", "block");
+    //  $("html").css("overflow-y", "scroll");
+    //  $(".linha").css("display", "none");
+    // $(".gradientup").css("display", "none");
+    // $(".gradientbottom").css("display", "none");
+    $(".fotos").css("display", "block");
+    $("#fotos0").css("display", "none");
+    $("html").css("overflow", "auto");
+    $(".linha").css("display", "none");
+    $(".gradientup").css("display", "block");
+    $(".gradientbottom").css("display", "block");
+}
+if(window.location.href.indexOf("#") > 1) {
+  $(".fotos").css("display", "block");
+  $("#fotos0").css("display", "none");
+  $("html").css("overflow", "auto");
+  $(".linha").css("display", "none");
+  $(".gradientup").css("display", "block");
+  $(".gradientbottom").css("display", "block");
+   currentPicture = 1;
+   $(window).off('scroll');
+}
+
+
+  });
+
+</script>
+
+
+<script>
+$(window).on('popstate', function(event) {
+  if(window.location.href.indexOf("#") < 1) {
+       // $(".fotos").css("display", "none");
+       // $("#fotos0").css("display", "block");
+       // $("html").css("overflow-y", "scroll");
+       //  $(".linha").css("display", "none");
+       //  $(".gradientup").css("display", "none");
+       //  $(".gradientbottom").css("display", "none");
+        $(".fotos").css("display", "block");
+        $("#fotos0").css("display", "none");
+        $("html").css("overflow", "auto");
+        $(".linha").css("display", "none");
+        $(".gradientup").css("display", "block");
+        $(".gradientbottom").css("display", "block");
+       currentPicture = 1;
+       var current = 0;
+
+
+         $(window).scroll(function() {
+             $(window).scrollTop(current);
+         });
+  }
+});
+</script>
+
+<script>
+$(window).on('popstate', function(event) {
+  if(window.location.href.indexOf("#") > 1) {
+    $(".fotos").css("display", "block");
+    $("#fotos0").css("display", "none");
+    $("html").css("overflow", "auto");
+    $(".linha").css("display", "none");
+    $(".gradientup").css("display", "block");
+    $(".gradientbottom").css("display", "block");
+       currentPicture = 1;
+$(window).off('scroll');
+  }
+});
+</script>
+
+<script>
+  $(document).ready(function() {
+$( "h5 a" ).click(function( event ) {
+event.stopPropagation()
+$(".fotos").css("display", "block");
+$("#fotos0").css("display", "none");
+$("html").css("overflow", "auto");
+  $(".linha").css("display", "none");
+  $(".gradientup").css("display", "block");
+  $(".gradientbottom").css("display", "block");
+  $(window).off('scroll');
+currentPicture = 1;
+});
+});
+</script>
+
+
+
+<!-- papiro click -->
+    <!-- <script>
+
+      jQuery(function ($) {
+          $.fn.wScroll = function (amount) {
+              amount = amount || 1;
+              $(this).bind("DOMMouseScroll mousewheel", function (e) {
+                  var oEvent = e.originalEvent,
+                      direction = oEvent.detail ? oEvent.detail * -amount : oEvent.wheelDelta,
+                      position = $(this).scrollLeft();
+                  position += direction > 0 ? -amount : amount;
+                  $(this).scrollLeft(position);
+                  e.preventDefault();
+                e.stopPropagation();
+              })
+          };
+      });
+
+      $(document).ready(function() {
+          $('.dragscroll').wScroll(60);
+          500,
+         'cubic' // You can pass (optionally) scrolling amount
+      });
+
+    </script> -->
+
+    <!-- papiro que antes estava no head -->
+    <!-- <script   defer>
+      /**
+       * @fileoverview dragscroll - scroll area by dragging
+       * @version 0.0.8
+       *
+       * @license MIT, see http://github.com/asvd/dragscroll
+       * @copyright 2015 asvd <heliosframework@gmail.com>
+       */
+       var dragload = 0;
+
+
+
+      $('.dragscroll').ready(function ola (root, factory) {
+
+          if (typeof define === 'function' && define.amd) {
+              define(['exports'], factory);
+          } else if (typeof exports !== 'undefined') {
+              factory(exports);
+          } else {
+              factory((root.dragscroll = {}));
+          }
+      }(this, function (exports) {
+          var _window = window;
+          var _document = document;
+          var mousemove = 'mousemove';
+          var mouseup = 'mouseup';
+          var mousedown = 'mousedown';
+
+          var EventListener = 'EventListener';
+          var addEventListener = 'add'+EventListener;
+          var removeEventListener = 'remove'+EventListener;
+          var newScrollX;
+
+
+
+          var dragged = [];
+          var reset = function(i, el) {
+
+
+              for (i = 0; i < dragged.length;) {
+                  el = dragged[i++];
+                  el = el.container || el;
+                  el[removeEventListener](mousedown, el.md, 0);
+                  _window[removeEventListener](mouseup, el.mu, 0);
+                  _window[removeEventListener](mousemove, el.mm, 0);
+              }
+
+              // cloning into array since HTMLCollection is updated dynamically
+              dragged = [].slice.call(_document.getElementsByClassName('dragscroll'));
+              for (i = 0; i < dragged.length;) {
+                  (function(el, lastClientX, pushed, scroller, cont){
+                      (cont = el.container || el)[addEventListener](
+                          mousedown,
+                          cont.md = function(e) {
+                              if (!el.hasAttribute('nochilddrag')  ||
+                                  _document.elementFromPoint(
+                                      e.pageX
+                                  ) == cont
+                              ) {
+                                  pushed = 1;
+                                  lastClientX = e.clientX;
+
+
+                                  e.preventDefault();
+                              }
+
+                          }, 0
+                      );
+
+                      _window[addEventListener](
+
+                          mouseup, cont.mu = function() {pushed = 0;}, 0
+                      );
+
+                      _window[addEventListener](
+                          mousemove,
+                          cont.mm = function(e) {
+                              if (pushed) {
+                                  (scroller = el.scroller||el).scrollLeft -=
+                                      newScrollX = (- lastClientX + (lastClientX=e.clientX));
+
+                                  if (el == _document.body) {
+                                      (scroller = _document.documentElement).scrollLeft -= newScrollX;
+
+                                  }
+                              }
+                          }, 0
+                      );
+                   })(dragged[i++]);
+              }
+          }
+
+
+
+
+      if (document.readyState == 'complete') {
+      window[addEventListener]('dragstart', reset, 0);
+
+       } else {
+           window[addEventListener]('dragstart', reset, 0);
+
+       }
+
+
+          exports.reset = reset;
+    }));
+
+
+
+    $('.dragscroll').ready(function() {
+
+
+
+
+
+      $('.dragscroll').mouseenter(function(){
+
+          if (dragload == 1) {
+            $(this).css('cursor', 'ew-resize');
+        }else if (dragload == 0) {
+            $(this).css('cursor', 'ew-resize');
+        }
+      });
+
+      });
+
+      document.onreadystatechange = () => {
+      if (document.readyState === 'complete') {
+
+        dragload = 1;
+      }
+    };
+
+
+    </script> -->
+
+    <!-- parar scroll quando hover no papiro
+      <script>
+      $(".dragscroll").hover(function() {
+      var oldScrollPos = $(window).scrollTop();
+
+      $(window).on('scroll.scrolldisabler', function(e) {
+        $(window).scrollTop(oldScrollPos);
+        e.preventDefault();
+        e.stopPropagation();
+      });
+      }, function() {
+      $(window).off('scroll.scrolldisabler');
+      });
+
+      </script>
+      -->
+
+  <!--
+      <script>
+      jQuery(function ($) {
+          $.fn.wScroll = function (amount) {
+              amount = amount || 1;
+              $(this).bind("DOMMouseScroll mousewheel", function (e) {
+                  var oEvent = e.originalEvent,
+                      direction = oEvent.detail ? oEvent.detail * -amount : oEvent.wheelDelta,
+                      position = $(this).scrollLeft();
+                  position += direction > 0 ? -amount : amount;
+                  $(this).scrollLeft(position);
+                  e.preventDefault();
+                e.stopPropagation();
+              })
+          };
+      });
+
+      $(document).ready(function() {
+          $('.dragscroll').wScroll(60);
+          500,
+         'cubic' // You can pass (optionally) scrolling amount
+      });
+    </script>
+
+     -->
+<!-- codigo click -->
+<script>
+  function myFunction(e) {
+    var moreText = document.getElementById("more" + e);
+    var lessImage = document.getElementById("fotos" + e);
+    var realText = document.getElementById("texto" + e);
+
+    if (moreText.style.display === "inline") {
+      moreText.style.display = "none";
+      lessImage.style.display = "block";
+      realText.style.display = "none";
+    } else {
+      moreText.style.display = "inline";
+      lessImage.style.display = "none";
+      realText.style.display = "block";
+    }
+
+
+  }
+</script>
+
+
+
+</head>
+
+
+
+
+<body>
+
+<!--
+<div id="loading">
+<div class="loader"></div>
+</div>
+ -->
+ <!-- <div class="fotos" id="fotos0">
+
+
+<img loading="lazy"  src="images/104.01/6.jpg" style=" display: inherit;" id="foto1" alt="">
+<img loading="lazy"  src="images/140.01/1.jpg" style=" display: none;"    id="foto2" alt="">
+<img loading="lazy"  src="images/100.07/6.jpg" style=" display: none;"    id="foto3" alt="">
+<img loading="lazy"  src="images/114.01/6.jpg" style=" display: none;"    id="foto4" alt="">
+<img loading="lazy"  src="images/145.01/1.jpg" style=" display: none;"    id="foto5" alt="">
+<img loading="lazy"  src="images/118.02/1.jpg" style=" display: none;"    id="foto6" alt="">
+<img loading="lazy"  src="images/118.01/2.jpg" style=" display: none;"    id="foto7" alt="">
+<img loading="lazy"  src="images/109.10/1.jpg" style=" display: none;"    id="foto8" alt="">
+<img loading="lazy"  src="images/046.02/1.jpg" style=" display: none;"    id="foto9" alt="">
+<img loading="lazy"  src="images/121.01/6.jpg" style=" display: none;"    id="foto10" alt="">
+<img loading="lazy"  src="images/100.01/1.jpg" style=" display: none;"    id="foto11" alt="">
+<img loading="lazy"  src="images/078.06/1.jpg" style=" display: none;"    id="foto12" alt="">
+<img loading="lazy"  src="images/157.02/1.jpg" style=" display: none;"    id="foto13" alt="">
+<img loading="lazy"  src="images/053.01/1.jpg" style=" display: none;"    id="foto14" alt="">
+<img loading="lazy"  src="images/002.01/5.jpg" style=" display: none;"    id="foto15" alt="">
+<img loading="lazy"  src="images/097.01/1.jpg" style=" display: none;"    id="foto16" alt="">
+
+<h5 style=" display: inherit;" id="fulink1" ><a href="#104.01" >#104.01</a></h5>
+<h5 style=" display: none;"    id="fulink2" ><a href="#140.01" >#140.01</a></h5>
+<h5 style=" display: none;"    id="fulink3" ><a href="#100.07" >#100.07</a></h5>
+<h5 style=" display: none;"    id="fulink4" ><a href="#114.01">#114.01</a></h5>
+<h5 style=" display: none;"    id="fulink5" ><a href="#145.01">#145.01</a></h5>
+<h5 style=" display: none;"    id="fulink6" ><a href="#118.02">#118.02</a></h5>
+<h5 style=" display: none;"    id="fulink7" ><a href="#118.01">#118.01</a></h5>
+<h5 style=" display: none;"    id="fulink8"><a href="#109.10">#109.10</a></h5>
+<h5 style=" display: none;"    id="fulink9"><a href="#046.02" style=" color: black;">#046.02</a></h5>
+<h5 style=" display: none;"    id="fulink10"><a href="#121.01">#121.01</a></h5>
+<h5 style=" display: none;"    id="fulink11"><a href="#100.01" style=" color: black;">#100.01</a></h5>
+<h5 style=" display: none;"    id="fulink12"><a href="#078.06" style=" color: black;">#078.06</a></h5>
+<h5 style=" display: none;"    id="fulink13"><a href="#157.02" >#157.02</a></h5>
+<h5 style=" display: none;"    id="fulink14"><a href="#053.01" style=" color: black;">#053.01</a></h5>
+<h5 style=" display: none;"    id="fulink15"><a href="#002.01" >#002.01</a></h5>
+<h5 style=" display: none;"    id="fulink16"><a href="#097.01">#097.01</a></h5>
+
+ </div> -->
+
+
+<!-- 
+<script type="text/javascript">
+  window.addEventListener("keydown", function(e) {
+    // space and arrow keys
+    if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+        e.preventDefault();
+    }
+  }, false);
+</script>
+ -->
+
+  <script>
+  jQuery(function () {
+    var currentPicture = 1;
+
+
+$('.fotos').click(function() {
+  var numberOfPictures = $(this).children('img').length;
+currentPicture++;
+if (currentPicture > numberOfPictures) {
+  currentPicture = 1;
+}
+
+$(window).on('popstate', function(event) {
+currentPicture = 1;
+});
+$(this).children('img').css('display', 'none');
+$(this).children(`#foto${currentPicture}`).css('display', 'inherit');
+$(this).children('h5').css('display', 'none');
+$(this).children(`#fulink${currentPicture}`).css('display', 'inherit');
+});
+
+
+/* 
+document.onkeydown = function(e) {
+  var y = $(document).scrollTop();
+var x = 19;
+var h = $(document).height();
+var z = $(window).height();
+
+if(window.location.href.indexOf("#") < 1) {
+  x = 19;
+  }
+
+  if (y < 0) {
+    x = 19;
+  }
+  if (y > ((h / 22) * 1) - ((z / 4) / 2)) {
+      x = 18;
+  }
+  if (y > ((h / 22) * 2) - ((z / 4) / 2) + 60) {
+      x = 17;
+  }
+  if (y > ((h / 22) * 3) - ((z / 4) / 2) + 120) {
+      x = 16;
+  }
+  if (y > ((h / 22) * 4) - ((z / 4) / 2) + 180) {
+      x = 15;
+  }
+  if (y > ((h / 22) * 5) - ((z / 4) / 2) + 240) {
+      x = 14;
+  }
+  if (y > ((h / 22) * 6) - ((z / 4) / 2) + 300) {
+      x = 13;
+  }
+  if (y > ((h / 22) * 7) - ((z / 4) / 2) + 360) {
+      x = 12;
+  }
+  if (y > ((h / 22) * 8) - ((z / 4) / 2) + 420) {
+      x = 11;
+  }
+  if (y > ((h / 22) * 9) - ((z / 4) / 2) + 480) {
+      x = 10;
+  }
+  if (y > ((h / 22) * 10) - ((z / 4) / 2) + 540) {
+      x = 9;
+  }
+  if (y > ((h / 22) * 11) - ((z / 4) / 2) + 600) {
+      x = 8;
+  }
+  if (y > ((h / 22) * 12) - ((z / 4) / 2) + 660) {
+      x = 7;
+  }
+  if (y > ((h / 22) * 13) - ((z / 4) / 2) + 720) {
+      x = 6;
+  }
+  if (y > ((h / 22) * 14) - ((z / 4) / 2) + 780) {
+      x = 5;
+  }
+  if (y > ((h / 22) * 15) - ((z / 4) / 2) + 840) {
+      x = 4;
+  }
+  if (y > ((h / 22) * 16) - ((z / 4) / 2) + 900) {
+      x = 3;
+  }
+
+  if (y > ((h / 22) * 17) - ((z / 4) / 2) + 960) {
+      x = 2;
+  }
+
+  if (y > ((h / 22) * 18) - ((z / 4) / 2) + 1020) {
+      x = 1;
+  }
+
+
+
+  var numberOfPictures = $(`#fotos${x}`).children('img').length;
+
+if (currentPicture > numberOfPictures) {
+  currentPicture = 1;
+}
+if (currentPicture < 1) {
+  currentPicture = 1;
+}
+    switch (e.keyCode) {
+        case 37:
+        currentPicture--;
+        if (currentPicture < 1) {
+          currentPicture = numberOfPictures;
+        }
+        $(`#fotos${x}`).children('img').css('display', 'none');
+        $(`#fotos${x}`).children(`#foto${currentPicture}`).css('display', 'inherit');
+        $(`#fotos${x}`).children('h5').css('display', 'none');
+        $(`#fotos${x}`).children(`#fulink${currentPicture}`).css('display', 'inherit');
+            break;
+
+
+        case 39:
+        currentPicture++;
+        if (currentPicture > numberOfPictures) {
+          currentPicture = 1;
+        }
+        $(`#fotos${x}`).children('img').css('display', 'none');
+        $(`#fotos${x}`).children(`#foto${currentPicture}`).css('display', 'inherit');
+        $(`#fotos${x}`).children('h5').css('display', 'none');
+        $(`#fotos${x}`).children(`#fulink${currentPicture}`).css('display', 'inherit');
+            break;
+
+        case 40:
+          currentPicture++;
+          if (y >= 0) {
+          window.scrollBy( 0, z - ((z - 448)/ 2));
+          }
+        break;
+
+        case 38:
+            currentPicture++;
+            if (y >= 0) {
+          window.scrollBy( 0, -z + ((z - 448)/ 2));
+            }
+
+                break;
+
+
+    }
+}; */
+
+
+  });
+
+
+  </script>
+
+
+<div class="pngs">
+<a href="about/index.html"> <img    class="aboutpng leftpng" src="atelierdacosta.svg"  alt=""></a>
+  <a target="_blank" href="https://atlasdacosta.tumblr.com/">
+    <img    class="atlaspng hidepng" src="atlas.svg" alt="">
+    </a>
+
+    <a href="index/index.html">
+      <img    class="indexpng rightpng" src="index.svg"  alt="">
+      </a>
+
+<a href="appendix/index.html">
+      <img    style="background-color: transparent" class="instapng hidepng" src="appendix.svg"  alt="">
+      </a>
+  </div>
+
+<!-- <div class="linha">
+
+</div> -->
+
+<div class="gradientup">
+
+</div>
+<div class="gradientbottom">
+
+</div>
+
+
+
+<section id="172.01">
+  <div class="project">
+
+    <div class="fotos" id="fotos21">
+    <img    src="images/172.01/1.jpg" style=" display: inherit;" id="foto1" alt="">
+    <img    src="images/172.01/2.jpg" style=" display: none;" id="foto2" alt="">
+    <img    src="images/172.01/3.jpg" style=" display: none;" id="foto3" alt="">
+    <img    src="images/172.01/4.jpg" style=" display: none;" id="foto4" alt="">
+    <img    src="images/172.01/5.jpg" style=" display: none;" id="foto5" alt="">
+    <img    src="images/172.01/6.jpg" style=" display: none;" id="foto6" alt="">
+    <img    src="images/172.01/7.jpg" style=" display: none;" id="foto7" alt="">
+    <img    src="images/172.01/8.jpg" style=" display: none;" id="foto8" alt="">
+    <img    src="images/172.01/9.jpg" style=" display: none;" id="foto9" alt="">
+    <img    src="images/172.01/10.jpg" style=" display: none;" id="foto10" alt="">
+    <img    src="images/172.01/11.jpg" style=" display: none;" id="foto11" alt="">
+    <img    src="images/172.01/12.jpg" style=" display: none;" id="foto12" alt="">
+    <img    src="images/172.01/13.jpg" style=" display: none;" id="foto13" alt="">
+    <img    src="images/172.01/14.jpg" style=" display: none;" id="foto14" alt="">
+    </div>
+
+  <div class="texto" id="texto21">
+        <p4>Inicialmente a casa foi projectada para ninguém e, por isso, para “todos”: um promotor imobiliário encomendou o projecto num loteamento à margem da cidade de Vila do Conde e deveria vendê-la, casa ou projecto, a um comprador final. Uma certa universalidade era o critério base do pedido: espaços sociais ligados à cozinha, um bloco de 4 quartos, sendo um deles transformável em escritório, espaços de serviço (garagem, casas de máquinas, arrecadações) segregados e materiais/cores/texturas de grande elementaridade. 
+          Nesse intento, juntaram-se dois “projectos” com os modos de hoje e daqui: a planta da Casa Sul Mare di Sicilia de Lina Bo Bardi e Carlo Pagani, nada estranha tipologicamente à Domus Romana, e o dominó corbusiano, extremado no corte que eleva o piano nobile da Casa, “aumentando” o terreno de um lote suburbano não muito extenso. Os modos: ao dominó de betão justapusemos, no piso superior, uma fachada de ETICS com um entablamento, sob o qual fenestrámos o volume nos seus 4 lados. A excepção reservou-se para a entrada que corta esse entablamento. As caixilharias de alumínio são expostas à cor natural, assim como o contraplacado de madeira e o mármore no interior.
+          </p4>
+  </div>
+
+
+    <div class="dragscroll">
+
+  <img    src="images/172.01/d1.jpg" alt="">
+  <img    src="images/172.01/d2.jpg" alt="">
+  <img    src="images/172.01/d3.jpg" alt="">
+  <img    src="images/172.01/d4.jpg" alt="">
+
+
+
+
+
+    </div>
+
+  </div>
+  </section>
+  <div class="codeinfo">
+    <h1 onclick="myFunction(21)" id="myBtn"># 172.01</h1>
+    <p class="more" id="more21">
+    Casa no Lote 7<br>
+    2015 - 2021<br>
+    Póvoa de Varzim<br>
+    fotografias de Tiago Casanova<br>
+    paisagismo de Lúcia Salvador
+    </p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<section id="157.13">
+  <div class="project">
+
+    <div class="fotos" id="fotos20">
+    <img    src="images/157.13/1.jpg" style=" display: inherit;" id="foto1" alt="">
+    <img    src="images/157.13/2.jpg" style=" display: none;" id="foto2" alt="">
+    <img    src="images/157.13/3.jpg" style=" display: none;" id="foto3" alt="">
+    <img    src="images/157.13/4.jpg" style=" display: none;" id="foto4" alt="">
+    <img    src="images/157.13/5.jpg" style=" display: none;" id="foto5" alt="">
+    <img    src="images/157.13/6.jpg" style=" display: none;" id="foto6" alt="">
+    <img    src="images/157.13/7.jpg" style=" display: none;" id="foto7" alt="">
+    <img    src="images/157.13/8.jpg" style=" display: none;" id="foto8" alt="">
+    <img    src="images/157.13/9.jpg" style=" display: none;" id="foto9" alt="">
+    <img    src="images/157.13/10.jpg" style=" display: none;" id="foto10" alt="">
+    <img    src="images/157.13/11.jpg" style=" display: none;" id="foto11" alt="">
+    <img    src="images/157.13/12.jpg" style=" display: none;" id="foto12" alt="">
+    <img    src="images/157.13/13.jpg" style=" display: none;" id="foto13" alt="">
+
+    </div>
+
+  <div class="texto" id="texto20">
+        <p4>Os espaços existentes oscilavam entre uma tipologia de comércio e de armazém, herdando a grande montra da primeira e as condições construtivas mais precárias da segunda. Para o cumprimento integral do programa de escritório-sede do Grupo Vendeiro, com grandes open-space de trabalho, salas de reuniões mais ou menos formais, arquivos, copa e diversos serviços, o projecto passou rapidamente de um traçado de compartimentação rigidamente instruído por um sistema universal de medidas e pelo pensamento integrado dos elementos menos “palpáveis” do espaço físico: som, luz, temperatura, ventilação, para uma infindável tarefa de arrumação de sistemas e redes, desde o piso técnico à tomada no mobiliário. Para que a arquitectura sobrevivesse, o projecto submergiu num período de menos arquitectura, convencionalmente falando, e só voltou a emergir com a definição qualitativa dos espaços: que paredes deveriam ser opacas ou em vidro, quantas clarabóias deveriam ser abertas e onde, etc.  Essa aproximação ao real conduziu, finalmente, a uma palete de cores e materiais que se poderia repetir em todo o projecto de forma seriada. O que até agora era aparentemente cinzento e meramente técnico, tornou-se como que uma flecha inflamada de Eros a Apolo: as alcatifas azuis no chão misturaram-se então com as madeiras douradas nas paredes e alternaram-se diferentes texturas de branco para os tectos e móveis fixos. 
+</p4>
+  </div>
+
+
+    <div class="dragscroll">
+
+  <img    src="images/157.13/d1.png" alt="">
+  <img    src="images/157.13/d2.png" alt="">
+  <img    src="images/157.13/d3.png" alt="">
+  <img    src="images/157.13/d4.png" alt="">
+  <img    src="images/157.13/d5.png" alt="">
+  <img    src="images/157.13/d6.jpg" alt="">
+
+
+
+
+    </div>
+
+  </div>
+  </section>
+  <div class="codeinfo">
+    <h1 onclick="myFunction(20)" id="myBtn"># 157.13</h1>
+    <p class="more" id="more20">
+    Sede do Grupo Vendeiro<br>
+    2015 - 2021<br>
+    Póvoa de Varzim<br>
+    fotografias de Tiago Casanova
+    </p>
+</div>
+
+
+
+
+
+
+<section id="104.01">
+    <div class="project">
+
+      <div class="fotos" id="fotos19">
+      <img    src="images/104.01/1.jpg" style=" display: inherit;" id="foto1" alt="">
+      <img    src="images/104.01/2.jpg" style=" display: none;" id="foto2" alt="">
+      <img    src="images/104.01/3.jpg" style=" display: none;" id="foto3" alt="">
+      <img    src="images/104.01/4.jpg" style=" display: none;" id="foto4" alt="">
+      <img    src="images/104.01/5.jpg" style=" display: none;" id="foto5" alt="">
+      <img    src="images/104.01/6.jpg" style=" display: none;" id="foto6" alt="">
+      <img    src="images/104.01/7.jpg" style=" display: none;" id="foto7" alt="">
+      <img    src="images/104.01/8.jpg" style=" display: none;" id="foto8" alt="">
+      <img    src="images/104.01/9.jpg" style=" display: none;" id="foto9" alt="">
+      <img    src="images/104.01/10.jpg" style=" display: none;" id="foto10" alt="">
+      <img    src="images/104.01/11.jpg" style=" display: none;" id="foto11" alt="">
+      <img    src="images/104.01/12.jpg" style=" display: none;" id="foto12" alt="">
+      <img    src="images/104.01/13.jpg" style=" display: none;" id="foto13" alt="">
+      <img    src="images/104.01/14.jpg" style=" display: none;" id="foto14" alt="">
+
+
+      </div>
+
+    <div class="texto" id="texto19">
+          <p4>The plot, very long but nevertheless wide, faced the street in the low level and a big field in the high level. This difference of  heights creates a big difference of quadrats, almost creating two separate worlds in the same plot. The existing house in schist holds a romanic church capitel in its facade and arose an initial debate of how to preserve it with the local authorities, due the state of total ruin and the intentions to extend the house to more than its double .
+    <br><span>
+    From the two pre-existing schist stone volumes, we occupied the one facing the street with rooms, whilst the other we “disoccupied” with an exterior patio. The proposal aims to belt and consolidate the pre-existences by building inside and around a new concrete “coffer”, enough elastic to transport one living the well consolidated street to a maximum isolation of the fields in the north sector. This “preservation” strategy could have some roots, with the required distances, in the superefficient and lasting example of the Cordoba Mosque and Cathedral.
+    <br><span>
+    The concrete walls and slabs are designed both to adapt to the implantation of the pre-existing houses and to a new organizing main axis that defines the entrance space and the more technical area for storage/ car’s porch . Between these two main imposed and auto imposed circumstances, the design intended to create a system of four more demure patios, more or less opened to the outside landscapes. Two of them belong to the street quadrant and the other two belong to the fields.
+    <br><span>
+    The absence of a reference about the client request can be surprising, as it’s usual to be a central item for us. Here there was no exception with the significant detail of an almost absolute unanimity throughout the process. Jocosely, the main discussion and negotiation took place at the end on a big topic: the ceramics combinations.
+
+    </div>
+
+
+      <div class="dragscroll">
+
+    <img    src="images/104.01/d1.jpg" alt="">
+    <img    src="images/104.01/d2.jpg" alt="">
+    <img    src="images/104.01/d3.jpg" alt="">
+    <img    src="images/104.01/d4.jpg" alt="">
+    <img    src="images/104.01/d5.jpg" alt="">
+    <img    src="images/104.01/d6.jpg" alt="">
+      </div>
+
+    </div>
+    </section>
+    <div class="codeinfo">
+      <h1 onclick="myFunction(19)" id="myBtn"># 104.01</h1>
+      <p class="more" id="more19">
+      Casa em Rates<br>
+      2015 - 2021<br>
+      Póvoa de Varzim<br>
+      fotografias de Tiago Casanova
+      </p>
+</div>
+
+
+
+<section id="140.01">
+  <div class="project">
+
+    <div class="fotos" id="fotos18">
+    <img    src="images/140.01/1.jpg" style=" display: inherit;" id="foto1" alt="">
+    <img    src="images/140.01/2.jpg" style=" display: none;" id="foto2" alt="">
+    <img    src="images/140.01/3.jpg" style=" display: none;" id="foto3" alt="">
+    <img    src="images/140.01/4.jpg" style=" display: none;" id="foto4" alt="">
+    <img    src="images/140.01/5.jpg" style=" display: none;" id="foto5" alt="">
+    <img    src="images/140.01/6.jpg" style=" display: none;" id="foto6" alt="">
+    <img    src="images/140.01/7.jpg" style=" display: none;" id="foto7" alt="">
+    <img    src="images/140.01/8.jpg" style=" display: none;" id="foto8" alt="">
+    <img    src="images/140.01/9.jpg" style=" display: none;" id="foto9" alt="">
+    <img    src="images/140.01/10.jpg" style=" display: none;" id="foto10" alt="">
+    <img    src="images/140.01/11.jpg" style=" display: none;" id="foto11" alt="">
+    <img    src="images/140.01/12.jpg" style=" display: none;" id="foto12" alt="">
+    <img    src="images/140.01/13.jpg" style=" display: none;" id="foto13" alt="">
+
+    </div>
+
+  <div class="texto" id="texto18">
+        <p4>
+  Arquitetura: ATELIERDACOSTA + Pedro Bragança<br><br>
+          A casa existente, num gaveto do Bairro da Vilarinha, tinha já uma ampliação pré-existente a
+    poente, quadrante para o qual poderia voltar a ampliar-se, respondendo dessa forma à
+    encomenda.<br><span>
+    O bairro, um dos últimos do Estado Novo no Porto apostando na habitação unifamiliar com
+    pequeno quintal para uma classe formada maioritariamente de funcionários do Estado
+    (1958), repete consistentemente a tipologia como modelo numa considerável área de nova
+    urbanização. Em toda a urbanização, há uma clara procura em reproduzir tardiamente
+    alguns modelos modernos de habitação de iniciativa pública, saídos, originalmente, das
+    experiências alemãs e russas do início de século.</span><br><span>
+    Procurámos que a ampliação pedida, cujo programa indicava sensivelmente a mesma área
+    da já construída, mantivesse dois dos seus fundamentos - uma certa elementaridade e a
+    modularidade construtiva - mas alterasse por completo a natureza dos espaços propostos,
+    nas suas dimensões de linguagem, materiais e relação com os diferentes quadrantes
+    solares e envolvente urbana. Destes pontos, a demarcação da linguagem era, aliás, uma
+    prerrogativa imposta pela própria Câmara Municipal do Porto, que estabeleceu normas
+    específicas para as intervenções em bairros do Estado Novo como este, com o intuito de
+    proteger a integridade da arquitectura original, cujo verdadeiro interesse urbanístico só se
+    constitui na leitura do todo.</span><br><span>
+    Assim, ao volume de reboco e pedra, tendencialmente encerrado e monolítico da casa
+    original, justapõe-se um volume tendencialmente aberto e estrutural, no qual qualquer
+    paramento que não vidro é igualmente reflector e miscível com o seu entorno. A geometria
+    de implantação da estrutura é essencialmente resolvida em três pórticos metálicos
+    equidistantes, suporte das novas lajes e reforço das antigas, cujo limite coincide com o
+    pórtico do meio. A racionalidade económica fundamentou a manutenção das estruturas do
+    corpo original, apenas com o reforço metálico necessário, e prolongou a sua influência no
+    projecto através de uma certa austeridade com que o desenho dos espaços interiores foi
+    abordado No entanto, essa continuidade natural com o espírito do projecto original encontra
+    dissonâncias outras na caracterização do espaço interior, através de uma delimitação clara
+    do sector que usufrui da maior fenestração da nova intervenção, sobretudo por critérios de
+    escala, intensidade e tipo de uso que nos foram sendo relatados. Assim, um escritório no
+    piso -1, que se abre para um novo pátio à cota inferior, uma cozinha e sala de jantar no piso
+    0, que se prolonga para um terraço para refeições exteriores, e o maior dos três quartos no
+    piso 1 que se projecta para sul através de uma janela de peitoril , são espaços que se
+    localizam no novo corpo, enquanto uma pequena sala de estar, uma casa de banho e dois
+    quartos menores se localizam na pré-existência. A imposta elementaridade do projecto só
+    foi quebrada depois de descoberto um erro de obra que, no grosso, prontamente se corrigiu,
+    mas de que se deixou pequeno registo, vencidos pela óbvia e jocosa realidade de que um
+    elemento de perturbação seria afinal bem-vindo.
+  </span>
+    </p4>
+  </div>
+
+
+    <div class="dragscroll">
+
+  <img    src="images/140.01/d1.jpg" alt="">
+  <img    src="images/140.01/d2.jpg" alt="">
+  <img    src="images/140.01/d3.jpg" alt="">
+  <img    src="images/140.01/d4.jpg" alt="">
+  <img    src="images/140.01/d5.jpg" alt="">
+  <img    src="images/140.01/d6.jpg" alt="">
+    </div>
+
+  </div>
+  </section>
+  <div class="codeinfo">
+    <h1 onclick="myFunction(18)" id="myBtn"># 140.01</h1>
+    <p class="more" id="more18">
+    Casa na Vilarinha<br>
+    2017 - 2020<br>
+    Porto<br>
+    fotografias de Tiago Casanova
+    </p>
+</div>
+
+
+
+<section id="100.07">
+  <div class="project">
+
+    <div class="fotos" id="fotos17">
+        <img    src="images/100.07/1.jpg" style=" display: inherit;" id="foto1" alt="">
+    <img    src="images/100.07/2.jpg" style=" display: none;" id="foto2" alt="">
+  <img    src="images/100.07/3.jpg" style=" display: none;" id="foto3" alt="">
+  <img    src="images/100.07/4.jpg" style=" display: none;" id="foto4" alt="">
+  <img    src="images/100.07/5.jpg" style=" display: none;" id="foto5" alt="">
+  <img    src="images/100.07/6.jpg" style=" display: none;" id="foto6" alt="">
+  <img    src="images/100.07/7.jpg" style=" display: none;" id="foto7" alt="">
+  <img    src="images/100.07/8.jpg" style=" display: none;" id="foto8" alt="">
+  <img    src="images/100.07/9.jpg" style=" display: none;" id="foto9" alt="">
+  <img    src="images/100.07/10.jpg" style=" display: none;" id="foto10" alt="">
+  <img    src="images/100.07/11.jpg" style=" display: none;" id="foto11" alt="">
+  <img    src="images/100.07/12.jpg" style=" display: none;" id="foto12" alt="">
+  <img    src="images/100.07/13.jpg" style=" display: none;" id="foto13" alt="">
+
+    </div>
+
+  <div class="texto" id="texto17">
+        <p4>
+          A casa rural original, irreconhecível após uma intervenção dos anos 80,  e outras dependências, como piscina coberta e alfaias agrícolas, delimitam o terreno a Nascente em relação ao alargamento público e rua, libertando todo o terreno a Poente. O terreno é dividido por uma grande linha de frondosos cedros que demarca uma área de produção agrícola a poente de um jardim de domínio mais residencial. O projecto, centrado na transformação em casa de alojamento com 5 unidades autônomas, ligadas por generosos espaços de usufruto comum, representava para o proprietário a oportunidade de criar novos espaços interiores com uma relação directa ao jardim, já que a casa original apenas usufrui da relação com a rua e com um pátio rebaixado. Assim, a intervenção proposta divide-se fundamentalmente em três partes: a casa original, parcialmente demolida e recompartimentada, revestida com sistema ETICS, a nova ampliação, volume quadrado 12x12 m em betão à vista elevado do terreno, e, finalmente, a galeria de ligação entre os dois edifícios, em estrutura de madeira e vidro. Esta galeria, que alberga a nova entrada da casa de alojamento e os principais acessos verticais, é deliberadamente colocada no eixo da área de estacionamento já existente e com acesso automóvel directo, justamente entre a casa original e o novo corpo ampliado. Resumem-se ao mínimo os materiais nas três partes da intervenção; entre reboco pintado, betão a vista e madeira esmaltada, cumprindo o pedido inicial do proprietário de que nunca houvesse uma ruptura no conjunto, ficando apenas subtilmente perceptível e esclarecida a diferença construtiva e material de cada um dos corpos.
+
+
+    </p4>
+  </div>
+
+
+    <div class="dragscroll">
+
+  <img    src="images/100.07/d1.jpg" alt="">
+    <img    src="images/100.07/d2.jpg" alt="">
+  <img    src="images/100.07/d3.jpg" alt="">
+  <img    src="images/100.07/d4.jpg" alt="">
+  <img    src="images/100.07/d5.jpg" alt="">
+    </div>
+
+  </div>
+  </section>
+  <div class="codeinfo">
+    <h1 onclick="myFunction(17)" id="myBtn"># 100.07</h1>
+    <p class="more" id="more17">
+    Casa de Alojamento Rural<br>
+    2012 - 2019<br>
+    Gião<br>
+    fotografias de Tiago Casanova
+    </p>
+</div>
+
+
+
+
+
+<section id="114.01">
+  <div class="project">
+
+    <div class="fotos" id="fotos16">
+        <img    src="images/114.01/1.jpg" style=" display: inherit;" id="foto1" alt="">
+    <img    src="images/114.01/2.jpg" style=" display: none;" id="foto2" alt="">
+  <img    src="images/114.01/3.jpg" style=" display: none;" id="foto3" alt="">
+  <img    src="images/114.01/4.jpg" style=" display: none;" id="foto4" alt="">
+  <img    src="images/114.01/5.jpg" style=" display: none;" id="foto5" alt="">
+  <img    src="images/114.01/6.jpg" style=" display: none;" id="foto6" alt="">
+  <img    src="images/114.01/7.jpg" style=" display: none;" id="foto7" alt="">
+  <img    src="images/114.01/8.jpg" style=" display: none;" id="foto8" alt="">
+  <img    src="images/114.01/9.jpg" style=" display: none;" id="foto9" alt="">
+  <img    src="images/114.01/10.jpg" style=" display: none;" id="foto10" alt="">
+  <img    src="images/114.01/11.jpg" style=" display: none;" id="foto11" alt="">
+  <img    src="images/114.01/12.jpg" style=" display: none;" id="foto12" alt="">
+  <img    src="images/114.01/13.jpg" style=" display: none;" id="foto13" alt="">
+  <img    src="images/114.01/14.jpg" style=" display: none;" id="foto14" alt="">
+    </div>
+
+  <div class="texto" id="texto16">
+        <p4>
+
+
+    </p4>
+  </div>
+
+
+    <div class="dragscroll">
+
+  <img    src="images/114.01/d1.jpg" alt="">
+  <img    src="images/114.01/d2.jpg" alt="">
+  <img    src="images/114.01/d3.jpg" alt="">
+  <img    src="images/114.01/d4.jpg" alt="">
+  <img    src="images/114.01/d5.jpg" alt="">
+    </div>
+
+  </div>
+  </section>
+  <div class="codeinfo">
+    <h1 onclick="myFunction(16)" id="myBtn"># 114.01</h1>
+    <p class="more" id="more16">
+    Casa RR<br>
+    2015 - 2019<br>
+    Lavra<br>
+    fotografias de Tiago Casanova
+    </p>
+</div>
+
+
+
+
+<section id="157.14">
+  <div class="project">
+
+    <div class="fotos" id="fotos15">
+      <img    src="images/157.14/1.jpg" style=" display: inherit;" id="foto1" alt="">
+      <img    src="images/157.14/2.jpg" style=" display: none;" id="foto2" alt="">
+      <img    src="images/157.14/3.jpg" style=" display: none;" id="foto3" alt="">
+      <img    src="images/157.14/4.jpg" style=" display: none;" id="foto4" alt="">
+      <img    src="images/157.14/5.jpg" style=" display: none;" id="foto5" alt="">
+      <img    src="images/157.14/6.jpg" style=" display: none;" id="foto6" alt="">
+      <img    src="images/157.14/7.jpg" style=" display: none;" id="foto7" alt="">
+
+
+
+    </div>
+
+    <div class="texto" id="texto15">
+
+      <p4>
+        Numa estação de serviço pretende-se reorganizar uma área com precárias coberturas para aspiração de automóveis e outros serviços, centralizando-os num único coberto em ilha dupla, com 10 boxes. Propõe-se um coberto com estrutura em “V”, descarregando num único pórtico central que reúne também as infra-estruturas e áreas de pagamento. Neste pórtico central da estrutura, dada a grande profundidade da peça, inclui-se uma clarabóia linear rasgando os planos de tecto inclinado em alumínio.
+A peça surge oblíqua e desagrupada no meio de um vazio formado por planos de fachadas de edifícios de apoio em chapa e um muro de vedação.
+      </p4>
+
+    </div>
+
+
+    <div class="dragscroll">
+
+     <img    src="images/157.14/d1.svg" style="margin-top: 2px;" alt="">
+     <img    src="images/157.14/d2.svg" style="margin-top: 2px;" alt="">
+     <img    src="images/157.14/d3.svg" style="margin-top: 2px;" alt="">
+    </div>
+
+  </div>
+</section>
+ <div class="codeinfo">
+   <h1 onclick="myFunction(15)" id="myBtn"># 157.14</h1>
+   <p class="more" id="more15">
+   Coberto de Aspiração<br>
+   2019<br>
+   Póvoa de Varzim<br>
+   fotografias de Tiago Casanova
+   </p>
+ </div>
+
+
+
+
+
+
+<section id="121.02">
+  <div class="project">
+
+    <div class="fotos" id="fotos14">
+      <img    src="images/121.02/1.jpg" style=" display: inherit;" id="foto1" alt="">
+      <img    src="images/121.02/2.jpg" style=" display: none;" id="foto2" alt="">
+      <img    src="images/121.02/3.jpg" style=" display: none;" id="foto3" alt="">
+      <img    src="images/121.02/4.jpg" style=" display: none;" id="foto4" alt="">
+      <img    src="images/121.02/5.jpg" style=" display: none;" id="foto5" alt="">
+      <img    src="images/121.02/6.jpg" style=" display: none;" id="foto6" alt="">
+      <img    src="images/121.02/7.jpg" style=" display: none;" id="foto7" alt="">
+    </div>
+
+    <div class="texto" id="texto14">
+      <p4>
+A renovação de um apartamento, com pinturas, envernizamentos e reparações, é motivo para uma intervenção no núcleo de serviços, nomeadamente na casa de banho, quarto e corredor. As mesmas peças existentes são reorganizadas a partir da introdução de dois novos elementos : uma grelha de ladrilhos de marmorite no piso e um caixilho/móvel de madeira que rompeu com a parede fronteira da casa de banho. Rodado face à compartimentação, ficou voltado para a maior área de janela do apartamento e coseu dois alinhamentos das paredes do corredor.
+
+      </p4>
+    </div>
+
+
+    <div class="dragscroll">
+
+     <img    src="images/121.02/d1.svg" style="margin-top: 2px;" alt="">
+     <img    src="images/121.02/d2.svg" style="margin-top: 2px;" alt="">
+     <img    src="images/121.02/d3.jpg"  alt="">
+     <img    src="images/121.02/d4.jpg"  alt="">
+
+    </div>
+
+  </div>
+</section>
+ <div class="codeinfo">
+   <h1 onclick="myFunction(14)" id="myBtn"># 121.02</h1>
+   <p class="more" id="more14">
+   Renovação de Apartamento<br>
+   2020<br>
+   Póvoa de Varzim<br>
+   fotografias de Tiago Casanova
+   </p>
+ </div>
+
+
+
+
+<section id="000.01">
+  <div class="project">
+
+    <div class="fotos" id="fotos13">
+      <img    src="images/000.01/1.jpg" style=" display: inherit;" id="foto1" alt="">
+      <img    src="images/000.01/2.jpg" style=" display: none;" id="foto2" alt="">
+      <img    src="images/000.01/3.jpg" style=" display: none;" id="foto3" alt="">
+      <img    src="images/000.01/4.jpg" style=" display: none;" id="foto4" alt="">
+      <img    src="images/000.01/5.jpg" style=" display: none;" id="foto5" alt="">
+      <img    src="images/000.01/6.jpg" style=" display: none;" id="foto6" alt="">
+      <img    src="images/000.01/7.jpg" style=" display: none;" id="foto7" alt="">
+      <img    src="images/000.01/8.jpg" style=" display: none;" id="foto8" alt="">
+
+    </div>
+
+    <div class="texto" id="texto13">
+      <p4>
+      Uma grossa massa de herbáceas orlava o perímetro de um terreno em planalto numa encosta sobranceira ao vale do Lima. Na “proa” do terreno, o som da água de nascente a correr espreitava desde o tanque do vizinho abaixo. Para conquistar a vista e o som na proa, subtrai-se à densa massa de herbáceas o espaço de 3 x 3 m. Aí se implanta um miradouro quadrado, aberto em dois lados para o tanque e para o vale, e fechado nos outros dois através de dois muros de betão, onde se apoia a ramada em estrutura de ferro, e que fazem reverberar o som da água, logo mais audível quando se passa pela abertura de canto deixada entre eles. Conquistada a vista e o som, só falta tudo voltar ao normal e deixar a estrutura que os conquistou ser reconquistada pelas intermináveis heras. Camuflam-na de novo na grande massa de herbáceas, fazendo com que o projecto se reduza ao humilde espacinho conquistado debaixo do seu tecto, precário e dependente da permanente reconquista, a cargo da jardinagem.
+
+  </p4>
+    </div>
+
+
+    <div class="dragscroll">
+
+     <img    src="images/000.01/d1.svg" style="margin-top: 2px;" alt="">
+     <img    src="images/000.01/d2.svg" style="margin-top: 2px;" alt="">
+
+    </div>
+
+  </div>
+</section>
+ <div class="codeinfo">
+    <h1 onclick="myFunction(13)" id="myBtn"># 000.01</h1>
+    <p class="more" id="more13">
+    Miradouro<br>
+    2016 - 2018<br>
+    Ponte de Lima<br>
+    fotografias de Tiago Casanova
+    </p>
+ </div>
+
+
+
+
+
+
+
+
+
+
+
+<section id="145.01">
+<div class="project">
+
+  <div class="fotos" id="fotos12">
+      <img    src="images/145.01/1.jpg" style=" display: inherit;" id="foto1" alt="">
+  <img    src="images/145.01/2.jpg" style=" display: none;" id="foto2" alt="">
+<img    src="images/145.01/3.jpg" style=" display: none;" id="foto3" alt="">
+<img    src="images/145.01/4.jpg" style=" display: none;" id="foto4" alt="">
+<img    src="images/145.01/5.jpg" style=" display: none;" id="foto5" alt="">
+<img    src="images/145.01/6.jpg" style=" display: none;" id="foto6" alt="">
+<img    src="images/145.01/7.jpg" style=" display: none;" id="foto7" alt="">
+<img    src="images/145.01/8.jpg" style=" display: none;" id="foto8" alt="">
+<img    src="images/145.01/9.jpg" style=" display: none;" id="foto9" alt="">
+
+  </div>
+
+<div class="texto" id="texto12">
+      <p4>
+
+
+  </p4>
+</div>
+
+
+  <div class="dragscroll">
+
+<img    src="images/145.01/d1.jpg" alt="">
+<img    src="images/145.01/d2.jpg" alt="">
+<img    src="images/145.01/d3.jpg" alt="">
+<img    src="images/145.01/d4.jpg" alt="">
+<img    src="images/145.01/d5.jpg" alt="">
+  </div>
+
+</div>
+</section>
+<div class="codeinfo">
+  <h1 onclick="myFunction(12)" id="myBtn"># 145.01</h1>
+  <p class="more" id="more12">
+  Ginásio R Space<br>
+  2018<br>
+  Porto<br>
+  fotografias de Tiago Casanova
+  </p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section id="118.02">
+<div class="project">
+
+  <div class="fotos" id="fotos11">
+<img    src="images/118.02/1.jpg" style=" display: inherit;" id="foto1" alt="">
+<img    src="images/118.02/2.jpg" style=" display: none;" id="foto2" alt="">
+<img    src="images/118.02/3.jpg" style=" display: none;" id="foto3" alt="">
+<img    src="images/118.02/4.jpg" style=" display: none;" id="foto4" alt="">
+<img    src="images/118.02/5.jpg" style=" display: none;" id="foto5" alt="">
+<img    src="images/118.02/6.jpg" style=" display: none;" id="foto6" alt="">
+<img    src="images/118.02/7.jpg" style=" display: none;" id="foto7" alt="">
+<img    src="images/118.02/8.jpg" style=" display: none;" id="foto8" alt="">
+<img    src="images/118.02/9.jpg" style=" display: none;" id="foto9" alt="">
+<img    src="images/118.02/10.jpg" style=" display: none;" id="foto10" alt="">
+<img    src="images/118.02/11.jpg" style=" display: none;" id="foto11" alt="">
+<img    src="images/118.02/12.jpg" style=" display: none;" id="foto12" alt="">
+  </div>
+
+<div class="texto" id="texto11">
+      <p4>
+
+
+  </p4>
+</div>
+
+
+  <div class="dragscroll">
+
+<img    src="images/118.02/d1.jpg" alt="">
+
+<img    src="images/118.02/d4.jpg" alt="">
+
+  </div>
+
+</div>
+</section>
+<div class="codeinfo">
+  <h1 onclick="myFunction(11)" id="myBtn"># 118.02</h1>
+  <p class="more" id="more11">
+  Clínica Oftalmológica Dr. Sousa Neves<br>
+  2018 - 2019<br>
+  Póvoa de Varzim<br>
+  fotografias de Tiago Casanova
+  </p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section id="118.01">
+<div class="project">
+
+  <div class="fotos" id="fotos10">
+      <img    src="images/118.01/1.jpg" style=" display: inherit;" id="foto1" alt="">
+  <img    src="images/118.01/2.jpg" style=" display: none;" id="foto2" alt="">
+  <img    src="images/118.01/3.jpg" style=" display: none;" id="foto3" alt="">
+<img    src="images/118.01/4.jpg" style=" display: none;" id="foto4" alt="">
+<img    src="images/118.01/5.jpg" style=" display: none;" id="foto5" alt="">
+<img    src="images/118.01/6.jpg" style=" display: none;" id="foto6" alt="">
+<img    src="images/118.01/7.jpg" style=" display: none;" id="foto7" alt="">
+<img    src="images/118.01/8.jpg" style=" display: none;" id="foto8" alt="">
+<img    src="images/118.01/9.jpg" style=" display: none;" id="foto9" alt="">
+<img    src="images/118.01/10.jpg" style=" display: none;" id="foto10" alt="">
+<img    src="images/118.01/11.jpg" style=" display: none;" id="foto11" alt="">
+<img    src="images/118.01/12.jpg" style=" display: none;" id="foto12" alt="">
+<img    src="images/118.01/13.jpg" style=" display: none;" id="foto13" alt="">
+
+
+
+
+
+  </div>
+
+<div class="texto" id="texto10">
+      <p4>
+        Deito coisas vivas e mortas no espírito da obra.<br>
+        Minha vida extasia-se como uma câmara de tochas.<br>
+        - Era uma casa - como direi? - absoluta.<br>
+        Eu jogo, eu juro.<br>
+        Era uma casinfância.<br>
+        Sei como era uma casa louca.<br>
+        Eu metias as mãos na água: adormecia,<br>
+        relembrava.<br>
+        Os espelhos rachavam-se contra a nossa mocidade.<br>
+        Apalpo agora o girar das brutais,<br>
+        líricas rodas da vida.<br>
+        Há no esquecimento, ou na lembrança<br>
+        total das coisas,<br>
+        uma rosa como uma alta cabeça,<br>
+        um peixe como um movimento<br>
+        rápido e severo.<br>
+        Uma rosapeixe dentro da minha ideia<br>
+        desvairada.<br>
+        Há copos, garfos inebriados dentro de mim.<br>
+        - Porque o amor das coisas no seu<br>
+        tempo futuro<br>
+        é terrivelmente profundo, é suave,<br>
+        devastador.<br>
+        (...)<br>
+<br>
+        Herberto Helder
+<br>
+        “Súmula”, In «Ou o Poema Contínuo», Assírio & Alvim, 2001
+
+
+
+
+
+  </p4>
+</div>
+
+
+  <div class="dragscroll">
+
+<img    src="images/118.01/d0.jpg" alt="">
+    <img    src="images/118.01/d1.jpg" alt="">
+
+    <img    src="images/118.01/d2.jpg" alt="">
+    <img    src="images/118.01/d3.jpg" alt="">
+    <img    src="images/118.01/d4.jpg" alt="">
+    <img    src="images/118.01/d5.jpg" alt="">
+
+    <img    src="images/118.01/e1.jpg" alt="">
+<img    src="images/118.01/e2.jpg" alt="">
+
+
+  </div>
+
+</div>
+</section>
+<div class="codeinfo">
+  <h1 onclick="myFunction(10)" id="myBtn"># 118.01</h1>
+  <p class="more" id="more10">
+  Casa de Férias<br>
+  2016 - 2019<br>
+  Esposende<br>
+  fotografias de Tiago Casanova
+  </p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<section id="109.10">
+<div class="project">
+
+  <div class="fotos" id="fotos9">
+      <img    src="images/109.10/1.jpg" style=" display: inherit;" id="foto1" alt="">
+  <img    src="images/109.10/2.jpg" style=" display: none;" id="foto2" alt="">
+  <img    src="images/109.10/3.jpg" style=" display: none;" id="foto3" alt="">
+  <img    src="images/109.10/4.jpg" style=" display: none;" id="foto4" alt="">
+  <img    src="images/109.10/5.jpg" style=" display: none;" id="foto5" alt="">
+  <img    src="images/109.10/6.jpg" style=" display: none;" id="foto6" alt="">
+  <img    src="images/109.10/7.jpg" style=" display: none;" id="foto7" alt="">
+  <img    src="images/109.10/8.jpg" style=" display: none;" id="foto8" alt="">
+  <img    src="images/109.10/9.jpg" style=" display: none;" id="foto9" alt="">
+  <img    src="images/109.10/10.jpg" style=" display: none;" id="foto10" alt="">
+  <img    src="images/109.10/11.jpg" style=" display: none;" id="foto11" alt="">
+  <img    src="images/109.10/12.jpg" style=" display: none;" id="foto12" alt="">
+  <img    src="images/109.10/13.jpg" style=" display: none;" id="foto13" alt="">
+  <img    src="images/109.10/14.jpg" style=" display: none;" id="foto14" alt="">
+  <img    src="images/109.10/15.jpg" style=" display: none;" id="foto15" alt="">
+  <img    src="images/109.10/16.jpg" style=" display: none;" id="foto16" alt="">
+
+
+
+
+  </div>
+
+<div class="texto" id="texto9">
+      <p4>When we first visited the corner space and heard the program description from the client, a clear motto came: the program could easily be settled by designing only a kind of a solo device, a cabinet, an apparatus of wood or/and metal, placed inside that space. The functions asked in the program could be arranged in two big groups in terms of scale: one of those consuming preferably open-spaces or subspaces inside it, but all above 10 squaremeteres (barberspace, boutique area), and another of those like the fitting rooms, exhibitors, small warehouse, counter, most of them transformable into niches spaces. That lead us to keep the existing masonry as found (the bathroom was kept) and adjust the device that would host the less scale objects, even if obbeying to a very recongizable structural grid, helping the wood and metal construction to take place. This piece, to be placed in the core of the store plot, backing up to the rear walls, released the facade perimetrer and moulded the empty space in-between it and this perimeter. Therefore, the apparatus should be designed as if it landed in a continuous floor and ceiling. The piece can be divided into  3 parts, from the heaviest to the lightest: the structure in wood, creating the support to the piece and regular limits, the semi-open mesh to the warehouse and mechanical room in metal with outter limits and the HVAC piping in inox, expelling out of its borders even more. The piece is the machine that makes the productiveness of the empty space it defines around and where consumption takes place.
+Establishing the relation with the public space around, a street and a square, the heavy outter shell of stone and windows remains with no classic showcase, but only transparent as much as possible, and deliberately punctuated with new reddish awnings and big industrial white lighting lamps.. The second layer, defined by the device designed, offset from the heaviest, is perceived from the outside as an interior inside an interior, a collection of cosy niches for showcasing, and the lighting is rather warm and gold/ yellowish. Between the two shells people live (in) the “thershold” space, between white and goldish;  stone and wood; in and out; public and private.
+
+
+  </p4>
+</div>
+
+
+  <div class="dragscroll">
+
+
+    <img    src="images/109.10/d1.jpg" alt="">
+  <img    src="images/109.10/d2.jpg" alt="">
+  <img    src="images/109.10/p1.jpg" alt="">
+<img    src="images/109.10/p2.jpg" alt="">
+<img    src="images/109.10/p3.jpg" alt="">
+<img    src="images/109.10/c1.jpg" alt="">
+  </div>
+
+</div>
+</section>
+<div class="codeinfo">
+  <h1 onclick="myFunction(9)" id="myBtn"># 109.10</h1>
+  <p class="more" id="more9">
+  Barber Shop e Boutique<br>
+  2017 - 2018<br>
+  Viana do Castelo<br>
+  fotografias de Tiago Casanova
+  </p>
+</div>
+
+
+
+
+
+
+
+
+
+<section id="046.02">
+<div class="project">
+
+  <div class="fotos" id="fotos8">
+      <img    src="images/046.02/1.jpg" style=" display: inherit;" id="foto1" alt="">
+  <img    src="images/046.02/2.jpg" style=" display: none;" id="foto2" alt="">
+  <img    src="images/046.02/3.jpg" style=" display: none;" id="foto3" alt="">
+  <img    src="images/046.02/4.gif" style=" display: none;" id="foto4" alt="">
+  <img    src="images/046.02/5.jpg" style=" display: none;" id="foto5" alt="">
+  <img    src="images/046.02/6.jpg" style=" display: none;" id="foto6" alt="">
+  <img    src="images/046.02/7.jpg" style=" display: none;" id="foto7" alt="">
+  <img    src="images/046.02/8.jpg" style=" display: none;" id="foto8" alt="">
+  <img    src="images/046.02/9.jpg" style=" display: none;" id="foto9" alt="">
+  <img    src="images/046.02/10.jpg" style=" display: none;" id="foto10" alt="">
+  <img    src="images/046.02/11.jpg" style=" display: none;" id="foto11" alt="">
+  <img    src="images/046.02/12.jpg" style=" display: none;" id="foto12" alt="">
+  <img    src="images/046.02/13.jpg" style=" display: none;" id="foto13" alt="">
+
+  <img    src="images/046.02/15.jpg" style=" display: none;" id="foto14" alt="">
+
+
+
+  </div>
+
+<div class="texto" id="texto8">
+
+</div>
+
+
+  <div class="dragscroll">
+
+<img    src="images/046.02/d1.jpg" alt="">
+<img    src="images/046.02/d2.jpg" alt="">
+<img    src="images/046.02/e1.jpg" alt="">
+
+  </div>
+
+</div>
+</section>
+<div class="codeinfo">
+  <h1 onclick="myFunction(8)" id="myBtn"># 046.02</h1>
+  <p class="more" id="more8">
+  Clínica de Obstetrícia<br>
+  2016 - 2017<br>
+  Vila Nova de Famalicão<br>
+  fotografias de Tiago Casanova
+  </p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section id="121.01">
+<div class="project">
+
+  <div class="fotos" id="fotos7">
+      <img    src="images/121.01/1.jpg" style=" display: inherit;" id="foto1" alt="">
+      <img    src="images/121.01/2.jpg" style=" display: none;" id="foto2" alt="">
+    <img    src="images/121.01/3.jpg" style=" display: none;" id="foto3" alt="">
+    <img    src="images/121.01/4.jpg" style=" display: none;" id="foto4" alt="">
+    <img    src="images/121.01/5.jpg" style=" display: none;" id="foto5" alt="">
+    <img    src="images/121.01/6.jpg" style=" display: none;" id="foto6" alt="">
+    <img    src="images/121.01/7.jpg" style=" display: none;" id="foto7" alt="">
+    <img    src="images/121.01/8.jpg" style=" display: none;" id="foto8" alt="">
+    <img    src="images/121.01/9.jpg" style=" display: none;" id="foto9" alt="">
+    <img    src="images/121.01/10.jpg" style=" display: none;" id="foto10" alt="">
+    <img    src="images/121.01/11.jpg" style=" display: none;" id="foto11" alt="">
+    <img    src="images/121.01/12.jpg" style=" display: none;" id="foto12" alt="">
+    <img    src="images/121.01/13.jpg" style=" display: none;" id="foto13" alt="">
+    <img    src="images/121.01/14.jpg" style=" display: none;" id="foto14" alt="">
+
+
+
+
+  </div>
+
+<div class="texto" id="texto7">
+      <p4>O pedido, pouco comum, tinha a ver com a expectativa não verificada de um
+    casal vir a ter filhos. Daí resultou a compra de um “T2” que nunca funcionou
+    como tal, a não ser na excepcionalidade das visitas, nomeadamente dos sobrinhos.
+    Ao ponto de terem ocupado, a certa altura, o segundo quarto com armários próprios de guarda-roupa. Todos estes indícios, somados ao desenho existente - bastante típico de um financiado por construtor dos anos 90 - sem cuidados na qualidade da compartimentação e do seu resultado espacial, levou-nos à revisão quase total dos espaços, na relação com a aplicação real dos hábitos, discutida de raiz. A habitação não poderia deixar de ser compartimentada mas poderia adquirir diferentes categorias de divisão, em que cada umbral correspondesse a um grau de aprofundamento da intimidade e, por isso, de relação entre os espaços que mediava. Primeiro, ficou o registo de um corte excessivo da relação entre o cônjuge que usava a sala e o outro que usava o escritório quando se encontravam em casa, já de noite, pela presença da cozinha, colocada entre estes
+    dois espaços. Depois, registou-se que a cozinha, normalmente é usada em simultâneo pelos dois e não sofreria, por exemplo, deste problema. Também a falta de eixos visuais entre os espaços, cuja relação era intermediada apenas por um hall, se tornava, neste contexto, problemática.
+
+    A proposta passa por refazer todo o miolo mais escuro de articulação dos
+    espaços com frente de fachada, com as casas de banho e o desenho de espaços- umbral - onde o grande desejo de ter muita arrumação é respondido com armários fixos. Assim, o quarto passa a ser praticamente metade do fogo, com entrada através de uma grande porta, e, no interior, encontram-se vários espaços que não perdem, nem a relação visual - antes inexistente - com o espaço da sala, nem a possibilidade de divisão através de um elemento mais informal - a cortina. Já a sala passa a relacionar-se directamente com um escritório  que é umbral na relação desta com a cozinha -  que ocupa agora o antigo espaço de escritório, no extremo sudoeste da planta. Ao demolir paredes, a tentação de não voltar a compartimentar era grande - resistimos, para que a vida não seja passada num “contentor” amorfo e indefinido, e transferida, sem sequer ter tentado resistir, para os espaços dos 3 computadores que duas pessoas usam.
+
+    Hoje, relatam- nos transformações na forma de usar aqueles espaços. Pensamos que, se algum sucesso houver neste exercício se deve a termos resistido a essa tentação. A vida, mesmo que transferida em parte para os espaços não reconhecidos pelo desenho da arquitectura (no apartamento existem 3 computadores) ,ainda exige que os espaços sejam desenhados em resposta às manifestações do Homem, das mais rotineiras  às possivelmente artísticas - acordou- -se, por exemplo, a divisão do escritório da sala com uma cortina vermelha de teatro, para ensaios de contrabaixo.
+
+  </p4>
+</div>
+
+
+  <div class="dragscroll">
+    <!--
+    <p3>Levantamento -
+    </p3>
+     -->
+
+    <img    src="images/121.01/d1.jpg" alt="">
+
+
+
+  </div>
+
+</div>
+</section>
+<div class="codeinfo">
+  <h1 onclick="myFunction(7)" id="myBtn"># 121.01</h1>
+  <p class="more" id="more7">
+  Apartamento<br>
+  2015 - 2016<br>
+  Braga<br>
+  fotografias de Tiago Casanova
+  </p>
+</div>
+
+
+
+
+
+
+
+
+<section id="100.01">
+<div class="project">
+
+  <div class="fotos" id="fotos6">
+      <img    src="images/100.01/1.jpg" style=" display: inherit;" id="foto1" alt="">
+      <img    src="images/100.01/2.jpg" style=" display: none;" id="foto2" alt="">
+<img    src="images/100.01/3.jpg" style=" display: none;" id="foto3" alt="">
+<img    src="images/100.01/5.jpg" style=" display: none;" id="foto4" alt="">
+<img    src="images/100.01/6.jpg" style=" display: none;" id="foto5" alt="">
+<img    src="images/100.01/7.jpg" style=" display: none;" id="foto6" alt="">
+
+
+  </div>
+
+<div class="texto" id="texto6">
+      <p4>
+
+  </p4>
+</div>
+
+
+  <div class="dragscroll">
+    <!--
+    <p3>Levantamento -
+    </p3>
+     -->
+<img    src="images/100.01/d3.jpg" alt="">
+  <img    src="images/100.01/d4.jpg" alt="">
+  <img    src="images/100.01/d2.jpg" alt="">
+
+    <img    src="images/100.01/d1.jpg" alt="">
+      <img    src="images/100.01/d5.jpg" alt="">
+  <img    src="images/100.01/e1.jpg" alt="">
+  <img    src="images/100.01/e2.jpg" alt="">
+<img    src="images/100.01/e3.jpg" alt="">
+
+  </div>
+
+</div>
+</section>
+<div class="codeinfo">
+  <h1 onclick="myFunction(6)" id="myBtn"># 100.01</h1>
+  <p class="more" id="more6">
+  Edifício multifamiliar e comércio Noshi<br>
+  2016 - 2018<br>
+  Porto<br>
+  fotografias de "a caixa negra"
+  </p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<section id="078.06">
+<div class="project">
+
+  <div class="fotos" id="fotos5">
+  <img    src="images/078.06/1.jpg" style=" display: inherit;" id="foto1" alt="">
+  <img    src="images/078.06/2.jpg" style=" display: none;" id="foto2" alt="">
+<img    src="images/078.06/3.jpg" style=" display: none;" id="foto3" alt="">
+<img    src="images/078.06/4.jpg" style=" display: none;" id="foto4" alt="">
+<img    src="images/078.06/5.jpg" style=" display: none;" id="foto5" alt="">
+<img    src="images/078.06/6.jpg" style=" display: none;" id="foto6" alt="">
+<img    src="images/078.06/7.jpg" style=" display: none;" id="foto7" alt="">
+<img    src="images/078.06/8.jpg" style=" display: none;" id="foto8" alt="">
+<img    src="images/078.06/9.jpg" style=" display: none;" id="foto9" alt="">
+<img    src="images/078.06/10.jpg" style=" display: none;" id="foto10" alt="">
+<img    src="images/078.06/11.jpg" style=" display: none;" id="foto11" alt="">
+<img    src="images/078.06/12.jpg" style=" display: none;" id="foto12" alt="">
+
+
+  </div>
+
+  <div class="texto" id="texto5">
+        <p4>
+          The half-underground space was plenty of compartimentation and lightless environment inside its very thick stone walls. The owner intended to transform it into a second home inside his old house, being almost self-sufficient and liveable. The construction surveys revealed there was running water below the pavement, leading us to make the “U” shaped plot a kind of big concrete floating boat first, well impermeabilized to receive the architectonic devices above, enough warm and refined to “build” the home, including materials as wood of different types. Apart from all space and light strategies (as opening windows and patios)  to create a 4-subdivided living/resting room, the bar, a bathroom, a kitchen and a dining room, there was a nitid problem of unity. The hard and late resolution of one of the main  topics -artificial lighting- turned to be the motto to address the problem, by designing a big linear lamp made of wood sheet in a cross-shape allowing to unite all the spaces, more than the original plan let. Wherever one is, it is possible to see the suspended linear lamp.
+    </p4>
+  </div>
+
+
+  <div class="dragscroll">
+
+    <img    src="images/078.06/d2.jpg" alt="">
+
+
+
+
+
+  </div>
+
+</div>
+</section>
+<div class="codeinfo">
+  <h1 onclick="myFunction(5)" id="myBtn"># 078.06</h1>
+  <p class="more" id="more5">
+  Semi-cave<br>
+  2015 - 2016<br>
+  Esposende<br>
+  fotografias de Tiago Casanova
+  </p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section id="157.02">
+<div class="project">
+
+  <div class="fotos" id="fotos4">
+  <img    src="images/157.02/1.jpg" style=" display: inherit;" id="foto1" alt="">
+  <img    src="images/157.02/2.jpg" style=" display: none;" id="foto2" alt="">
+  <img    src="images/157.02/3.jpg" style=" display: none;" id="foto3" alt="">
+  <img    src="images/157.02/4.jpg" style=" display: none;" id="foto4" alt="">
+  <img    src="images/157.02/5.jpg" style=" display: none;" id="foto5" alt="">
+  <img    src="images/157.02/6.jpg" style=" display: none;" id="foto6" alt="">
+  <img    src="images/157.02/7.gif" style=" display: none;" id="foto7" alt="">
+  <img    src="images/157.02/8.jpg" style=" display: none;" id="foto8" alt="">
+  <img    src="images/157.02/9.jpg" style=" display: none;" id="foto9" alt="">
+  </div>
+
+  <div class="texto" id="texto4">
+        <p4>
+          The portuguese National roads, most of them forming an old settlement, define a kind of places-in-line along the territory in the northern region. Most of the people living 15 km away from the service station intervened, know it and frequently use it, not only as a gas pump, but also as a bar, minimarket, local ATM, jetwash, propane gas provider, etc. Most of these functions were already provided in the existing building in a very precarious way.
+      Located in the 206 National road, the existing building presented an almost regular structure, even though it was full of anacronic aspects to correct and mould to the new program. The structure was undressed of its excesses in the front facade, and totally treated (the concrete was old and fragile), cladded and displayed concerning its metric. The side and back facades were fully cladded with ondulated metal sheet. A concrete basement makes the building meeting the unleveled ground, regularizing the metalworks to do above. Apart from this very prosaic, understandable and rational intervention to refurbish the building, it was proposed in the front (south) facade a very long and low semi-open metallic piece, road inclined, that gives the building elevation a new proportion, holds the lighting advertisement and gives some shadow to the inner spaces.
+      Celebrate, understand and dignify this type of urban habitat is what architecture might be able to do when summoned to this very light kind of intervention. Furthermore, it has been shown more and more that this urban condition is much rooted to an old raison d´être for the organization of these linked settlements. We can´t still be so sure as Reyner Banham in Los Angeles, when depreciating the weak city centre at the expense of the periphery places as the urban engine and interesting object of study, but we can tell by driving around - the unique way to move in Famalicão - that the problematics here are much multiple and fizzier.
+    </p4>
+  </div>
+
+
+  <div class="dragscroll">
+    <img    src="images/157.02/d1.jpg" alt="">
+    <img    src="images/157.02/d3.jpg" alt="">
+    <img    src="images/157.02/d2.jpg" alt="">
+
+
+
+
+  </div>
+
+</div>
+</section>
+<div class="codeinfo">
+  <h1 onclick="myFunction(4)" id="myBtn"># 157.02</h1>
+  <p class="more" id="more4">
+  Estação de Serviço<br>
+  2014 - 2015<br>
+  Famalicão<br>
+  fotografias de Tiago Casanova
+  </p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<section id="053.01">
+<div class="project">
+    <div class="fotos" id="fotos3">
+    <img    src="images/053.01/1.jpg" style=" display: inherit;" id="foto1" alt="">
+    <img    src="images/053.01/2.jpg" style=" display: none;" id="foto2" alt="">
+    <img    src="images/053.01/3.jpg" style=" display: none;" id="foto3" alt="">
+    <img    src="images/053.01/4.jpg" style=" display: none;" id="foto4" alt="">
+    <img    src="images/053.01/5.jpg" style=" display: none;" id="foto5" alt="">
+
+    </div>
+
+    <div class="texto" id="texto3">
+          <p4>
+            Um banco para ser transformado numa clínica dentária; o programa dado sugeria a necessidade de compartimentalizar o espaço, lidando apenas com a existência da estrutura e das paredes perimetrais. Todo o Homem é diferente mas biologicamente semelhante. A partir da visão do cliente, cada Homem deverá ter um tratamento único e personalizado nesta clínica, mas, para isso, cada gabinete médico deverá ter condições semelhantes. A regra é baliza para o enquadramento da irrepetibilidade. A mesma clínica e os mesmos clínicos devem ser capazes de criar várias e únicas consultas todos os dias. Por isso, o principal requisito prendeu-se com a existência de luz natural em cada um dos 5 gabinetes médicos, embora não fosse possível que todos estivessem contíguos à fachada exterior, tendo em conta a sua largura. Para além disto, os médicos falaram-nos sobre o fenómeno da claustrofobia aquando do tratamento. Relembrando Anthony Vidler nos seus textos sobre a importância dos diagnósticos de claustrofobia e "agoraphobia" no advento do movimento moderno, uma pergunta se levanta: estarão as suas premissas falidas? De acordo com o cliente, juntamente com a necessidade clara de subdivisão do espaço, a de continuidade visual e de profusão de luz eram prioritárias. Para desenhar a massa construída, foram usadas três tipos de superfícies verticais: paredes opacas ( alcatifa, gesso cartonado e alumínio), paredes de vidro e cortinas. A maior parte da massa construída é formada por um conjunto desenhado com paredes de vidro, dividindo e ligando, moldando o tempo, multiplicando o espaço e as suas realidades. O uso do vidro - "este isolante, este milagre do fluído cristalizado", "este incolor, inodoro, não degradável" ( Baudrillard, 1969), “moral e higiénico” (Teyssot, 2010) material, - tornou-se numa condicionante de projecto por razões muito prosaicas - e, para se manter prosaico, as suas extremidades são redondas, facilitando o trânsito suave de carrinhos médicos, cadeiras de rodas, entre outros em movimento numa clínica.
+      </p4>
+    </div>
+
+      <div class="dragscroll">
+
+          <img    src="images/053.01/d1.jpg" alt="">
+          <img    src="images/053.01/d3.jpg" alt="">
+          <img    src="images/053.01/d5.jpg" alt="">
+
+          <img    src="images/053.01/e1.jpg" alt="">
+          <img    src="images/053.01/e2.jpg" alt="">
+
+
+      </div>
+  </div>
+  </section>
+<div class="codeinfo">
+    <h1 onclick="myFunction(3)" id="myBtn"># 053.01</h1>
+    <p class="more" id="more3">
+    Clínica Dentária<br>
+    2015 - 2016<br>
+    Vila Nova de Gaia<br>
+    fotografias de Tiago Casanova
+    </p>
+  </div>
+
+
+
+
+
+
+
+
+
+
+  <section id="002.01">
+  <div class="project">
+      <div class="fotos" id="fotos2">
+      <img    src="images/002.01/1.jpg" style=" display: inherit;" id="foto1" alt="">
+      <img    src="images/002.01/2.jpg" style=" display: none;" id="foto2" alt="">
+      <img    src="images/002.01/3.jpg" style=" display: none;" id="foto3" alt="">
+      <img    src="images/002.01/4.jpg" style=" display: none;" id="foto4" alt="">
+      <img    src="images/002.01/5.jpg" style=" display: none;" id="foto5" alt="">
+      <img    src="images/002.01/6.jpg" style=" display: none;" id="foto6" alt="">
+      <img    src="images/002.01/7.gif" style=" display: none;" id="foto7" alt="">
+      <img    src="images/002.01/8.jpg" style=" display: none;" id="foto8" alt="">
+      <img    src="images/002.01/9.jpg" style=" display: none;" id="foto9" alt="">
+
+
+      </div>
+
+
+      <div class="texto" id="texto2">
+            <p4>
+              Do edifício do século XVIII – cunhal entre a Rua da Fábrica e a Rua Conde de Vizela - apenas os dois primeiros pisos se destinavam ao “Ostras & Coisas”. O terceiro e quarto pisos (este último recuado) estavam habitados, mas em mau estado de conservação da sua construção. O fragmento sobre o qual interviríamos estava ali, como a coluna de Filarete vista por Rossi, na sua redução a espaço e a luz de uma ruína , “devorada pela vida” em redor . No rés do chão ficou o abandono de uma churrasqueira construída nos anos 80, enquanto no piso 1 terá ficado a ausência de um alfaiate. A este fragmento, que é também em si fragmentado, impunha-se uma intervenção “osteológica” que unisse os fragmentos num projecto de conjunto.
+   A “cidade formal” onde se encontra, esta que se implanta consolidadamente no centro, está num impasse contemporâneo, entre o progresso e a perda de identidade, mas continua a produzir-se pela permanente transferência de vida entre o espaço público e os vários redutos de intimidade pública e privada que encontramos penetrando as fachadas. Fachadas que delimitam propriedade mas não podem demarcar o binómio público /privado, seja essa penetração mais permeável ou mais obstrutiva, segregadora e com triagens por critérios sociais, culturais, económicos e outros. Como é que poderíamos redesenhar vários desses redutos, pensando a continuidade da vida pelo interior, essa cidade democrática que se prolonga, num conjunto de dois pisos que nunca haviam funcionado como um todo ?
+   Quando visitámos pela primeira vez o espaço interior do edifício vimos dois espaços nunca antes ligados directamente e em estados de conservação da arquitectura original totalmente distintos.
+   A proposta de programa que nos foi apresentada era clara e assentou nesta dualidade entre os pisos: deveriam funcionar, em simultâneo, uma espécie de “oyster bar” e um espaço de restaurante, mais formal, servidos pela mesma cozinha. Deveriam ser partes distintas da mesma unidade. Para não perverter o sistema intemporal de uso autónomo por piso – que poderia ser reposto no futuro – evitou-se a construção de uma escada directa entre pisos. Preferiu-se o uso da escada existente e a transformação do seu espaço,
+   ainda que partilhada com todo o edifício, como se de uma “segunda rua” se tratasse (onde se podem encontrar clientes, residentes e trabalhadores) ; um espaço (de) público, acedido depois de se passar por uma espécie de “public house”no rés do chão. A primeira acção de projecto foi , por isso, passiva: construir o discurso para não construir uma escada. Um vão maior passaria a ligar o espaço do piso 0 à escada e ao espaço da escada reformulado. Perante dois estádios de conservação muito distintos entre os dois pisos, o projecto havia de reflectir sobre o conceito de preservação, não só pelo ângulo mais conservador que lhe está associado, mas prospectivamente no tempo. A preservação é, aqui, tida como um processo contínuo; os dilemas acumulados de cada época são seleccionados e redesenhados como um todo, destruindo e adicionando, essencialmente pelas necessidades recentes de infra-estruturas num restaurante e a sua compatibilização com as estruturas existentes.
+   O piso 1 , que também sofreu algumas intervenções dos inícios do século XX, parecia já relativamente optimizado para o restaurante pretendido -mais formal e recatado- tornando-se apenas todos os espaços percorríveis entre si e restaurando todos os elementos construtivos. Manteve-se a estrutura sequencial de espaços simples e extremamente adaptável a diferentes programas, compartimentados em paredes de tabique e tectos em estuque .Foram alvo de uma intervenção de restauro e consolidação, tendo em conta o seu estado de deterioração, combinada com pequenas adaptações (novos vãos, armários, etc) que se procuraram acomodar no espírito do existente. No piso 1, todo este trabalho de reintrodução de peças cingiu-se à carpintaria.
+   No piso 0, como já referimos, a situação encontrada era bem diferente, estando desprovido de qualquer elemento original, à excepção das paredes limítrofes em alvenaria de granito e o tecto com a estrutura do piso em madeira. Tudo o resto eram pobres intervenções de interior e caixilharias dos anos 80. Esta ausência permitia imaginar um espaço apenas, único, comum e público, espécie de “public house” aberta à rua sem reservas ou filtros criados por estruturas de compartimentação. Seria desenhar um espaço para o público, ou melhor, encontrar o desenho possível para uma divisória que dá forma aos dois principais espaços a prever: o do público e o de serviço, correspondente à cozinha. Dada a exigência de arrumação de stock e de diversas peças a acomodar, tornou-se impreterível que a divisória fosse também armário, que reuniria e organizaria todos os equipamentos e dispositivos necessários, desde o balcão ao banco fixo, dos viveiros à vitrina de bebidas. O espaço térreo é, não só onde o produto é mostrado, mas é também guardado, transformado, cozinhado, etc. O piso térreo é, por isso, o laboratório do todo. Esta parede-armário foi disposta tendo em conta o ângulo já existente entre as duas paredes das fachadas de alvenaria de granito, obtendo, assim, uma área razoável de cozinha e área de serviço no quadrante Sul/Nascente do edifício, sem perder a leitura de um espaçoúnico,comum,democráticonasuarelaçãocomarua. Aausênciadecarpintariasoriginaisoucom especial relevância, a agressividade associada ao uso de r/C e a necessidade de reforçar a estrutura de piso levou-nos a cingir o trabalho no piso 0 à serralharia.
+        </p4>
+      </div>
+
+        <div class="dragscroll">
+
+            <img    src="images/002.01/d1.jpg" alt="">
+            <img    src="images/002.01/d3.jpg" alt="">
+            <img    src="images/002.01/d2.jpg" alt="">
+            <img    src="images/002.01/d4.jpg" alt="">
+            <img    src="images/002.01/e1.jpg" alt="">
+            <img    src="images/002.01/e2.jpg" alt="">
+            <img    src="images/002.01/e3.jpg" alt="">
+
+
+
+
+        </div>
+    </div>
+  </section>
+  <div class="codeinfo">
+      <h1 onclick="myFunction(2)" id="myBtn"># 002.01</h1>
+      <p class="more" id="more2">
+      Restaurante e Bar<br>
+      2015 - 2016<br>
+      Porto<br>
+      fotografias de Tiago Casanova
+      </p>
+    </div>
+
+
+
+
+
+
+
+
+
+  <section id="097.01">
+  <div class="project">
+      <div class="fotos" id="fotos1">
+      <img    src="images/097.01/1.jpg" style=" display: inherit;" id="foto1" alt="">
+      <img    src="images/097.01/2.jpg" style=" display: none;" id="foto2" alt="">
+      <img    src="images/097.01/3.jpg" style=" display: none;" id="foto3" alt="">
+      <img    src="images/097.01/4.jpg" style=" display: none;" id="foto4" alt="">
+      <img    src="images/097.01/5.jpg" style=" display: none;" id="foto5" alt="">
+
+
+      </div>
+
+      <div class="texto" id="texto1">
+            <p4>
+              A bar was installed in one of the mills on top of "S.Felix" mount. It was asked to expand its capacity with a new and light structure. It contrasts completely with the hermetic mill by its total openness to the landscape. The new structure had to be modular and orthogonal. The only orthogonal element in the site was a very prominent cross West oriented. The structure of this winter garden bar is defined by that.
+        </p4>
+      </div>
+
+
+        <div class="dragscroll">
+
+            <img    src="images/097.01/d1.jpg" alt="">
+            <img src="images/097.01/d2.jpg" alt="">
+
+
+        </div>
+    </div>
+    </section>
+  <div class="codeinfo">
+      <h1 onclick="myFunction(1)" id="myBtn"># 097.01</h1>
+      <p class="more" id="more1">
+      Bar do Moinho<br>
+      2013 - 2014<br>
+      Póvoa de Varzim<br>
+      fotografias de atelierdacosta
+      </p>
+    </div>
+
+
+</body>
+
+
+
+</html>
