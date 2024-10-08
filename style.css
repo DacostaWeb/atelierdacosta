@@ -109,8 +109,8 @@ display: inline-block;
 html, body {
 	font-family:  serif; -ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;
 	-moz-osx-font-smoothing: grayscale;
--webkit-font-smoothing: antialiased;
-font-smoothing: antialiased;
+/* -webkit-font-smoothing: antialiased;
+font-smoothing: antialiased; */
 /*    background-color: #FCFBF7; */
 	 background-color: #F9F7EF;
   color: #444242;
@@ -1121,7 +1121,7 @@ td, th{
 
 	padding-right: 681px;
 	}
-}
+
 
 @media screen and (max-width: 1315px) {
 
@@ -1407,7 +1407,7 @@ td, th{
 
 		padding-right: 845px;
 		} */
-} */
+*/
 
 /*
 @media screen and (min-width: 1900px) {
@@ -1481,7 +1481,7 @@ td, th{
 
 		padding-right: 920px;
 		} */
-}
+
 */
 /*
 @media screen and (min-width: 2100px) {
@@ -1539,68 +1539,68 @@ td, th{
 }
 */
 
-/*
-@media screen and (min-width: 2300px) {
-	.project .dragscroll img{
-	margin-right: 65px;
+	/*
+	@media screen and (min-width: 2300px) {
+		.project .dragscroll img{
+		margin-right: 65px;
 
-	}
-
-	p{
-
-	}
-
-
-	html, body {
-
-	margin-bottom: calc(((100vh - 600px) / 2) - 50px);
-
-	}
-	.project{
-	left: calc((100% - 1970px) /2);
-	height: 600px;
-		margin-top: calc((100vh - 600px) / 2);
-	}
-	.codeinfo{
-			left: calc((100% - 1970px) /2);
-
-	}
-	.project img{
-		margin-right: 170px;
-	}
-
-	.fotos{
-		margin-right: 170px;
-		width: 900px;
-	}
-	.texto{
-		margin-right: 170px;
-		width: 750px;
-		padding-right: 150px;
-	}
-	.linha{
-		width: 1970px;
-	}
-	.dragscroll{
-		width: 1970px;
-			padding-left: 1070px;
 		}
 
-		.project .dragscroll img:last-child{
+		p{
 
-		padding-right: 1070px;
 		}
-}
- */
+
+
+		html, body {
+
+		margin-bottom: calc(((100vh - 600px) / 2) - 50px);
+
+		}
+		.project{
+		left: calc((100% - 1970px) /2);
+		height: 600px;
+			margin-top: calc((100vh - 600px) / 2);
+		}
+		.codeinfo{
+				left: calc((100% - 1970px) /2);
+
+		}
+		.project img{
+			margin-right: 170px;
+		}
+
+		.fotos{
+			margin-right: 170px;
+			width: 900px;
+		}
+		.texto{
+			margin-right: 170px;
+			width: 750px;
+			padding-right: 150px;
+		}
+		.linha{
+			width: 1970px;
+		}
+		.dragscroll{
+			width: 1970px;
+				padding-left: 1070px;
+			}
+
+			.project .dragscroll img:last-child{
+
+			padding-right: 1070px;
+			}
+	}
+	*/
 
 
 
 
 @media screen and (max-height: 500px) and (max-width: 1470px) {
+
 	.project{
 		margin-top: 50px;
 		max-height: calc(100vh - 100px);
-		/* height: 400px;  */
 	}
 
 }
@@ -1609,7 +1609,7 @@ td, th{
 	.project{
 		margin-top: 50px;
 		max-height: calc(100vh - 100px);
-		/* height: 400px;  */
+	
 	}
 
 }
