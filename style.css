@@ -1043,6 +1043,7 @@ td, th{
 		margin-right: 50px;
 	width: 525px;
 	}
+}
 /* 
 	.aboutpng{
 		position: fixed;
@@ -1093,9 +1094,7 @@ td, th{
 		} */
 
 
-}
 
-@media screen and (max-width: 1485px) {
 
 	.outer:first-child{
 	margin-left: 50px;
