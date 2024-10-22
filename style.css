@@ -510,6 +510,32 @@ right: 0;
 top: 0;
 }
 
+@media screen and (max-width: 1600px) {
+	#rightouter{
+		display: none;
+	}
+	#leftouter{
+		display: none;
+	}
+}
+
+.outer50{
+	overflow-y:  hidden;
+	overflow-x: hidden;
+	white-space: normal;
+	width: 250px;
+	top: 0;
+	max-width: calc(50% - 40px);
+	margin: auto;
+	margin-top: 0px;
+	display: inline-block;
+	vertical-align: top;
+		margin-right: 50px;
+		height: 100vh;
+		padding-top: 0px;
+		z-index: 2;
+}
+
 .outer{
 	overflow-y:  hidden;
 	overflow-x: hidden;
@@ -526,7 +552,7 @@ top: 0;
 		padding-top: 0px;
 		z-index: 2;
 }
-.outer:last-child{
+.outer:nth-last-child(2){
 
 		margin-right: 32px;
 
@@ -1104,11 +1130,11 @@ td, th{
 
 
 
-	.outer:first-child{
+	.outer:nth-child(2){
 	margin-left: 50px;
 
 	}
-	.outer:last-child{
+	.outer:nth-last-child(2){
 
 			margin-right: 50px;
 
@@ -1722,6 +1748,11 @@ margin-top: 33vh;
 	}
 }
 
+@media screen and (max-width: 650px) {
+
+.outer{
+	margin-right: 20px;	}
+}
 
 @media screen and (max-width: 575px) {
 	.project{
@@ -1783,11 +1814,11 @@ max-width: calc(100% - 80px);
 	.p3{
 		max-width: calc(100% - 80px);
 	}
-	.outer:first-child{
-	margin-left: 40px;
+	.outer:nth-child(2){
+	margin-left: 20px;
 
 	}
-	.outer:last-child{
+	.outer:nth-last-child(2){
 
 			margin-right: 22px;
 
