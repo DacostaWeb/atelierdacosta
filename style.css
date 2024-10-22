@@ -492,7 +492,8 @@ z-index: 2;
 
 .leftclick{
 position: fixed;
-width: 50px;
+min-width: 50px;
+width: 15vh;
 height: 100%;
 z-index: 4;
 background-color: transparent;
@@ -502,7 +503,8 @@ top: 0;
 
 .rightclick{
 position: fixed;
-width: 50px;
+min-width: 50px;
+width: 15vh;
 height: 100%;
 z-index: 4;
 background-color: transparent;
