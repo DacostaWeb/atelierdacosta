@@ -639,11 +639,18 @@ position: absolute;
     -ms-user-select: none;
 		max-height:100%;
 		z-index: 0.1;
+		
+		-ms-overflow-style: none; /* IE 11 */
+		scrollbar-width: none; /* Firefox 64 */
 }
 
 .dragscroll::-webkit-scrollbar {
     display: none;
+	
 }
+
+
+
 
 .endspace{
 	background-color: transparent;
