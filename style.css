@@ -496,6 +496,37 @@ z-index: 2;
 	cursor:url(arrowright.png), auto;
 }
 
+.hiddenSection {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+     
+        }
+
+        .hiddenSection.visible {
+            display: block;
+            opacity: 1;
+        }
+
+.apparrowleft{
+position: fixed;
+width: 9px;
+height: auto;
+z-index: 4;
+background-color: transparent;
+left: 20px;
+top: 50vh;
+}
+.apparrowright{
+position: fixed;
+width: 9px;
+height: auto;
+z-index: 4;
+background-color: transparent;
+right: 20px;
+top: 50vh;
+}
+
 .leftclick{
 position: fixed;
 width: 50px;
@@ -2107,7 +2138,7 @@ pointer-events: none;
 
 .gradientright{
 	height: 100%;
-	width: 35px;
+	width: 60px;
 	position: fixed;
 	top: 0;
 	right: 0;

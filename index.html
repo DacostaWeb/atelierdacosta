@@ -1350,10 +1350,24 @@ A renovação de um apartamento, com pinturas, envernizamentos e reparações, �
    </p>
  </div>
 
+ <script>
+        let isVisible = false;
+        window.addEventListener('scroll', function() {
+            const anchor = document.getElementById('121.02');
+            const hiddenElements = document.querySelectorAll('.hiddenSection');
+            const anchorPosition = anchor.getBoundingClientRect().top;
+
+            if (!isVisible && anchorPosition < window.innerHeight / 2) {
+                hiddenElements.forEach(element => {
+                    element.classList.add('visible');
+                });
+                isVisible = true;
+            }
+        });
+    </script>
 
 
-
-<section id="000.01">
+<section id="000.01" class="hiddenSection">
   <div class="project">
 
     <div class="fotos" id="fotos13">
@@ -1392,7 +1406,7 @@ A thick mass of plants bordered the perimeter of a plateau terrain on a hillside
 
   </div>
 </section>
- <div class="codeinfo">
+ <div class="codeinfo" class="hiddenSection">
     <h1 onclick="myFunction(13)" id="myBtn"># 000.01</h1>
     <p class="more" id="more13">
     Miradouro<br>
@@ -1412,7 +1426,7 @@ A thick mass of plants bordered the perimeter of a plateau terrain on a hillside
 
 
 
-<section id="145.01">
+<section id="145.01" class="hiddenSection">
 <div class="project">
 
   <div class="fotos" id="fotos12">
@@ -1447,7 +1461,7 @@ A thick mass of plants bordered the perimeter of a plateau terrain on a hillside
 
 </div>
 </section>
-<div class="codeinfo">
+<div class="codeinfo" class="hiddenSection">
   <h1 onclick="myFunction(12)" id="myBtn"># 145.01</h1>
   <p class="more" id="more12">
   Ginásio R Space<br>
@@ -1472,7 +1486,7 @@ A thick mass of plants bordered the perimeter of a plateau terrain on a hillside
 
 
 
-<section id="118.02">
+<section id="118.02" class="hiddenSection">
 <div class="project">
 
   <div class="fotos" id="fotos11">
@@ -1508,7 +1522,7 @@ A thick mass of plants bordered the perimeter of a plateau terrain on a hillside
 
 </div>
 </section>
-<div class="codeinfo">
+<div class="codeinfo" class="hiddenSection">
   <h1 onclick="myFunction(11)" id="myBtn"># 118.02</h1>
   <p class="more" id="more11">
   Clínica Oftalmológica Dr. Sousa Neves<br>
@@ -1535,7 +1549,7 @@ A thick mass of plants bordered the perimeter of a plateau terrain on a hillside
 
 
 
-<section id="118.01">
+<section id="118.01" class="hiddenSection">
 <div class="project">
 
   <div class="fotos" id="fotos10">
@@ -1616,7 +1630,7 @@ A thick mass of plants bordered the perimeter of a plateau terrain on a hillside
 
 </div>
 </section>
-<div class="codeinfo">
+<div class="codeinfo" class="hiddenSection">
   <h1 onclick="myFunction(10)" id="myBtn"># 118.01</h1>
   <p class="more" id="more10">
   Casa de Férias<br>
@@ -1637,7 +1651,7 @@ A thick mass of plants bordered the perimeter of a plateau terrain on a hillside
 
 
 
-<section id="109.10">
+<section id="109.10" class="hiddenSection">
 <div class="project">
 
   <div class="fotos" id="fotos9">
@@ -1685,7 +1699,7 @@ Establishing the relation with the public space around, a street and a square, t
 
 </div>
 </section>
-<div class="codeinfo">
+<div class="codeinfo" class="hiddenSection">
   <h1 onclick="myFunction(9)" id="myBtn"># 109.10</h1>
   <p class="more" id="more9">
   Barber Shop e Boutique<br>
@@ -1703,7 +1717,7 @@ Establishing the relation with the public space around, a street and a square, t
 
 
 
-<section id="046.02">
+<section id="046.02" class="hiddenSection"> 
 <div class="project">
 
   <div class="fotos" id="fotos8">
@@ -1742,7 +1756,7 @@ Establishing the relation with the public space around, a street and a square, t
 
 </div>
 </section>
-<div class="codeinfo">
+<div class="codeinfo" class="hiddenSection">
   <h1 onclick="myFunction(8)" id="myBtn"># 046.02</h1>
   <p class="more" id="more8">
   Clínica de Obstetrícia<br>
@@ -1764,7 +1778,7 @@ Establishing the relation with the public space around, a street and a square, t
 
 
 
-<section id="121.01">
+<section id="121.01" class="hiddenSection">
 <div class="project">
 
   <div class="fotos" id="fotos7">
@@ -1818,7 +1832,7 @@ Establishing the relation with the public space around, a street and a square, t
 
 </div>
 </section>
-<div class="codeinfo">
+<div class="codeinfo" class="hiddenSection">
   <h1 onclick="myFunction(7)" id="myBtn"># 121.01</h1>
   <p class="more" id="more7">
   Apartamento<br>
@@ -1835,7 +1849,7 @@ Establishing the relation with the public space around, a street and a square, t
 
 
 
-<section id="100.01">
+<section id="100.01" class="hiddenSection">
 <div class="project">
 
   <div class="fotos" id="fotos6">
@@ -1875,7 +1889,7 @@ Establishing the relation with the public space around, a street and a square, t
 
 </div>
 </section>
-<div class="codeinfo">
+<div class="codeinfo" class="hiddenSection">
   <h1 onclick="myFunction(6)" id="myBtn"># 100.01</h1>
   <p class="more" id="more6">
   Edifício multifamiliar e comércio Noshi<br>
@@ -1896,7 +1910,7 @@ Establishing the relation with the public space around, a street and a square, t
 
 
 
-<section id="078.06">
+<section id="078.06" class="hiddenSection">
 <div class="project">
 
   <div class="fotos" id="fotos5">
@@ -1935,7 +1949,7 @@ Establishing the relation with the public space around, a street and a square, t
 
 </div>
 </section>
-<div class="codeinfo">
+<div class="codeinfo" class="hiddenSection">
   <h1 onclick="myFunction(5)" id="myBtn"># 078.06</h1>
   <p class="more" id="more5">
   Semi-cave<br>
@@ -1960,7 +1974,7 @@ Establishing the relation with the public space around, a street and a square, t
 
 
 
-<section id="157.02">
+<section id="157.02" class="hiddenSection">
 <div class="project">
 
   <div class="fotos" id="fotos4">
@@ -1996,7 +2010,7 @@ Establishing the relation with the public space around, a street and a square, t
 
 </div>
 </section>
-<div class="codeinfo">
+<div class="codeinfo" class="hiddenSection">
   <h1 onclick="myFunction(4)" id="myBtn"># 157.02</h1>
   <p class="more" id="more4">
   Estação de Serviço<br>
@@ -2016,7 +2030,7 @@ Establishing the relation with the public space around, a street and a square, t
 
 
 
-<section id="053.01">
+<section id="053.01" class="hiddenSection">
 <div class="project">
     <div class="fotos" id="fotos3">
     <img    src="images/053.01/1.jpg" style=" display: inherit;" id="foto1" alt="">
@@ -2046,7 +2060,7 @@ Establishing the relation with the public space around, a street and a square, t
       </div>
   </div>
   </section>
-<div class="codeinfo">
+<div class="codeinfo" class="hiddenSection">
     <h1 onclick="myFunction(3)" id="myBtn"># 053.01</h1>
     <p class="more" id="more3">
     Clínica Dentária<br>
@@ -2065,7 +2079,7 @@ Establishing the relation with the public space around, a street and a square, t
 
 
 
-  <section id="002.01">
+  <section id="002.01" class="hiddenSection">
   <div class="project">
       <div class="fotos" id="fotos2">
       <img    src="images/002.01/1.jpg" style=" display: inherit;" id="foto1" alt="">
@@ -2110,7 +2124,7 @@ Establishing the relation with the public space around, a street and a square, t
         </div>
     </div>
   </section>
-  <div class="codeinfo">
+  <div class="codeinfo" class="hiddenSection">
       <h1 onclick="myFunction(2)" id="myBtn"># 002.01</h1>
       <p class="more" id="more2">
       Restaurante e Bar<br>
@@ -2128,7 +2142,7 @@ Establishing the relation with the public space around, a street and a square, t
 
 
 
-  <section id="097.01">
+  <section id="097.01" class="hiddenSection">
   <div class="project">
       <div class="fotos" id="fotos1">
       <img    src="images/097.01/1.jpg" style=" display: inherit;" id="foto1" alt="">
@@ -2156,7 +2170,7 @@ Establishing the relation with the public space around, a street and a square, t
         </div>
     </div>
     </section>
-  <div class="codeinfo">
+  <div class="codeinfo" class="hiddenSection">
       <h1 onclick="myFunction(1)" id="myBtn"># 097.01</h1>
       <p class="more" id="more1">
       Bar do Moinho<br>
