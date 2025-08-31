@@ -1359,7 +1359,14 @@ A renovação de um apartamento, com pinturas, envernizamentos e reparações, �
 
             if (!isVisible && anchorPosition < window.innerHeight / 2) {
                 hiddenElements.forEach(element => {
+                    // Add visible class
                     element.classList.add('visible');
+                    // Load images by moving data-src to src
+                    const images = element.querySelectorAll('img[data-src]');
+                    images.forEach(img => {
+                        img.src = img.getAttribute('data-src');
+                        img.removeAttribute('data-src'); // Clean up data-src attribute
+                    });
                 });
                 isVisible = true;
             }
@@ -1371,14 +1378,14 @@ A renovação de um apartamento, com pinturas, envernizamentos e reparações, �
   <div class="project">
 
     <div class="fotos" id="fotos13">
-      <img    src="images/000.01/1.jpg" style=" display: inherit;" id="foto1" alt="">
-      <img    src="images/000.01/2.jpg" style=" display: none;" id="foto2" alt="">
-      <img    src="images/000.01/3.jpg" style=" display: none;" id="foto3" alt="">
-      <img    src="images/000.01/4.jpg" style=" display: none;" id="foto4" alt="">
-      <img    src="images/000.01/5.jpg" style=" display: none;" id="foto5" alt="">
-      <img    src="images/000.01/6.jpg" style=" display: none;" id="foto6" alt="">
-      <img    src="images/000.01/7.jpg" style=" display: none;" id="foto7" alt="">
-      <img    src="images/000.01/8.jpg" style=" display: none;" id="foto8" alt="">
+      <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/000.01/1.jpg" style=" display: inherit;" id="foto1" alt="">
+      <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/000.01/2.jpg" style=" display: none;" id="foto2" alt="">
+      <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/000.01/3.jpg" style=" display: none;" id="foto3" alt="">
+      <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/000.01/4.jpg" style=" display: none;" id="foto4" alt="">
+      <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/000.01/5.jpg" style=" display: none;" id="foto5" alt="">
+      <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/000.01/6.jpg" style=" display: none;" id="foto6" alt="">
+      <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/000.01/7.jpg" style=" display: none;" id="foto7" alt="">
+      <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/000.01/8.jpg" style=" display: none;" id="foto8" alt="">
 
     </div>
 
@@ -1399,8 +1406,8 @@ A thick mass of plants bordered the perimeter of a plateau terrain on a hillside
 
     <div class="dragscroll">
 
-     <img    src="images/000.01/d1.svg" style="margin-top: 2px;" alt="">
-     <img    src="images/000.01/d2.svg" style="margin-top: 2px;" alt="">
+     <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/000.01/d1.svg" style="margin-top: 2px;" alt="">
+     <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/000.01/d2.svg" style="margin-top: 2px;" alt="">
 
     </div>
 
@@ -1430,15 +1437,15 @@ A thick mass of plants bordered the perimeter of a plateau terrain on a hillside
 <div class="project">
 
   <div class="fotos" id="fotos12">
-      <img    src="images/145.01/1.jpg" style=" display: inherit;" id="foto1" alt="">
-  <img    src="images/145.01/2.jpg" style=" display: none;" id="foto2" alt="">
-<img    src="images/145.01/3.jpg" style=" display: none;" id="foto3" alt="">
-<img    src="images/145.01/4.jpg" style=" display: none;" id="foto4" alt="">
-<img    src="images/145.01/5.jpg" style=" display: none;" id="foto5" alt="">
-<img    src="images/145.01/6.jpg" style=" display: none;" id="foto6" alt="">
-<img    src="images/145.01/7.jpg" style=" display: none;" id="foto7" alt="">
-<img    src="images/145.01/8.jpg" style=" display: none;" id="foto8" alt="">
-<img    src="images/145.01/9.jpg" style=" display: none;" id="foto9" alt="">
+      <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/145.01/1.jpg" style=" display: inherit;" id="foto1" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/145.01/2.jpg" style=" display: none;" id="foto2" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/145.01/3.jpg" style=" display: none;" id="foto3" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/145.01/4.jpg" style=" display: none;" id="foto4" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/145.01/5.jpg" style=" display: none;" id="foto5" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/145.01/6.jpg" style=" display: none;" id="foto6" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/145.01/7.jpg" style=" display: none;" id="foto7" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/145.01/8.jpg" style=" display: none;" id="foto8" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/145.01/9.jpg" style=" display: none;" id="foto9" alt="">
 
   </div>
 
@@ -1452,11 +1459,11 @@ A thick mass of plants bordered the perimeter of a plateau terrain on a hillside
 
   <div class="dragscroll">
 
-<img    src="images/145.01/d1.jpg" alt="">
-<img    src="images/145.01/d2.jpg" alt="">
-<img    src="images/145.01/d3.jpg" alt="">
-<img    src="images/145.01/d4.jpg" alt="">
-<img    src="images/145.01/d5.jpg" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/145.01/d1.jpg" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/145.01/d2.jpg" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/145.01/d3.jpg" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/145.01/d4.jpg" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/145.01/d5.jpg" alt="">
   </div>
 
 </div>
@@ -1490,18 +1497,18 @@ A thick mass of plants bordered the perimeter of a plateau terrain on a hillside
 <div class="project">
 
   <div class="fotos" id="fotos11">
-<img    src="images/118.02/1.jpg" style=" display: inherit;" id="foto1" alt="">
-<img    src="images/118.02/2.jpg" style=" display: none;" id="foto2" alt="">
-<img    src="images/118.02/3.jpg" style=" display: none;" id="foto3" alt="">
-<img    src="images/118.02/4.jpg" style=" display: none;" id="foto4" alt="">
-<img    src="images/118.02/5.jpg" style=" display: none;" id="foto5" alt="">
-<img    src="images/118.02/6.jpg" style=" display: none;" id="foto6" alt="">
-<img    src="images/118.02/7.jpg" style=" display: none;" id="foto7" alt="">
-<img    src="images/118.02/8.jpg" style=" display: none;" id="foto8" alt="">
-<img    src="images/118.02/9.jpg" style=" display: none;" id="foto9" alt="">
-<img    src="images/118.02/10.jpg" style=" display: none;" id="foto10" alt="">
-<img    src="images/118.02/11.jpg" style=" display: none;" id="foto11" alt="">
-<img    src="images/118.02/12.jpg" style=" display: none;" id="foto12" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.02/1.jpg" style=" display: inherit;" id="foto1" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.02/2.jpg" style=" display: none;" id="foto2" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.02/3.jpg" style=" display: none;" id="foto3" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.02/4.jpg" style=" display: none;" id="foto4" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.02/5.jpg" style=" display: none;" id="foto5" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.02/6.jpg" style=" display: none;" id="foto6" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.02/7.jpg" style=" display: none;" id="foto7" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.02/8.jpg" style=" display: none;" id="foto8" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.02/9.jpg" style=" display: none;" id="foto9" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.02/10.jpg" style=" display: none;" id="foto10" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.02/11.jpg" style=" display: none;" id="foto11" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.02/12.jpg" style=" display: none;" id="foto12" alt="">
   </div>
 
 <div class="texto" id="texto11">
@@ -1514,9 +1521,9 @@ A thick mass of plants bordered the perimeter of a plateau terrain on a hillside
 
   <div class="dragscroll">
 
-<img    src="images/118.02/d1.jpg" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.02/d1.jpg" alt="">
 
-<img    src="images/118.02/d4.jpg" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.02/d4.jpg" alt="">
 
   </div>
 
@@ -1553,19 +1560,19 @@ A thick mass of plants bordered the perimeter of a plateau terrain on a hillside
 <div class="project">
 
   <div class="fotos" id="fotos10">
-      <img    src="images/118.01/1.jpg" style=" display: inherit;" id="foto1" alt="">
-  <img    src="images/118.01/2.jpg" style=" display: none;" id="foto2" alt="">
-  <img    src="images/118.01/3.jpg" style=" display: none;" id="foto3" alt="">
-<img    src="images/118.01/4.jpg" style=" display: none;" id="foto4" alt="">
-<img    src="images/118.01/5.jpg" style=" display: none;" id="foto5" alt="">
-<img    src="images/118.01/6.jpg" style=" display: none;" id="foto6" alt="">
-<img    src="images/118.01/7.jpg" style=" display: none;" id="foto7" alt="">
-<img    src="images/118.01/8.jpg" style=" display: none;" id="foto8" alt="">
-<img    src="images/118.01/9.jpg" style=" display: none;" id="foto9" alt="">
-<img    src="images/118.01/10.jpg" style=" display: none;" id="foto10" alt="">
-<img    src="images/118.01/11.jpg" style=" display: none;" id="foto11" alt="">
-<img    src="images/118.01/12.jpg" style=" display: none;" id="foto12" alt="">
-<img    src="images/118.01/13.jpg" style=" display: none;" id="foto13" alt="">
+      <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/1.jpg" style=" display: inherit;" id="foto1" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/2.jpg" style=" display: none;" id="foto2" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/3.jpg" style=" display: none;" id="foto3" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/4.jpg" style=" display: none;" id="foto4" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/5.jpg" style=" display: none;" id="foto5" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/6.jpg" style=" display: none;" id="foto6" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/7.jpg" style=" display: none;" id="foto7" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/8.jpg" style=" display: none;" id="foto8" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/9.jpg" style=" display: none;" id="foto9" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/10.jpg" style=" display: none;" id="foto10" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/11.jpg" style=" display: none;" id="foto11" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/12.jpg" style=" display: none;" id="foto12" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/13.jpg" style=" display: none;" id="foto13" alt="">
 
 
 
@@ -1614,16 +1621,16 @@ A thick mass of plants bordered the perimeter of a plateau terrain on a hillside
 
   <div class="dragscroll">
 
-<img    src="images/118.01/d0.jpg" alt="">
-    <img    src="images/118.01/d1.jpg" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/d0.jpg" alt="">
+    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/d1.jpg" alt="">
 
-    <img    src="images/118.01/d2.jpg" alt="">
-    <img    src="images/118.01/d3.jpg" alt="">
-    <img    src="images/118.01/d4.jpg" alt="">
-    <img    src="images/118.01/d5.jpg" alt="">
+    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/d2.jpg" alt="">
+    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/d3.jpg" alt="">
+    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/d4.jpg" alt="">
+    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/d5.jpg" alt="">
 
-    <img    src="images/118.01/e1.jpg" alt="">
-<img    src="images/118.01/e2.jpg" alt="">
+    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/e1.jpg" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/e2.jpg" alt="">
 
 
   </div>
@@ -1655,22 +1662,22 @@ A thick mass of plants bordered the perimeter of a plateau terrain on a hillside
 <div class="project">
 
   <div class="fotos" id="fotos9">
-      <img    src="images/109.10/1.jpg" style=" display: inherit;" id="foto1" alt="">
-  <img    src="images/109.10/2.jpg" style=" display: none;" id="foto2" alt="">
-  <img    src="images/109.10/3.jpg" style=" display: none;" id="foto3" alt="">
-  <img    src="images/109.10/4.jpg" style=" display: none;" id="foto4" alt="">
-  <img    src="images/109.10/5.jpg" style=" display: none;" id="foto5" alt="">
-  <img    src="images/109.10/6.jpg" style=" display: none;" id="foto6" alt="">
-  <img    src="images/109.10/7.jpg" style=" display: none;" id="foto7" alt="">
-  <img    src="images/109.10/8.jpg" style=" display: none;" id="foto8" alt="">
-  <img    src="images/109.10/9.jpg" style=" display: none;" id="foto9" alt="">
-  <img    src="images/109.10/10.jpg" style=" display: none;" id="foto10" alt="">
-  <img    src="images/109.10/11.jpg" style=" display: none;" id="foto11" alt="">
-  <img    src="images/109.10/12.jpg" style=" display: none;" id="foto12" alt="">
-  <img    src="images/109.10/13.jpg" style=" display: none;" id="foto13" alt="">
-  <img    src="images/109.10/14.jpg" style=" display: none;" id="foto14" alt="">
-  <img    src="images/109.10/15.jpg" style=" display: none;" id="foto15" alt="">
-  <img    src="images/109.10/16.jpg" style=" display: none;" id="foto16" alt="">
+      <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/1.jpg" style=" display: inherit;" id="foto1" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/2.jpg" style=" display: none;" id="foto2" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/3.jpg" style=" display: none;" id="foto3" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/4.jpg" style=" display: none;" id="foto4" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/5.jpg" style=" display: none;" id="foto5" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/6.jpg" style=" display: none;" id="foto6" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/7.jpg" style=" display: none;" id="foto7" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/8.jpg" style=" display: none;" id="foto8" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/9.jpg" style=" display: none;" id="foto9" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/10.jpg" style=" display: none;" id="foto10" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/11.jpg" style=" display: none;" id="foto11" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/12.jpg" style=" display: none;" id="foto12" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/13.jpg" style=" display: none;" id="foto13" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/14.jpg" style=" display: none;" id="foto14" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/15.jpg" style=" display: none;" id="foto15" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/16.jpg" style=" display: none;" id="foto16" alt="">
 
 
 
@@ -1689,12 +1696,12 @@ Establishing the relation with the public space around, a street and a square, t
   <div class="dragscroll">
 
 
-    <img    src="images/109.10/d1.jpg" alt="">
-  <img    src="images/109.10/d2.jpg" alt="">
-  <img    src="images/109.10/p1.jpg" alt="">
-<img    src="images/109.10/p2.jpg" alt="">
-<img    src="images/109.10/p3.jpg" alt="">
-<img    src="images/109.10/c1.jpg" alt="">
+    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/d1.jpg" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/d2.jpg" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/p1.jpg" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/p2.jpg" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/p3.jpg" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/c1.jpg" alt="">
   </div>
 
 </div>
@@ -1721,21 +1728,21 @@ Establishing the relation with the public space around, a street and a square, t
 <div class="project">
 
   <div class="fotos" id="fotos8">
-      <img    src="images/046.02/1.jpg" style=" display: inherit;" id="foto1" alt="">
-  <img    src="images/046.02/2.jpg" style=" display: none;" id="foto2" alt="">
-  <img    src="images/046.02/3.jpg" style=" display: none;" id="foto3" alt="">
-  <img    src="images/046.02/4.gif" style=" display: none;" id="foto4" alt="">
-  <img    src="images/046.02/5.jpg" style=" display: none;" id="foto5" alt="">
-  <img    src="images/046.02/6.jpg" style=" display: none;" id="foto6" alt="">
-  <img    src="images/046.02/7.jpg" style=" display: none;" id="foto7" alt="">
-  <img    src="images/046.02/8.jpg" style=" display: none;" id="foto8" alt="">
-  <img    src="images/046.02/9.jpg" style=" display: none;" id="foto9" alt="">
-  <img    src="images/046.02/10.jpg" style=" display: none;" id="foto10" alt="">
-  <img    src="images/046.02/11.jpg" style=" display: none;" id="foto11" alt="">
-  <img    src="images/046.02/12.jpg" style=" display: none;" id="foto12" alt="">
-  <img    src="images/046.02/13.jpg" style=" display: none;" id="foto13" alt="">
+      <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/046.02/1.jpg" style=" display: inherit;" id="foto1" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/046.02/2.jpg" style=" display: none;" id="foto2" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/046.02/3.jpg" style=" display: none;" id="foto3" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/046.02/4.gif" style=" display: none;" id="foto4" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/046.02/5.jpg" style=" display: none;" id="foto5" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/046.02/6.jpg" style=" display: none;" id="foto6" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/046.02/7.jpg" style=" display: none;" id="foto7" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/046.02/8.jpg" style=" display: none;" id="foto8" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/046.02/9.jpg" style=" display: none;" id="foto9" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/046.02/10.jpg" style=" display: none;" id="foto10" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/046.02/11.jpg" style=" display: none;" id="foto11" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/046.02/12.jpg" style=" display: none;" id="foto12" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/046.02/13.jpg" style=" display: none;" id="foto13" alt="">
 
-  <img    src="images/046.02/15.jpg" style=" display: none;" id="foto14" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/046.02/15.jpg" style=" display: none;" id="foto14" alt="">
 
 
 
@@ -1748,9 +1755,9 @@ Establishing the relation with the public space around, a street and a square, t
 
   <div class="dragscroll">
 
-<img    src="images/046.02/d1.jpg" alt="">
-<img    src="images/046.02/d2.jpg" alt="">
-<img    src="images/046.02/e1.jpg" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/046.02/d1.jpg" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/046.02/d2.jpg" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/046.02/e1.jpg" alt="">
 
   </div>
 
@@ -1782,20 +1789,20 @@ Establishing the relation with the public space around, a street and a square, t
 <div class="project">
 
   <div class="fotos" id="fotos7">
-      <img    src="images/121.01/1.jpg" style=" display: inherit;" id="foto1" alt="">
-      <img    src="images/121.01/2.jpg" style=" display: none;" id="foto2" alt="">
-    <img    src="images/121.01/3.jpg" style=" display: none;" id="foto3" alt="">
-    <img    src="images/121.01/4.jpg" style=" display: none;" id="foto4" alt="">
-    <img    src="images/121.01/5.jpg" style=" display: none;" id="foto5" alt="">
-    <img    src="images/121.01/6.jpg" style=" display: none;" id="foto6" alt="">
-    <img    src="images/121.01/7.jpg" style=" display: none;" id="foto7" alt="">
-    <img    src="images/121.01/8.jpg" style=" display: none;" id="foto8" alt="">
-    <img    src="images/121.01/9.jpg" style=" display: none;" id="foto9" alt="">
-    <img    src="images/121.01/10.jpg" style=" display: none;" id="foto10" alt="">
-    <img    src="images/121.01/11.jpg" style=" display: none;" id="foto11" alt="">
-    <img    src="images/121.01/12.jpg" style=" display: none;" id="foto12" alt="">
-    <img    src="images/121.01/13.jpg" style=" display: none;" id="foto13" alt="">
-    <img    src="images/121.01/14.jpg" style=" display: none;" id="foto14" alt="">
+      <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/121.01/1.jpg" style=" display: inherit;" id="foto1" alt="">
+      <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/121.01/2.jpg" style=" display: none;" id="foto2" alt="">
+    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/121.01/3.jpg" style=" display: none;" id="foto3" alt="">
+    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/121.01/4.jpg" style=" display: none;" id="foto4" alt="">
+    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/121.01/5.jpg" style=" display: none;" id="foto5" alt="">
+    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/121.01/6.jpg" style=" display: none;" id="foto6" alt="">
+    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/121.01/7.jpg" style=" display: none;" id="foto7" alt="">
+    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/121.01/8.jpg" style=" display: none;" id="foto8" alt="">
+    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/121.01/9.jpg" style=" display: none;" id="foto9" alt="">
+    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/121.01/10.jpg" style=" display: none;" id="foto10" alt="">
+    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/121.01/11.jpg" style=" display: none;" id="foto11" alt="">
+    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/121.01/12.jpg" style=" display: none;" id="foto12" alt="">
+    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/121.01/13.jpg" style=" display: none;" id="foto13" alt="">
+    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/121.01/14.jpg" style=" display: none;" id="foto14" alt="">
 
 
 
@@ -1824,7 +1831,7 @@ Establishing the relation with the public space around, a street and a square, t
     </p3>
      -->
 
-    <img    src="images/121.01/d1.jpg" alt="">
+    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/121.01/d1.jpg" alt="">
 
 
 
@@ -1853,12 +1860,12 @@ Establishing the relation with the public space around, a street and a square, t
 <div class="project">
 
   <div class="fotos" id="fotos6">
-      <img    src="images/100.01/1.jpg" style=" display: inherit;" id="foto1" alt="">
-      <img    src="images/100.01/2.jpg" style=" display: none;" id="foto2" alt="">
-<img    src="images/100.01/3.jpg" style=" display: none;" id="foto3" alt="">
-<img    src="images/100.01/5.jpg" style=" display: none;" id="foto4" alt="">
-<img    src="images/100.01/6.jpg" style=" display: none;" id="foto5" alt="">
-<img    src="images/100.01/7.jpg" style=" display: none;" id="foto6" alt="">
+      <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/100.01/1.jpg" style=" display: inherit;" id="foto1" alt="">
+      <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/100.01/2.jpg" style=" display: none;" id="foto2" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/100.01/3.jpg" style=" display: none;" id="foto3" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/100.01/5.jpg" style=" display: none;" id="foto4" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/100.01/6.jpg" style=" display: none;" id="foto5" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/100.01/7.jpg" style=" display: none;" id="foto6" alt="">
 
 
   </div>
@@ -1875,15 +1882,15 @@ Establishing the relation with the public space around, a street and a square, t
     <p3>Levantamento -
     </p3>
      -->
-<img    src="images/100.01/d3.jpg" alt="">
-  <img    src="images/100.01/d4.jpg" alt="">
-  <img    src="images/100.01/d2.jpg" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/100.01/d3.jpg" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/100.01/d4.jpg" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/100.01/d2.jpg" alt="">
 
-    <img    src="images/100.01/d1.jpg" alt="">
-      <img    src="images/100.01/d5.jpg" alt="">
-  <img    src="images/100.01/e1.jpg" alt="">
-  <img    src="images/100.01/e2.jpg" alt="">
-<img    src="images/100.01/e3.jpg" alt="">
+    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/100.01/d1.jpg" alt="">
+      <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/100.01/d5.jpg" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/100.01/e1.jpg" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/100.01/e2.jpg" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/100.01/e3.jpg" alt="">
 
   </div>
 
@@ -1914,18 +1921,18 @@ Establishing the relation with the public space around, a street and a square, t
 <div class="project">
 
   <div class="fotos" id="fotos5">
-  <img    src="images/078.06/1.jpg" style=" display: inherit;" id="foto1" alt="">
-  <img    src="images/078.06/2.jpg" style=" display: none;" id="foto2" alt="">
-<img    src="images/078.06/3.jpg" style=" display: none;" id="foto3" alt="">
-<img    src="images/078.06/4.jpg" style=" display: none;" id="foto4" alt="">
-<img    src="images/078.06/5.jpg" style=" display: none;" id="foto5" alt="">
-<img    src="images/078.06/6.jpg" style=" display: none;" id="foto6" alt="">
-<img    src="images/078.06/7.jpg" style=" display: none;" id="foto7" alt="">
-<img    src="images/078.06/8.jpg" style=" display: none;" id="foto8" alt="">
-<img    src="images/078.06/9.jpg" style=" display: none;" id="foto9" alt="">
-<img    src="images/078.06/10.jpg" style=" display: none;" id="foto10" alt="">
-<img    src="images/078.06/11.jpg" style=" display: none;" id="foto11" alt="">
-<img    src="images/078.06/12.jpg" style=" display: none;" id="foto12" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/078.06/1.jpg" style=" display: inherit;" id="foto1" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/078.06/2.jpg" style=" display: none;" id="foto2" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/078.06/3.jpg" style=" display: none;" id="foto3" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/078.06/4.jpg" style=" display: none;" id="foto4" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/078.06/5.jpg" style=" display: none;" id="foto5" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/078.06/6.jpg" style=" display: none;" id="foto6" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/078.06/7.jpg" style=" display: none;" id="foto7" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/078.06/8.jpg" style=" display: none;" id="foto8" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/078.06/9.jpg" style=" display: none;" id="foto9" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/078.06/10.jpg" style=" display: none;" id="foto10" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/078.06/11.jpg" style=" display: none;" id="foto11" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/078.06/12.jpg" style=" display: none;" id="foto12" alt="">
 
 
   </div>
@@ -1939,7 +1946,7 @@ Establishing the relation with the public space around, a street and a square, t
 
   <div class="dragscroll">
 
-    <img    src="images/078.06/d2.jpg" alt="">
+    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/078.06/d2.jpg" alt="">
 
 
 
@@ -1978,15 +1985,15 @@ Establishing the relation with the public space around, a street and a square, t
 <div class="project">
 
   <div class="fotos" id="fotos4">
-  <img    src="images/157.02/1.jpg" style=" display: inherit;" id="foto1" alt="">
-  <img    src="images/157.02/2.jpg" style=" display: none;" id="foto2" alt="">
-  <img    src="images/157.02/3.jpg" style=" display: none;" id="foto3" alt="">
-  <img    src="images/157.02/4.jpg" style=" display: none;" id="foto4" alt="">
-  <img    src="images/157.02/5.jpg" style=" display: none;" id="foto5" alt="">
-  <img    src="images/157.02/6.jpg" style=" display: none;" id="foto6" alt="">
-  <img    src="images/157.02/7.gif" style=" display: none;" id="foto7" alt="">
-  <img    src="images/157.02/8.jpg" style=" display: none;" id="foto8" alt="">
-  <img    src="images/157.02/9.jpg" style=" display: none;" id="foto9" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/157.02/1.jpg" style=" display: inherit;" id="foto1" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/157.02/2.jpg" style=" display: none;" id="foto2" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/157.02/3.jpg" style=" display: none;" id="foto3" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/157.02/4.jpg" style=" display: none;" id="foto4" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/157.02/5.jpg" style=" display: none;" id="foto5" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/157.02/6.jpg" style=" display: none;" id="foto6" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/157.02/7.gif" style=" display: none;" id="foto7" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/157.02/8.jpg" style=" display: none;" id="foto8" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/157.02/9.jpg" style=" display: none;" id="foto9" alt="">
   </div>
 
   <div class="texto" id="texto4">
@@ -1999,9 +2006,9 @@ Establishing the relation with the public space around, a street and a square, t
 
 
   <div class="dragscroll">
-    <img    src="images/157.02/d1.jpg" alt="">
-    <img    src="images/157.02/d3.jpg" alt="">
-    <img    src="images/157.02/d2.jpg" alt="">
+    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/157.02/d1.jpg" alt="">
+    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/157.02/d3.jpg" alt="">
+    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/157.02/d2.jpg" alt="">
 
 
 
@@ -2033,11 +2040,11 @@ Establishing the relation with the public space around, a street and a square, t
 <section id="053.01" class="hiddenSection">
 <div class="project">
     <div class="fotos" id="fotos3">
-    <img    src="images/053.01/1.jpg" style=" display: inherit;" id="foto1" alt="">
-    <img    src="images/053.01/2.jpg" style=" display: none;" id="foto2" alt="">
-    <img    src="images/053.01/3.jpg" style=" display: none;" id="foto3" alt="">
-    <img    src="images/053.01/4.jpg" style=" display: none;" id="foto4" alt="">
-    <img    src="images/053.01/5.jpg" style=" display: none;" id="foto5" alt="">
+    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/053.01/1.jpg" style=" display: inherit;" id="foto1" alt="">
+    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/053.01/2.jpg" style=" display: none;" id="foto2" alt="">
+    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/053.01/3.jpg" style=" display: none;" id="foto3" alt="">
+    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/053.01/4.jpg" style=" display: none;" id="foto4" alt="">
+    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/053.01/5.jpg" style=" display: none;" id="foto5" alt="">
 
     </div>
 
@@ -2049,12 +2056,12 @@ Establishing the relation with the public space around, a street and a square, t
 
       <div class="dragscroll">
 
-          <img    src="images/053.01/d1.jpg" alt="">
-          <img    src="images/053.01/d3.jpg" alt="">
-          <img    src="images/053.01/d5.jpg" alt="">
+          <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/053.01/d1.jpg" alt="">
+          <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/053.01/d3.jpg" alt="">
+          <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/053.01/d5.jpg" alt="">
 
-          <img    src="images/053.01/e1.jpg" alt="">
-          <img    src="images/053.01/e2.jpg" alt="">
+          <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/053.01/e1.jpg" alt="">
+          <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/053.01/e2.jpg" alt="">
 
 
       </div>
@@ -2082,15 +2089,15 @@ Establishing the relation with the public space around, a street and a square, t
   <section id="002.01" class="hiddenSection">
   <div class="project">
       <div class="fotos" id="fotos2">
-      <img    src="images/002.01/1.jpg" style=" display: inherit;" id="foto1" alt="">
-      <img    src="images/002.01/2.jpg" style=" display: none;" id="foto2" alt="">
-      <img    src="images/002.01/3.jpg" style=" display: none;" id="foto3" alt="">
-      <img    src="images/002.01/4.jpg" style=" display: none;" id="foto4" alt="">
-      <img    src="images/002.01/5.jpg" style=" display: none;" id="foto5" alt="">
-      <img    src="images/002.01/6.jpg" style=" display: none;" id="foto6" alt="">
-      <img    src="images/002.01/7.gif" style=" display: none;" id="foto7" alt="">
-      <img    src="images/002.01/8.jpg" style=" display: none;" id="foto8" alt="">
-      <img    src="images/002.01/9.jpg" style=" display: none;" id="foto9" alt="">
+      <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/002.01/1.jpg" style=" display: inherit;" id="foto1" alt="">
+      <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/002.01/2.jpg" style=" display: none;" id="foto2" alt="">
+      <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/002.01/3.jpg" style=" display: none;" id="foto3" alt="">
+      <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/002.01/4.jpg" style=" display: none;" id="foto4" alt="">
+      <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/002.01/5.jpg" style=" display: none;" id="foto5" alt="">
+      <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/002.01/6.jpg" style=" display: none;" id="foto6" alt="">
+      <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/002.01/7.gif" style=" display: none;" id="foto7" alt="">
+      <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/002.01/8.jpg" style=" display: none;" id="foto8" alt="">
+      <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/002.01/9.jpg" style=" display: none;" id="foto9" alt="">
 
 
       </div>
@@ -2110,13 +2117,13 @@ Establishing the relation with the public space around, a street and a square, t
 
         <div class="dragscroll">
 
-            <img    src="images/002.01/d1.jpg" alt="">
-            <img    src="images/002.01/d3.jpg" alt="">
-            <img    src="images/002.01/d2.jpg" alt="">
-            <img    src="images/002.01/d4.jpg" alt="">
-            <img    src="images/002.01/e1.jpg" alt="">
-            <img    src="images/002.01/e2.jpg" alt="">
-            <img    src="images/002.01/e3.jpg" alt="">
+            <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/002.01/d1.jpg" alt="">
+            <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/002.01/d3.jpg" alt="">
+            <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/002.01/d2.jpg" alt="">
+            <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/002.01/d4.jpg" alt="">
+            <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/002.01/e1.jpg" alt="">
+            <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/002.01/e2.jpg" alt="">
+            <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/002.01/e3.jpg" alt="">
 
 
 
@@ -2145,11 +2152,11 @@ Establishing the relation with the public space around, a street and a square, t
   <section id="097.01" class="hiddenSection">
   <div class="project">
       <div class="fotos" id="fotos1">
-      <img    src="images/097.01/1.jpg" style=" display: inherit;" id="foto1" alt="">
-      <img    src="images/097.01/2.jpg" style=" display: none;" id="foto2" alt="">
-      <img    src="images/097.01/3.jpg" style=" display: none;" id="foto3" alt="">
-      <img    src="images/097.01/4.jpg" style=" display: none;" id="foto4" alt="">
-      <img    src="images/097.01/5.jpg" style=" display: none;" id="foto5" alt="">
+      <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/097.01/1.jpg" style=" display: inherit;" id="foto1" alt="">
+      <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/097.01/2.jpg" style=" display: none;" id="foto2" alt="">
+      <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/097.01/3.jpg" style=" display: none;" id="foto3" alt="">
+      <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/097.01/4.jpg" style=" display: none;" id="foto4" alt="">
+      <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/097.01/5.jpg" style=" display: none;" id="foto5" alt="">
 
 
       </div>
@@ -2163,8 +2170,8 @@ Establishing the relation with the public space around, a street and a square, t
 
         <div class="dragscroll">
 
-            <img    src="images/097.01/d1.jpg" alt="">
-            <img src="images/097.01/d2.jpg" alt="">
+            <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/097.01/d1.jpg" alt="">
+            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/097.01/d2.jpg" alt="">
 
 
         </div>
