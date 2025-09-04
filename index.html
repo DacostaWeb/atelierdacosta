@@ -16,6 +16,36 @@ window.onload = function(){ document.getElementById("loading").style.display = "
  -->
 
 <head>
+
+   <script>
+        // Function to load images and make hiddenSection elements visible
+        function loadHiddenSectionImages() {
+            if (window.location.href.includes('#')) {
+                const hiddenElements = document.querySelectorAll('.hiddenSection');
+                hiddenElements.forEach(element => {
+                    // Add visible class
+                    element.classList.add('visible');
+                    // Load images by moving data-src to src
+                    const images = element.querySelectorAll('img[data-src]');
+                    images.forEach(img => {
+                        img.src = img.getAttribute('data-src');
+                        img.removeAttribute('data-src'); // Clean up data-src attribute
+                    });
+                });
+            }
+        }
+
+        // Run immediately if DOM is ready or wait for DOMContentLoaded
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', loadHiddenSectionImages);
+        } else {
+            loadHiddenSectionImages();
+        }
+
+        // Listen for hash changes (e.g., navigating via a link with #)
+        window.addEventListener('hashchange', loadHiddenSectionImages);
+    </script>
+
   <script>
         /**
        * @fileoverview dragscroll - scroll area by dragging
