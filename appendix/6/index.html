@@ -1,0 +1,520 @@
+
+<!DOCTYPE html>
+<!--   __      ___            __                 __
+ ___ _/ /____ / (____ _______/ ___ ________  ___/ /____ _
+/ _ `/ __/ -_/ / / -_/ __/ _  / _ `/ __/ _ \(_-/ __/ _ `/
+\_,_/\__/\__/_/_/\__/_/  \_,_/\_,_/\__/\___/___\__/\_,_/
+        https://cdn.rawgit.com/asvd/dragscroll/master/dragscroll.js      -->
+
+<html lang="pt">
+<head>
+  <!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-106609615-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-106609615-1');
+</script>
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Organization",
+  "url": "http://www.atelierdacosta.com",
+  "logo": "http://www.atelierdacosta.com/logotipo-63.png"
+
+}
+</script>
+  <meta charset="utf-8">
+  <meta name="author" content="Eduardo Barros">
+  <meta name="description" content="info@atelierdacosta.com
+~
++351 913 586 843
++351 917 777 945
+~
+Sede: Rua Avelino Barros 303, 4490-479, Póvoa de Varzim
+Delegação(em construção): Rua de Entreparedes 25/27, 4000-198 Porto">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, target-densityDpi=device-dpi" />
+  <link rel="stylesheet" type="text/css" href="../../style.css">
+  <title>APPENDIX</title>
+<link rel="icon" sizes="192x192" href="../../favicon.ico">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<meta name="google-site-verification" content="sbNtRFqW4b7_Af-jCpZybr9JxYmdaALAtpg6lLpSi0U"/>
+
+
+
+
+
+
+
+<script>
+
+$(document).ready(function(){
+  $(".backtop").click(function () { //#A_ID is an example. Use the id of your Anchor
+
+      $(this).parent( ".p2" ).animate({
+          scrollTop: 0 //#DIV_ID is an example. Use the id of your destination on the page
+      }, 'slow');
+
+  });
+});
+
+</script>
+
+
+<!-- papiro click -->
+<!--  if ($('.backtop:hover').length == 0) { -->
+<!-- 
+<script>
+  $(document).ready(function() {
+    var winwid = $(window).width() - 65;
+    $('.leftclick')
+      .on('mousedown', function() { $(this).one("click", handleClick); })
+      .on('mousemove mouseout', function() { $(this).off('click'); });
+
+  function handleClick(){
+
+
+
+        if ($(window).width() > 575) {
+   $('.appcontainer').animate( { scrollLeft: '-=570' }, 200);
+  }
+  else {
+  $('.appcontainer').animate( { scrollLeft: '-=210' }, 200);
+  }
+
+
+  }
+  });
+</script>
+ -->
+<!-- 
+<script>
+  $(document).ready(function() {
+      var winwid = $(window).width() - 65;
+    $('.rightclick')
+      .on('mousedown', function() { $(this).one("click", handleClick); })
+      .on('mousemove mouseout', function() { $(this).off('click'); });
+
+  function handleClick(){
+
+
+
+        if ($(window).width() > 575) {
+   $('.appcontainer').animate( { scrollLeft: '+=570' }, 200);
+  }
+  else {
+  $('.appcontainer').animate( { scrollLeft: '+=210' }, 200);
+  }
+
+
+
+  }
+  });
+</script>
+ -->
+<!-- papiro que antes estava no head -->
+<!--
+<script type="text/javascript"  defer>
+  /**
+   * @fileoverview dragscroll - scroll area by dragging
+   * @version 0.0.8
+   *
+   * @license MIT, see http://github.com/asvd/dragscroll
+   * @copyright 2015 asvd <heliosframework@gmail.com>
+   */
+
+
+  (function (root, factory) {
+      if (typeof define === 'function' && define.amd) {
+          define(['exports'], factory);
+      } else if (typeof exports !== 'undefined') {
+          factory(exports);
+      } else {
+          factory((root.appcontainer = {}));
+      }
+  }(this, function (exports) {
+      var _window = window;
+      var _document = document;
+      var mousemove = 'mousemove';
+      var mouseup = 'mouseup';
+      var mousedown = 'mousedown';
+
+      var EventListener = 'EventListener';
+      var addEventListener = 'add'+EventListener;
+      var removeEventListener = 'remove'+EventListener;
+      var newScrollX;
+
+      var dragged = [];
+      var reset = function(i, el) {
+          for (i = 0; i < dragged.length;) {
+              el = dragged[i++];
+              el = el.container || el;
+              el[removeEventListener](mousedown, el.md, 0);
+              _window[removeEventListener](mouseup, el.mu, 0);
+              _window[removeEventListener](mousemove, el.mm, 0);
+          }
+
+          // cloning into array since HTMLCollection is updated dynamically
+          dragged = [].slice.call(_document.getElementsByClassName('appcontainer'));
+          for (i = 0; i < dragged.length;) {
+              (function(el, lastClientX, pushed, scroller, cont){
+                  (cont = el.container || el)[addEventListener](
+                      mousedown,
+                      cont.md = function(e) {
+                          if (!el.hasAttribute('nochilddrag') ||
+                              _document.elementFromPoint(
+                                  e.pageX
+                              ) == cont
+                          ) {
+                              pushed = 1;
+                              lastClientX = e.clientX;
+
+
+                              e.preventDefault();
+                          }
+                      }, 0
+                  );
+
+                  _window[addEventListener](
+                      mouseup, cont.mu = function() {pushed = 0;}, 0
+                  );
+
+                  _window[addEventListener](
+                      mousemove,
+                      cont.mm = function(e) {
+                          if (pushed) {
+                              (scroller = el.scroller||el).scrollLeft -=
+                                  newScrollX = (- lastClientX + (lastClientX=e.clientX));
+
+                              if (el == _document.body) {
+                                  (scroller = _document.documentElement).scrollLeft -= newScrollX;
+
+                              }
+                          }
+                      }, 0
+                  );
+               })(dragged[i++]);
+          }
+      }
+
+
+      if (_document.readyState == 'complete') {
+          reset();
+      } else {
+          _window[addEventListener]('load', reset, 0);
+      }
+
+      exports.reset = reset;
+}));</script>
+-->
+
+<!--
+<script type="text/javascript"  defer>
+  /**
+   * @fileoverview dragscroll - scroll area by dragging
+   * @version 0.0.8
+   *
+   * @license MIT, see http://github.com/asvd/dragscroll
+   * @copyright 2015 asvd <heliosframework@gmail.com>
+   */
+
+
+  (function (root, factory) {
+      if (typeof define === 'function' && define.amd) {
+          define(['exports'], factory);
+      } else if (typeof exports !== 'undefined') {
+          factory(exports);
+      } else {
+          factory((root.p2 = {}));
+      }
+  }(this, function (exports) {
+      var _window = window;
+      var _document = document;
+      var mousemove = 'mousemove';
+      var mouseup = 'mouseup';
+      var mousedown = 'mousedown';
+
+      var EventListener = 'EventListener';
+      var addEventListener = 'add'+EventListener;
+      var removeEventListener = 'remove'+EventListener;
+      var newScrollY;
+
+      var dragged = [];
+      var reset = function(i, el) {
+          for (i = 0; i < dragged.length;) {
+              el = dragged[i++];
+              el = el.container || el;
+              el[removeEventListener](mousedown, el.md, 0);
+              _window[removeEventListener](mouseup, el.mu, 0);
+              _window[removeEventListener](mousemove, el.mm, 0);
+          }
+
+          // cloning into array since HTMLCollection is updated dynamically
+          dragged = [].slice.call(_document.getElementsByClassName('p2'));
+          for (i = 0; i < dragged.length;) {
+              (function(el, lastClientY, pushed, scroller, cont){
+                  (cont = el.container || el)[addEventListener](
+                      mousedown,
+                      cont.md = function(e) {
+                          if (!el.hasAttribute('nochilddrag') ||
+                              _document.elementFromPoint(
+                                  e.pageY
+                              ) == cont
+                          ) {
+                              pushed = 1;
+                              lastClientY = e.clientY;
+
+
+                              e.preventDefault();
+                          }
+                      }, 0
+                  );
+
+                  _window[addEventListener](
+                      mouseup, cont.mu = function() {pushed = 0;}, 0
+                  );
+
+                  _window[addEventListener](
+                      mousemove,
+                      cont.mm = function(e) {
+                          if (pushed) {
+                              (scroller = el.scroller||el).scrollTop -=
+                                  newScrollY = (- lastClientY + (lastClientY=e.clientY));
+
+                              if (el == _document.body) {
+                                  (scroller = _document.documentElement).scrollTop -= newScrollY;
+
+                              }
+                          }
+                      }, 0
+                  );
+               })(dragged[i++]);
+          }
+      }
+
+
+      if (_document.readyState == 'complete') {
+          reset();
+      } else {
+          _window[addEventListener]('load', reset, 0);
+      }
+
+      exports.reset = reset;
+}));</script>
+-->
+
+
+</head>
+
+
+
+
+<body>
+<!-- <a href="../10/"><img class="apparrowright" src="../../appendixarrowright.svg" alt="">
+</a>
+<a href="../10/"><img style="opacity: 0.3;" class="apparrowleft" src="../../appendixarrowleft.svg" alt="">
+</a> -->
+
+<img class="apparrowright" src="../../appendixarrowright.svg" alt="">
+<img class="apparrowleft" src="../../appendixarrowleft.svg" alt="">
+
+<!-- <img class="apparrowleft" src="../../appendixarrowleft.svg" alt="">
+ -->
+
+  <div class="pngs">
+    <a href="../../about/index.html"> <img    class="aboutpng hidepng" src="../../atelierdacosta.svg" alt=""></a>
+
+    <a href="../../about/index.html"> <img    class="aboutpng leftpng" src="../../atelierdacosta2.svg" alt=""></a>
+
+
+    <a target="_blank" href="https://instagram.com/atelierdacosta">
+        <img    class="atlaspng hidepng" src="../../atlas.svg" 
+        alt="">
+        </a>
+    
+        <a href="../../menu/index.html">
+          <img    class="indexpng hidepng" src="../../index.svg"  alt="">
+          </a>
+                <a href="../../menu/index.html#appendix">
+        <img    class="indexpng rightpng" src="../../index2.svg"  alt="">
+        </a>
+    
+    <a href="../../index.html">
+          <img    style="background-color: transparent" class="instapng hidepng" src="../../appendix.svg"  alt="">
+          </a>
+      </div>
+  
+<!--   <div class="linha">
+
+  </div>
+
+ -->
+
+ <a href="../7/">
+      <div class="leftclick">
+
+    </div>
+   
+    <a href="../5/">
+      <div class="rightclick">
+
+    </div>
+    </a>
+    
+
+    <div class="gradientup">
+
+    </div>
+    <div class="gradientbottom">
+
+    </div>
+    <!-- <div class="gradientright">
+
+    </div>
+    <div class="gradientleft">
+
+    </div> -->
+
+<div class="appcontainer">
+
+
+<!--   <div class="outer50" id="leftouter">
+    <div class="p2">
+  
+      <h2 style="margin-bottom: 33px">
+  
+    </h2>
+  
+  
+  
+      <br><br><br>
+      <p2>
+      </p2>
+  
+        <div >
+          <p2>
+    </div>
+    <div >
+    <p2>
+        </p2>
+    <div>
+    <br><br><br><br>
+  
+    </div>
+  
+    
+  
+  
+  </div>
+  
+  </div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  </div>
+ -->
+
+
+
+
+
+
+
+
+  <div class="outer" id="APP.06">
+    <div class="p2">
+    
+        <h2 style="margin-bottom: 33px">
+      Cenografia para “Martha”<br>estreado no Teatro Constantino Nery em Matosinhos
+    
+      </h2>
+    
+      <img src="../m/1.jpg" alt="">
+      <h2>&nbsp<br>
+      (equipa: Hugo Barros e Pedro Oliveira)
+      </h2>
+        <br><br><br>
+        <p2>
+          A partir de uma peça de Martha Graham, - “Lamentation”, à qual prestam de alguma forma tributo, Pedro Carvalho e Sara Garcia compõem um solo de dança, cujo único personagem se move invariavelmente em torno de uma cadeira (na peça de Graham era um banco).
+        </p2>
+    
+          <div style="text-indent: 28px">
+            <p2>
+              O pedido inicial era claro, mas ia sendo ajustado nos ensaios, ainda realizados com uma qualquer cadeira que serviu como espécie de detector das incompatibilidades do seu desenho com o movimento que se pretendia desenrolar sobre ela.  Uma cadeira que tivesse dois assentos e uma costa, dois sentares distintos, um com reclinação e apoio , à cota baixa, outro mais efémero e pontual, à cota alta . Esta demanda exigia um reforço da estrutura da cadeira, sem o qual o assento à cota alta, instalado sobre a costa do primeiro assento, poderia tornar-se demasiado instável, por se tratar de uma outra cadeira suspensa na mesma cadeira mas só ligada à primeira pela estrutura das costas. Essa dificuldade estrutural, juntamente com a observação do movimento dançado e o figurino dos clips de “Lamentation”, deram o mote para o desenho da cadeira e a sua disposição no espaço do palco.
+            </p2>
+              </div>
+              <br><br>
+            <img class="full, fulldesenho" src="../m/d1.png" alt="">
+           <br>
+           <img class="full" src="../m/2.jpg" alt="">
+          &nbsp<br>
+           <img class="full" src="../m/3.jpg" alt="">
+           &nbsp<br>
+            <img class="full" src="../m/4.jpg" alt="">
+              <div style="text-indent: 28px">
+                <p2>
+                  &nbsp<br>
+                  O movimento era, em grande parte, lido pela (de)formação do figurino usado, uma espécie de túnica lilás elástica, dentro da qual a bailarina parece querer desconfinar-se, quebrando os limites espaciais aparentemente impostos pela roupagem, em vez de o serem pela flexibilidade muscular. Neste constante exercício plástico, lêem-se as linhas definidoras dos membros superiores e inferiores, apenas de um dos lados: o lado terminal para onde o tecido está a ser esticado. Ao contrário do habitual, vemos uma bailarina só com a definição do contorno exterior dos seus membros, tendo um aspecto quase líquido, invertebrado e animalesco, qual medusa, castrador da leitura estrutural do corpo, que é obtida só em momentos específicos da performance. Seria também uma túnica, neste caso carmim, que seria usada na peça a estrear. Dada a necessidade de reforço estrutural,  propõe-se que a cadeira pudesse contrastar com a personagem e atribuir-lhe o protagonismo de grande mancha, ao ser dotada apenas com estrutura, de secção quadrangular e, suplementarmente a eixo, uma coluna vertebral de secção circular que suporta o segundo assento pedido. A cadeira, só vertebrada mas imóvel, pronta a receber o corpo movediço, líquido e instável, aumenta o seu sentido de profundidade e tridimensionalidade em palco, com a sua forma trapezóidal e as secções que diminuem da sua frente para o seu tardoz.
+                  Cenografia para “Discursos”, estreado no Teatro Municipal do Porto.
+        </p2>
+          </div>
+    
+ <br><br>
+                      <br><br>
+    <p2><a href="../5/" style="text-align: center; display: block;">NEXT</a></p2>
+    <br><br>
+    <p2 style="text-align: center; display: block;" >|</p2>
+    <br><br>
+    <p2><a href="../7/" style="text-align: center; display: block;">PREVIOUS</a></p2>
+
+    
+
+    <div class="backtop">
+      <h2>↑</h2>
+    </div>
+    
+    
+    
+      <div class="tracejado">
+    
+      </div>
+    
+    </div>
+    </div>
+    
+    
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+</body>
+
+
+
+</html>

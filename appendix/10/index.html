@@ -1,0 +1,766 @@
+
+<!DOCTYPE html>
+<!--   __      ___            __                 __
+ ___ _/ /____ / (____ _______/ ___ ________  ___/ /____ _
+/ _ `/ __/ -_/ / / -_/ __/ _  / _ `/ __/ _ \(_-/ __/ _ `/
+\_,_/\__/\__/_/_/\__/_/  \_,_/\_,_/\__/\___/___\__/\_,_/
+        https://cdn.rawgit.com/asvd/dragscroll/master/dragscroll.js      -->
+
+<html lang="pt">
+<head>
+  <!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-106609615-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-106609615-1');
+</script>
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Organization",
+  "url": "http://www.atelierdacosta.com",
+  "logo": "http://www.atelierdacosta.com/logotipo-63.png"
+
+}
+</script>
+  <meta charset="utf-8">
+  <meta name="author" content="Eduardo Barros">
+  <meta name="description" content="info@atelierdacosta.com
+~
++351 913 586 843
++351 917 777 945
+~
+Sede: Rua Avelino Barros 303, 4490-479, Póvoa de Varzim
+Delegação(em construção): Rua de Entreparedes 25/27, 4000-198 Porto">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, target-densityDpi=device-dpi" />
+  <link rel="stylesheet" type="text/css" href="../../style.css">
+  <title>APPENDIX</title>
+<link rel="icon" sizes="192x192" href="../../favicon.ico">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<meta name="google-site-verification" content="sbNtRFqW4b7_Af-jCpZybr9JxYmdaALAtpg6lLpSi0U"/>
+
+
+
+
+
+
+
+<script>
+
+$(document).ready(function(){
+  $(".backtop").click(function () { //#A_ID is an example. Use the id of your Anchor
+
+      $(this).parent( ".p2" ).animate({
+          scrollTop: 0 //#DIV_ID is an example. Use the id of your destination on the page
+      }, 'slow');
+
+  });
+});
+
+</script>
+
+
+<!-- papiro click -->
+<!--  if ($('.backtop:hover').length == 0) { -->
+<!-- 
+<script>
+  $(document).ready(function() {
+    var winwid = $(window).width() - 65;
+    $('.leftclick')
+      .on('mousedown', function() { $(this).one("click", handleClick); })
+      .on('mousemove mouseout', function() { $(this).off('click'); });
+
+  function handleClick(){
+
+
+
+        if ($(window).width() > 575) {
+   $('.appcontainer').animate( { scrollLeft: '-=570' }, 200);
+  }
+  else {
+  $('.appcontainer').animate( { scrollLeft: '-=210' }, 200);
+  }
+
+
+  }
+  });
+</script>
+ -->
+<!-- 
+<script>
+  $(document).ready(function() {
+      var winwid = $(window).width() - 65;
+    $('.rightclick')
+      .on('mousedown', function() { $(this).one("click", handleClick); })
+      .on('mousemove mouseout', function() { $(this).off('click'); });
+
+  function handleClick(){
+
+
+
+        if ($(window).width() > 575) {
+   $('.appcontainer').animate( { scrollLeft: '+=570' }, 200);
+  }
+  else {
+  $('.appcontainer').animate( { scrollLeft: '+=210' }, 200);
+  }
+
+
+
+  }
+  });
+</script>
+ -->
+<!-- papiro que antes estava no head -->
+<!--
+<script type="text/javascript"  defer>
+  /**
+   * @fileoverview dragscroll - scroll area by dragging
+   * @version 0.0.8
+   *
+   * @license MIT, see http://github.com/asvd/dragscroll
+   * @copyright 2015 asvd <heliosframework@gmail.com>
+   */
+
+
+  (function (root, factory) {
+      if (typeof define === 'function' && define.amd) {
+          define(['exports'], factory);
+      } else if (typeof exports !== 'undefined') {
+          factory(exports);
+      } else {
+          factory((root.appcontainer = {}));
+      }
+  }(this, function (exports) {
+      var _window = window;
+      var _document = document;
+      var mousemove = 'mousemove';
+      var mouseup = 'mouseup';
+      var mousedown = 'mousedown';
+
+      var EventListener = 'EventListener';
+      var addEventListener = 'add'+EventListener;
+      var removeEventListener = 'remove'+EventListener;
+      var newScrollX;
+
+      var dragged = [];
+      var reset = function(i, el) {
+          for (i = 0; i < dragged.length;) {
+              el = dragged[i++];
+              el = el.container || el;
+              el[removeEventListener](mousedown, el.md, 0);
+              _window[removeEventListener](mouseup, el.mu, 0);
+              _window[removeEventListener](mousemove, el.mm, 0);
+          }
+
+          // cloning into array since HTMLCollection is updated dynamically
+          dragged = [].slice.call(_document.getElementsByClassName('appcontainer'));
+          for (i = 0; i < dragged.length;) {
+              (function(el, lastClientX, pushed, scroller, cont){
+                  (cont = el.container || el)[addEventListener](
+                      mousedown,
+                      cont.md = function(e) {
+                          if (!el.hasAttribute('nochilddrag') ||
+                              _document.elementFromPoint(
+                                  e.pageX
+                              ) == cont
+                          ) {
+                              pushed = 1;
+                              lastClientX = e.clientX;
+
+
+                              e.preventDefault();
+                          }
+                      }, 0
+                  );
+
+                  _window[addEventListener](
+                      mouseup, cont.mu = function() {pushed = 0;}, 0
+                  );
+
+                  _window[addEventListener](
+                      mousemove,
+                      cont.mm = function(e) {
+                          if (pushed) {
+                              (scroller = el.scroller||el).scrollLeft -=
+                                  newScrollX = (- lastClientX + (lastClientX=e.clientX));
+
+                              if (el == _document.body) {
+                                  (scroller = _document.documentElement).scrollLeft -= newScrollX;
+
+                              }
+                          }
+                      }, 0
+                  );
+               })(dragged[i++]);
+          }
+      }
+
+
+      if (_document.readyState == 'complete') {
+          reset();
+      } else {
+          _window[addEventListener]('load', reset, 0);
+      }
+
+      exports.reset = reset;
+}));</script>
+-->
+
+<!--
+<script type="text/javascript"  defer>
+  /**
+   * @fileoverview dragscroll - scroll area by dragging
+   * @version 0.0.8
+   *
+   * @license MIT, see http://github.com/asvd/dragscroll
+   * @copyright 2015 asvd <heliosframework@gmail.com>
+   */
+
+
+  (function (root, factory) {
+      if (typeof define === 'function' && define.amd) {
+          define(['exports'], factory);
+      } else if (typeof exports !== 'undefined') {
+          factory(exports);
+      } else {
+          factory((root.p2 = {}));
+      }
+  }(this, function (exports) {
+      var _window = window;
+      var _document = document;
+      var mousemove = 'mousemove';
+      var mouseup = 'mouseup';
+      var mousedown = 'mousedown';
+
+      var EventListener = 'EventListener';
+      var addEventListener = 'add'+EventListener;
+      var removeEventListener = 'remove'+EventListener;
+      var newScrollY;
+
+      var dragged = [];
+      var reset = function(i, el) {
+          for (i = 0; i < dragged.length;) {
+              el = dragged[i++];
+              el = el.container || el;
+              el[removeEventListener](mousedown, el.md, 0);
+              _window[removeEventListener](mouseup, el.mu, 0);
+              _window[removeEventListener](mousemove, el.mm, 0);
+          }
+
+          // cloning into array since HTMLCollection is updated dynamically
+          dragged = [].slice.call(_document.getElementsByClassName('p2'));
+          for (i = 0; i < dragged.length;) {
+              (function(el, lastClientY, pushed, scroller, cont){
+                  (cont = el.container || el)[addEventListener](
+                      mousedown,
+                      cont.md = function(e) {
+                          if (!el.hasAttribute('nochilddrag') ||
+                              _document.elementFromPoint(
+                                  e.pageY
+                              ) == cont
+                          ) {
+                              pushed = 1;
+                              lastClientY = e.clientY;
+
+
+                              e.preventDefault();
+                          }
+                      }, 0
+                  );
+
+                  _window[addEventListener](
+                      mouseup, cont.mu = function() {pushed = 0;}, 0
+                  );
+
+                  _window[addEventListener](
+                      mousemove,
+                      cont.mm = function(e) {
+                          if (pushed) {
+                              (scroller = el.scroller||el).scrollTop -=
+                                  newScrollY = (- lastClientY + (lastClientY=e.clientY));
+
+                              if (el == _document.body) {
+                                  (scroller = _document.documentElement).scrollTop -= newScrollY;
+
+                              }
+                          }
+                      }, 0
+                  );
+               })(dragged[i++]);
+          }
+      }
+
+
+      if (_document.readyState == 'complete') {
+          reset();
+      } else {
+          _window[addEventListener]('load', reset, 0);
+      }
+
+      exports.reset = reset;
+}));</script>
+-->
+
+
+</head>
+
+
+
+
+<body>
+<!-- <a href="../10/"><img class="apparrowright" src="../../appendixarrowright.svg" alt="">
+</a>
+<a href="../10/"><img style="opacity: 0.3;" class="apparrowleft" src="../../appendixarrowleft.svg" alt="">
+</a> -->
+
+<img class="apparrowright" src="../../appendixarrowright.svg" alt="">
+<img class="apparrowleft" src="../../appendixarrowleft.svg" alt="">
+
+<!-- <img class="apparrowleft" src="../../appendixarrowleft.svg" alt="">
+ -->
+
+  <div class="pngs">
+    <a href="../../about/index.html"> <img    class="aboutpng hidepng" src="../../atelierdacosta.svg" alt=""></a>
+
+    <a href="../../about/index.html"> <img    class="aboutpng leftpng" src="../../atelierdacosta2.svg" alt=""></a>
+
+
+    <a target="_blank" href="https://instagram.com/atelierdacosta">
+        <img    class="atlaspng hidepng" src="../../atlas.svg" 
+        alt="">
+        </a>
+    
+        <a href="../../menu/index.html">
+          <img    class="indexpng hidepng" src="../../index.svg"  alt="">
+          </a>
+                <a href="../../menu/index.html#appendix">
+        <img    class="indexpng rightpng" src="../../index2.svg"  alt="">
+        </a>
+    
+    <a href="../../index.html">
+          <img    style="background-color: transparent" class="instapng hidepng" src="../../appendix.svg"  alt="">
+          </a>
+      </div>
+  
+<!--   <div class="linha">
+
+  </div>
+
+ -->
+
+ <a href="../11/">
+      <div class="leftclick">
+
+    </div>
+   
+    <a href="../9/">
+      <div class="rightclick">
+
+    </div>
+    </a>
+    
+
+    <div class="gradientup">
+
+    </div>
+    <div class="gradientbottom">
+
+    </div>
+    <!-- <div class="gradientright">
+
+    </div>
+    <div class="gradientleft">
+
+    </div> -->
+
+<div class="appcontainer">
+
+
+<!--   <div class="outer50" id="leftouter">
+    <div class="p2">
+  
+      <h2 style="margin-bottom: 33px">
+  
+    </h2>
+  
+  
+  
+      <br><br><br>
+      <p2>
+      </p2>
+  
+        <div >
+          <p2>
+    </div>
+    <div >
+    <p2>
+        </p2>
+    <div>
+    <br><br><br><br>
+  
+    </div>
+  
+    
+  
+  
+  </div>
+  
+  </div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  </div>
+ -->
+
+
+
+
+
+  <div class="outer" id="APP.10">
+    <div class="p2">
+      <!-- <p2> 
+        <b> 10.3 CASA CRESPO - Doma magazine</b><br>
+         </p2>  
+         <h2 style="justify-content: left;"><i>Filipe Magalhães, Fala</i></h2>
+         <br> -->
+         <h2 style="margin-bottom: 33px">
+          10.3 CASA CRESPO<br>Doma magazine
+        
+          </h2>
+
+      <!-- <h2>&nbsp<br>
+      (equipa: Hugo Barros e Sara Garcia)
+      </h2> -->
+        <img class="full" src="../doma/doma.gif" alt="">
+                      <br><br>
+                      <br><br>
+        
+        
+
+          <p2>We started Casa Crespo with a detailed and rich description of the vision:
+            the social space, specifically the ‘living room’ should be spacious enough to
+            accommodate a large dining table, a big couch with a large TV, a snooker table,
+            and even a DJ table for party days. It should also be open to the kitchen and
+            take advantage of a double height, just as the client had seen in a Brazilian soap
+            opera weeks before (very similar to Hoffman’s Palais Stoclet, even though
+            we prefer his rival Loos at Villa Müller, for example). Kidding or not, they also
+            mentioned that it would be good if the pool had a high diving board.</p2>
+
+        <br><br><br>
+          <img class="full" src="../doma/18.png" alt="">
+          <br><br>
+          <p2>
+            <b style="font-size: smaller;">1.</b> Casa Crespo, view from the southeast corner</p2>
+          <br><br>
+          <br><br>
+        <img class="full" src="../doma/19.png" alt=""><br><br>
+<img class="full" src="../doma/20.png" alt=""><br><br><br>
+
+
+<p2> (2)- Casa Crespo, model – view from the pool
+  to the porch.<br>
+  (3)- Casa Crespo, ground floor plan.<br>
+  (4)- Stahl House, Hollywood Hills, Los Angeles,
+  Courtesy Stahl Family Archive.<br>
+  (5)- Casa Crespo, view from the pool to the porch.<br>
+  (6)- Casa Crespo, elevation.<br>
+  </p2>
+  <br><br>
+  <br><br>
+
+<p2>Show me your Pinterest, and I will...
+  do nothing out of it, but still.</p2>
+  <br><br><br>
+  <img class="full" src="../doma/21.png" alt=""><br><br>
+<img class="full" src="../doma/22.png" alt=""><br><br><br>
+<p2> (7)- Palais Stoclet, Vienna, Josef Hoffmann,
+  1911 in www.architectmagazine.com.<br>
+  (8)- Casa Crespo, first floor plan.<br>
+  (9)- San Carlo alle Quattro Fontane, Francesco
+  Borromini, 1641, www.generativeart.com.<br>
+  (10)- Casa Crespo, view from the central
+  double height space.
+  </p2>
+  <br><br>
+  <br><br>
+                   
+<p2><b>EGYPTIAN HALL FOR PARTIES</b></p2><br><br>
+<p2>The space (spazio) between the columns and the wall was covered by a floor
+  (pavimento); this floor [...] provided a corridor or balcony all around. Above
+  the columns there was a continuous wall with half-columns [...], letting the
+  light into the hall and through which you could look into the hall [...]. These
+  halls must have been particularly spectacular not only due to the splendour
+  of the columns but also to their height [...]; they must have worked very well
+  for occasions when they had parties or banquets.<br><br>
+  Andrea Palladio, The Four Books of architecture, 1570, MIT Press, pp.41</p2>
+<br><br><br>
+<img class="full" src="../doma/23.png" alt=""><br><br>
+<img class="full" src="../doma/24.png" alt=""><br><br>
+<img class="full" src="../doma/25.png" alt=""><br><br>
+<br>
+<p2> (11)- Andrea Palladio, The Four Books
+  of architecture, 1570, MIT Press, pp.42.<br>
+  (12)- Sketch from the project process.<br>
+  (13–15)- Casa Crespo, view from the corridor
+  all around the central double height space.
+  </p2>
+  <br><br>
+  <br><br>
+
+<p2>
+  <b>THE DWELLING NATURE</b>
+</p2>
+<br><br>
+ <p2>
+  A kind of “anti-domesticity”, as Pier Vittorio Aureli puts it, pervaded the
+entire research for an architectural truth to match this “fiction”. It may be
+an exaggeration, but the nature of this dwelling could be found in American
+boarding houses, where the socialisation of living in the communal area took
+place in a very open plan, essentially divided by structural elements of the
+building, with almost every function imaginable. That said, the private and
+strictly functional areas should be relegated to a parallel sphere that clearly
+separates social life from private/intimate life and reproductive work. All
+of them with a specific set of scenographic needs, the rooms on the upper
+floors were all ensuite (as in a real hotel), allowing for an autonomous scenographic
+performance: the pink room for the little girl, the large window
+with a view in the master bedroom, the aseptic and cleanable character of
+the kitchen/ laundry area, etc.
+ </p2>        
+ <br><br>
+ <img class="full" src="../doma/26.png" alt=""><br><br>
+ <img class="full" src="../doma/27.png" alt=""><br><br>
+ <img class="full" src="../doma/28.png" alt=""><br><br>
+ <img class="full" src="../doma/29.png" alt=""><br><br>
+ 
+<p2> (30)- Ground Floor of Commodore Hotel with social areas
+  - Typical American Boarding House in New York, 1919in Pier
+  Vittorio Aureli, Martino Tattara, Living and Working, 2022,
+  MIT Press, pp.30.<br>
+  (31)- Typical Floor of Commodore Hotel with private rooms
+  – Typical American Boarding House in New York, 1919in Pier
+  Vittorio Aureli, Martino Tattara, Living and Working, 2022,
+  MIT Press, pp.30.<br>
+  (32)- Casa Crespo, model - central social space.<br>
+  (33)- Casa de Férias - social space.<br>
+  (34)- Casa Crespo, view fof the west facade.<br>
+  (35)- Casa Crespo, west elevation.
+  </p2>
+  <br><br>
+  <br><br>
+
+  <p2>
+    <b>STRATIFICATION</b>
+  </p2>
+  <br><br>
+   <p2>
+    In order to put these parts together, we resorted to a recurring strategy of
+establishing a clear, stratified distinction between them: a spacious ground
+floor, essentially defined by the structural elements and an upper floor
+compartmentalised around a central congregating area, which is vertically
+connected to the ground floor in Casa Crespo.
+   </p2>
+   <br><br>
+   <img class="full" src="../doma/30.png" alt=""><br><br>
+   <img class="full" src="../doma/31.png" alt=""><br><br>
+   <img class="full" src="../doma/32.png" alt=""><br><br>
+   <img class="full" src="../doma/33.png" alt=""><br><br>
+   
+  <p2> (43)- Casa de Férias during construction.<br>
+    (44)- Lote 7, detail.<br>
+    (45)- Casa de Férias, detail.<br>
+    (46) Casa de Férias, south facade.<br>
+    (47)- Casa Crespo, detail.<br>
+    (48)- Casa Crespo, detail.<br>
+    (49)- Casa Crespo, longitudinal section.
+    </p2>
+    <br><br>
+    <br><br>
+  
+    <p2>
+      <b>HYPOSTYLE DOMICILE</b>
+    </p2>
+    <br><br>
+     <p2>
+      The stratification idea, which has already been illustrated, is fundamentally
+made possible by the idea of a hypostyle domicile as a space of power and
+freedom. A theme widely explored in the history of architecture, having perhaps
+in the work of João de Castilho one of its highest exponents, particularly in
+Capela do Noviciado, Convento de Cristo, in Tomar.
+     </p2>
+     <br><br>
+     <img class="full" src="../doma/34.png" alt=""><br><br>
+     <img class="full" src="../doma/35.png" alt=""><br><br>
+     <img class="full" src="../doma/36.png" alt=""><br><br>
+     
+    <p2>(36)- João de Castilho, Capela do Noviciado,
+      Convento de Cristo, Tomar.<br>
+      (37)- Casa Crespo, horizontal detail.<br>
+      (38–39)- Casa Crespo, sketch of the process,
+      still testing a kind of double height facade
+      based on Álvaro Siza’s Casa Beires.<br>
+      (40)- Casa Crespo, view of the hypostyle porch.<br>
+      (41)- Casa Crespo, view of the hypostyle porch.<br>
+      (42)- Detail from Álvaro Siza’s Casa Beires,
+      Póvoa de Varzim, reference facade from which
+      we kept reminiscences.
+      </p2>
+      <br><br>
+      <br><br>
+
+
+<p2><b>STAPLING THE LAYERS: A PARTICULAR
+  FRAMING</b></p2><br><br>
+ <p2>The connection between these seemingly assembled parts (which could either
+  be divided in social area / rooms, as in Casa Crespo and Casa de Férias; or
+  divided in garage / house, as in Lote 7) is always a shared theme and a kind
+  of common project that is constantly changing and adapting. The staircase in
+  Casa de Férias is a detached, suspended body from the main volume, with a
+  chopped view given by the central landing window. We kept the same principle
+  in Casa Crespo.</p2>
+<div style="text-indent: 28px">
+        <p2>
+          A few years ago, we heard a local man from Gemeses refer to the Casa de
+          Férias as the “Casa do Americano” (House of the American), clearly referring
+          to its type of wooden construction (since the client is Portuguese) and other
+          odd features. The film “Ripley’s game” (2002), in which the American Tom Ripley
+          becomes the owner of Palladio’s Villa Emo, shows the local Italians from
+          Veneto gossiping about his way of occupying the villa. Τaste, one the most
+          intriguing ingredients of a request, knows no social boundaries. Architects
+          just have to accept tastes and lifestyles, not try to change them or educate
+          people, but give them the most accurate architectural resonance. That’s why
+          we are presenting many “echoes”: Casa Crespo and five other very different
+          yet related villas, designed and built between 2016 and 2023. Testing the limits
+          of convention is part of an architectural exercise and it should be done within
+          the cultural framework of the request. With the progress of each project, this
+          framework is usually much wider than one might first imagine. For this reason,
+          the simple repetition of models is an inconsequential way out, instead we
+          could make the history of architecture truly operative, informing new projects
+          with very concrete and precise knowledge. The future of architecture
+          can be its own selective recycling, its reprogramming, especially when the
+          discipline’s conditions of production are radically different and economically,
+          socially, and ecologically specific.
+        </p2></div>
+<br><br>
+<img class="full" src="../doma/37.png" alt=""><br><br>
+<img class="full" src="../doma/38.png" alt=""><br><br>
+<img class="full" src="../doma/39.png" alt=""><br><br>
+
+<p2> (16)- Casa de Férias, view from the interior staircase.<br>
+  (17)- Casa de Férias, view from the east side.<br>
+  (18)- Casa Crespo, stairs window.<br>
+  (19)- Casa Crespo, location plan - peripheral area of Póvoa, mixing<br>
+  productive fields, villas and a housing unit.<br>
+  (20)- Casa Crespo, view from the northeeast.
+  </p2>
+  <br><br><br>
+
+<img class="full" src="../doma/40.png" alt=""><br><br>
+          <p2>
+            <b style="font-size: smaller;">60.</b> Image taken from “Ripley’s game”, 2002, Liliana Cavani</p2>
+          <br><br>
+          <br>
+<p2>
+<pre>
+<b style="font-size: smaller;">ARCHITECTS</b>
+ATELIERDACOSTA<br>
+<b style="font-size: smaller;">PROJECT COORDINATION</b>
+Hugo Barros<br>
+<b style="font-size: smaller;">TEAM</b>
+Hugo Barros
+Pedro Matos
+Ricardo Nunes
+Emanuel Neves<br>
+<b style="font-size: smaller;">STRUCTURAL ENGINEER</b>
+GEP<br>
+<b style="font-size: smaller;">HYDRAULICS ENGINEER</b>
+GEP<br>
+<b style="font-size: smaller;">ELECTRICAL ENGINEER</b>
+OHM-E<br>
+<b style="font-size: smaller;">MECHANICAL ENGINEER</b>
+OMEGAFLOW<br>
+<b style="font-size: smaller;">MAIN CONTRACTOR</b>
+Construções Mazesi
+Manuel Dantas
+Virgínia Cerqueira<br>
+<b style="font-size: smaller;">CLIENT</b>
+Elizabeth and João Crespo<br>
+<b style="font-size: smaller;">TOTAL SURFACE</b>
+395 m²<br>
+<b style="font-size: smaller;">SITE</b>
+745 m²<br>
+<b style="font-size: smaller;">PROJECT DATE</b>
+2018<br>
+<b style="font-size: smaller;">COMPLETION DATE</b>
+2023<br>
+<b style="font-size: smaller;">LOCATION</b>
+Póvoa de Varzim
+<br>
+
+Photos 1, 5, 10, 15, 20–21, 23–24, 33, 39, 43–44
+by Francisco Ascensão<br>
+Photos 17–19, 26–28, 37
+by Tiago Casanova
+</pre>
+</p2>
+<br><br>
+                      <br><br>
+    <p2><a href="../9/" style="text-align: center; display: block;">NEXT</a></p2>
+    <br><br>
+    <p2 style="text-align: center; display: block;" >|</p2>
+    <br><br>
+    <p2><a href="../11/" style="text-align: center; display: block;">PREVIOUS</a></p2>
+
+    
+    <div class="backtop">
+      <h2>↑</h2>
+    </div>
+    
+    
+    
+      <div class="tracejado">
+    
+      </div>
+    
+    </div>
+    </div>
+    
+
+
+
+
+  
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+</body>
+
+
+
+</html>

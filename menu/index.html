@@ -51,6 +51,40 @@ Delegação(em construção): Rua de Entreparedes 25/27, 4000-198 Porto">
 
 <body>
 
+  <script>
+    let originalContents = new Map();
+
+function handleNoBrTags() {
+    const indexDiv = document.querySelector('.index');
+    if (!indexDiv) return;
+
+    // Select all <td> elements inside .index, excluding those with class 'td1'
+    const tdElements = indexDiv.querySelectorAll('td:not(.td1)');
+
+    tdElements.forEach((td, index) => {
+        // Store original content on first run
+        if (!originalContents.has(index)) {
+            originalContents.set(index, td.innerHTML);
+        }
+
+        if (window.innerWidth <= 950) {
+            // Remove <nobr> and </nobr> tags
+            td.innerHTML = td.innerHTML
+                .replace(/<nobr>/gi, '')
+                .replace(/<\/nobr>/gi, '');
+        } else {
+            // Restore original content with <nobr> tags
+            td.innerHTML = originalContents.get(index);
+        }
+    });
+}
+
+// Run on page load
+document.addEventListener('DOMContentLoaded', handleNoBrTags);
+
+// Run on window resize
+window.addEventListener('resize', handleNoBrTags);
+  </script>
 
 
   <div class="pngs">
@@ -58,7 +92,7 @@ Delegação(em construção): Rua de Entreparedes 25/27, 4000-198 Porto">
 
     <a href="../about/index.html"> <img    class="aboutpng leftpng" src="../atelierdacosta2.svg" alt=""></a>
 
-      <a target="_blank" href="https://atlasdacosta.tumblr.com/">
+      <a target="_blank" href="https://instagram.com/atelierdacosta">
         <img    class="atlaspng rightpng" src="../atlas.svg" 
         alt="">
         </a>
@@ -232,7 +266,7 @@ Delegação(em construção): Rua de Entreparedes 25/27, 4000-198 Porto">
     </tr>
 
 
-    <tr>
+    <tr id="appendix">
       <th class="th1" style="padding:0px 0px 45px 0px;"><nobr>&nbsp</nobr></th>
       <th class="th2" style="padding:0px 0px 45px 25px;"><nobr>&nbsp</nobr></th>
       <th class="th3" style="padding:0px 0px 45px 0px;"><nobr>&nbsp</nobr></th>
@@ -241,28 +275,28 @@ Delegação(em construção): Rua de Entreparedes 25/27, 4000-198 Porto">
 
 
 
-<tr onclick="window.location='../appendix/index.html#APP.11';">
+<tr  onclick="window.location='../appendix/11/';">
       <td class="td1" style="padding:0px 0px 0px 0px;"><nobr># APP.11</nobr></td>
-      <td class="td2" style="padding:0px 0px 0px 25px;"><nobr>Deve-se acreditar nos arquitectos, na tradição? - Translocal</nobr></td>
+      <td class="td2" style="padding:0px 0px 0px 25px;"><nobr>Deve-se acreditar nos arquitectos, na tradição? (Translocal)</nobr></td>
       <td class="td3" style="padding:0px 0px 0px 0px;"><nobr>2024 - 2024</nobr></td>
       <td class="td4" style="padding:0px 0px 0px 0px;"><nobr>Appendix</nobr></td>
     </tr>
 
-    <tr onclick="window.location='../appendix/index.html#APP.10';">
+    <tr onclick="window.location='../appendix/10/';">
       <td class="td1" style="padding:0px 0px 0px 0px;"><nobr># APP.10</nobr></td>
-      <td class="td2" style="padding:0px 0px 0px 25px;"><nobr>10.3 CASA CRESPO - Doma magazine</nobr></td>
+      <td class="td2" style="padding:0px 0px 0px 25px;"><nobr>10.3 CASA CRESPO (Doma magazine)</nobr></td>
       <td class="td3" style="padding:0px 0px 0px 0px;"><nobr>2024 - 2024</nobr></td>
       <td class="td4" style="padding:0px 0px 0px 0px;"><nobr>Appendix</nobr></td>
     </tr>
 
-    <tr onclick="window.location='../appendix/index.html#APP.09';">
+    <tr onclick="window.location='../appendix/9/';">
       <td class="td1" style="padding:0px 0px 0px 0px;"><nobr># APP.09</nobr></td>
       <td class="td2" style="padding:0px 0px 0px 25px;"><nobr>When a temple suddenly appears</nobr></td>
       <td class="td3" style="padding:0px 0px 0px 0px;"><nobr>2024 - 2024</nobr></td>
       <td class="td4" style="padding:0px 0px 0px 0px;"><nobr>Appendix</nobr></td>
     </tr>
 
-    <tr onclick="window.location='../appendix/index.html#APP.08';">
+    <tr onclick="window.location='../appendix/8/';">
       <td class="td1" style="padding:0px 0px 0px 0px;"><nobr># APP.08</nobr></td>
       <td class="td2" style="padding:0px 0px 0px 25px;"><nobr>The language of a house</nobr></td>
       <td class="td3" style="padding:0px 0px 0px 0px;"><nobr>2024 - 2024</nobr></td>
@@ -270,14 +304,14 @@ Delegação(em construção): Rua de Entreparedes 25/27, 4000-198 Porto">
     </tr>
 
 
-    <tr onclick="window.location='../appendix/index.html#APP.07';">
+    <tr onclick="window.location='../appendix/7/';">
       <td class="td1" style="padding:0px 0px 0px 0px;"><nobr># APP.07</nobr></td>
       <td class="td2" style="padding:0px 0px 0px 25px;"><nobr>Periaktoi para SCHULD</nobr></td>
       <td class="td3" style="padding:0px 0px 0px 0px;"><nobr>2015 - 2017</nobr></td>
       <td class="td4" style="padding:0px 0px 0px 0px;"><nobr>Appendix</nobr></td>
     </tr>
 
-    <tr onclick="window.location='../appendix/index.html#APP.06';">
+    <tr onclick="window.location='../appendix/6/';">
       <td class="td1" style="padding:0px 0px 0px 0px;"><nobr># APP.06</nobr></td>
       <td class="td2" style="padding:0px 0px 0px 25px;"><nobr>Cenografia para “Martha”</nobr></td>
       <td class="td3" style="padding:0px 0px 0px 0px;"><nobr>2015 - 2017</nobr></td>
@@ -285,7 +319,7 @@ Delegação(em construção): Rua de Entreparedes 25/27, 4000-198 Porto">
     </tr>
 
 
-    <tr onclick="window.location='../appendix/index.html#APP.05';">
+    <tr onclick="window.location='../appendix/5/';">
       <td class="td1" style="padding:0px 0px 0px 0px;"><nobr># APP.05</nobr></td>
       <td class="td2" style="padding:0px 0px 0px 25px;"><nobr>0MODELS GRAZ_diskursiv.xyz</nobr></td>
       <td class="td3" style="padding:0px 0px 0px 0px;"><nobr>2021 - 2021</nobr></td>
@@ -293,7 +327,7 @@ Delegação(em construção): Rua de Entreparedes 25/27, 4000-198 Porto">
     </tr>
 
 
-    <tr onclick="window.location='../appendix/index.html#APP.04';">
+    <tr onclick="window.location='../appendix/4/';">
       <td class="td1" style="padding:0px 0px 0px 0px;"><nobr># APP.04</nobr></td>
       <td class="td2" style="padding:0px 0px 0px 25px;"><nobr>Exposição "ÁLVARO SIZA-90 anos"</nobr></td>
       <td class="td3" style="padding:0px 0px 0px 0px;"><nobr>2023 - 2023</nobr></td>
@@ -304,7 +338,7 @@ Delegação(em construção): Rua de Entreparedes 25/27, 4000-198 Porto">
  
 
 
-    <tr onclick="window.location='../appendix/index.html#APP.03';">
+    <tr onclick="window.location='../appendix/3/';">
       <td class="td1" style="padding:0px 0px 0px 0px;"><nobr># APP.03</nobr></td>
       <td class="td2" style="padding:0px 0px 0px 25px;"><nobr>O que mudavas no RGEU</nobr></td>
       <td class="td3" style="padding:0px 0px 0px 0px;"><nobr>2024 - 2024</nobr></td>
@@ -312,7 +346,7 @@ Delegação(em construção): Rua de Entreparedes 25/27, 4000-198 Porto">
     </tr>
 
 
-    <tr onclick="window.location='../appendix/index.html#APP.02';">
+    <tr onclick="window.location='../appendix/2/';">
       <td class="td1" style="padding:0px 0px 0px 0px;"><nobr># APP.02</nobr></td>
       <td class="td2" style="padding:0px 0px 0px 25px;"><nobr>Exposition Colors Graz_diskursiv.xyz</nobr></td>
       <td class="td3" style="padding:0px 0px 0px 0px;"><nobr>2022 - 2022</nobr></td>
@@ -322,7 +356,7 @@ Delegação(em construção): Rua de Entreparedes 25/27, 4000-198 Porto">
 
 
 
-    <tr onclick="window.location='../appendix/index.html#APP.01';">
+    <tr onclick="window.location='../appendix/1/';">
       <td class="td1" style="padding:0px 0px 0px 0px;"><nobr># APP.01</nobr></td>
       <td class="td2" style="padding:0px 0px 0px 25px;"><nobr>"A CRATERA"</nobr></td>
       <td class="td3" style="padding:0px 0px 0px 0px;"><nobr>2015 - 2017</nobr></td>
