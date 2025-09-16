@@ -665,7 +665,7 @@ max-width: 100%;
 	@media screen and (max-width: 450px) {
 		p2{
 			font-size: 12px;
-			line-height: 14px;
+			/* line-height: 14px; */
 
 		}
 		.texto{
