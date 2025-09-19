@@ -788,6 +788,8 @@ background-color: #F9F7EF;
 position: absolute;
 left: 0;
 z-index: 2;
+scrollbar-width: thin;
+scrollbar-color: black transparent;
 }
 
 .fotos:hover{
@@ -2141,6 +2143,8 @@ left:0; right:0;
 
 html{
 	margin-bottom: 0;
+
+scrollbar-color: black transparent;
 }
 
 
