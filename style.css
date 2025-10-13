@@ -62,7 +62,7 @@ tumblr_controls, .tmblr-iframe{display:none !important;}
    opacity: 0.7;
    z-index: 1;
    text-align: center;
-	background-color: #F9F7EF;
+	background-color: white;
 }
 
 pre{
@@ -78,7 +78,7 @@ display: inline-block;
 
 
 .loader {
-  border: 1px solid #F9F7EF;
+  border: 1px solid white;
   border-radius: 50%;
   border-top: 1px solid #000;;
   width: 26px;
@@ -112,13 +112,13 @@ html, body {
 /* -webkit-font-smoothing: antialiased;
 font-smoothing: antialiased; */
 /*    background-color: #FCFBF7; */
-	 background-color: #F9F7EF;
+	 background-color: white;
   color: #444242;
   hyphens: auto;
 margin: 0 auto;
 text-align: left;
 overflow-x: hidden;
-margin-bottom: calc(((100vh - 400px) / 2) - 50px);
+margin-bottom: calc(((100vh - 450px) / 2) - 50px);
 	-webkit-user-select: none;
 		-khtml-user-select: none;
 		-moz-user-select: none;
@@ -148,8 +148,9 @@ body{
 	position: relative;
 	top: 0;
 	left: calc(50px);
-	height: 400px;
-	margin-top: calc((100vh - 400px) / 2);
+	    height: 450px;
+    margin-top: calc((100vh - 450px) / 2);
+
 	float: left;
 	margin-bottom: 5px;
 }
@@ -195,7 +196,7 @@ img{
 	display: none;
 	position: fixed;
 	z-index: 3;
-	background-color: #F9F7EF;
+	background-color: white;
 	vertical-align: middle;
 }
 
@@ -667,7 +668,7 @@ scrollbar-width: thin;
 		margin-top: 0px;
 		display: block;
 		vertical-align: top;
-			margin: auto;
+			/* margin: auto; */
 		padding-top: 115px;
 	padding-bottom: 0px;
 	left: 0;
@@ -754,7 +755,7 @@ left:0; right:0;
 	left: 0;
 	width:  calc(100vw - 90px);
 cursor: ew-resize;
-/* 	padding-left: 770px; */
+padding-left: 770px;
 	background-color: transparent;
 float: left;
 	overflow-x: scroll;
@@ -814,7 +815,7 @@ float: left;
 .fotos{
 	margin-right: calc(44vw - 483.33px);
 	height: 100%;
-	width: 600px;
+	width: 675px;
 	top: 0;
 float: left;
 position: absolute;
@@ -832,7 +833,7 @@ display: none;
 font-size: 14px;
 line-height: 17px;
 overflow-y:  scroll;
-background-color: #F9F7EF;
+background-color: white;
 position: absolute;
 left: 0;
 z-index: 2;
@@ -938,41 +939,39 @@ a:hover img {
 	opacity: .5;
 }
 
-.aboutpng{
+
+	.aboutpng{
 	position: fixed;
     top: 18px;
     left: 50px;
     width: auto;
     z-index: 10;
-    height: 16px;
-	opacity: 1;
+    height: 19px;
 	}
 	.atlaspng{
 		position: fixed;
 		top: 18px;
-		left: 374px;
+		left: 391px;
 		width: auto;
 		z-index: 10;
-		height: 16px;
-		opacity: 1;
+		height: 19px;
 	}
 	.indexpng{
 		position: fixed;
 		top: 18px;
-		left: 309px;
+		left: 318px;
 		width: auto;
 		z-index: 10;
-		height: 16px;
-		opacity: 1;
+		height: 19px;
+
 	}
 	.instapng{
 		position: fixed;
     top: 18px;
-    left: 212px;
+    left: 207px;
     width: auto;
     z-index: 10;
-    height: 16px;
-	opacity: 1;
+    height: 19px;
 	}
 	/* .projectspng{
 	position: fixed;
@@ -1082,7 +1081,8 @@ font-size: 40px;
 	position: absolute;
 	width: 750px;
 	height: auto;
-	left: calc(50% - 450px);
+	/* left: calc(50% - 450px); */
+left: 50px;
 }
 
 table{
@@ -1142,18 +1142,83 @@ th{
 	font-size: 12px;
 }
 
-@media screen and (max-width: 1280px) {
+ #dragscrollote{
+	padding-left: 666px;
+ }
+
+
+@media screen and (min-width: 1750px) {
 
 
 	.dragscroll{
-	padding-left: 568px;
+	padding-left: 775px;
 
 	}
 	.project .dragscroll img:last-child{
 
-	padding-right: 568px;
+	padding-right: 775px;
 	}
 
+		 #dragscrollote{
+	    padding-left: 667px;
+ }
+
+ p{
+	width: 350px;
+
+	font-size: 14px;
+	line-height: 17px;
+	column-width: 450px;
+	}
+
+
+	.project .dragscroll img{
+	padding-right: 30px;
+
+	}
+
+	html, body {
+
+	margin-bottom: calc(((100vh - 475px) / 2) - 50px);
+
+	}
+
+	.project{
+		height: 475px;
+			margin-top: calc((100vh - 475px) / 2);
+	}
+
+
+	.fotos{
+		margin-right: 50px;
+	width: 713px;
+	}
+
+/* 	.texto{
+		margin-right: 50px;
+	width: 713px;
+	} */
+}
+
+
+
+@media screen and (max-width: 1550px) {
+
+
+	.dragscroll{
+	padding-left: 666px;
+
+	}
+	.project .dragscroll img:last-child{
+
+	padding-right: 666px;
+	}
+
+	 #dragscrollote{
+	    padding-left: 575px;
+ }
+
+ 
 	p{
 	width: 350px;
 
@@ -1170,24 +1235,24 @@ th{
 
 	html, body {
 
-	margin-bottom: calc(((100vh - 350px) / 2) - 50px);
+	margin-bottom: calc(((100vh - 400px) / 2) - 50px);
 
 	}
 
 	.project{
-		height: 350px;
-			margin-top: calc((100vh - 350px) / 2);
+		height: 400px;
+			margin-top: calc((100vh - 400px) / 2);
 	}
 
 
 	.fotos{
 		margin-right: 50px;
-	width: 525px;
+	width: 601px;
 	}
 
 	.texto{
 		margin-right: 50px;
-	width: 525px;
+	width: 601px;
 	}
 }
 /* 
@@ -1258,10 +1323,10 @@ th{
 	column-width: 450px;
 	}
 
-	.dragscroll{
+/* 	.dragscroll{
 	padding-left: 681px;
 
-	}
+	} */
 
 	.project .dragscroll img:last-child{
 
@@ -1269,7 +1334,7 @@ th{
 	}
 
 
-@media screen and (max-width: 1315px) {
+/* @media screen and (max-width: 1315px) {
 
 
 
@@ -1283,11 +1348,21 @@ th{
 	padding-right: 630px;
 	}
 }
+ */
 
+@media screen and (max-width: 1450px) {
+		.dragscroll{
+	padding-left: 610px;
 
-@media screen and (max-width: 1200px) {
-	
+	}
+		 #dragscrollote{
+	    padding-left: 530px;
+ }
 
+    .project {
+        height: 375px;
+        margin-top: calc((100vh - 375px) / 2);
+    }
 
 
 	.project img{
@@ -1296,12 +1371,193 @@ th{
 
 	.fotos{
 		margin-right: 50px;
-  width: 525px;
+        width: 563px;
 	}
 
 	.texto{
 		margin-right: 50px;
-  width: 525px;
+        width: 563px;
+	}
+
+	.project{
+	margin-top: calc((100vh - 375px) / 2);
+	}
+
+	html, body {
+
+	margin-bottom: calc(((100vh - 375px) / 2) - 50px);
+
+	}
+
+}
+
+/* @media screen and (max-width: 1280px) {
+
+	.dragscroll{
+	padding-left: 568px;
+
+	}
+	.project .dragscroll img:last-child{
+
+	padding-right: 568px;
+	}
+} */
+
+@media screen and (max-width: 1350px) {
+
+.index{
+	left: 20px;
+}
+	.aboutpng{
+	position: fixed;
+    top: 18px;
+    
+    width: auto;
+    z-index: 10;
+    height: 19px;
+	}
+	.atlaspng{
+		position: fixed;
+		top: 18px;
+		        left: 428px;
+		width: auto;
+		z-index: 10;
+		height: 19px;
+	}
+	.indexpng{
+		position: fixed;
+		top: 18px;
+		        left: 353px;
+		width: auto;
+		z-index: 10;
+		height: 19px;
+
+	}
+	.instapng{
+		position: fixed;
+    top: 18px;
+           left: 240px;
+    width: auto;
+    z-index: 10;
+    height: 19px;
+	}
+
+	p{
+		width: 350px;
+		padding-right: 425px;
+		font-size: 13px;
+		line-height: 15px;
+		column-width: 450px;
+
+
+	}
+
+	.dragscroll{
+	padding-left: 	580px;
+	}
+
+	.project .dragscroll img:last-child{
+
+	padding-right: 580px;
+	}
+
+	#dragscrollote{
+	padding-left: 	500px;
+	}
+
+	.project .dragscroll img{
+	padding-right: 20px;
+
+	}
+	html, body {
+
+	margin-bottom: calc(((100vh - 367px) / 2) - 50px);
+
+	}
+
+	.project{
+		height: 367px;
+		width: 400px;
+		margin-top: calc((100vh - 367px) / 2);
+	}
+
+	.fotos{
+		margin-right: 50px;
+	width: 550px;
+	}
+
+	.texto{
+		margin-right: 50px;
+	width: 550px;
+	}
+
+	.project img{
+		margin-right: 50px;
+	}
+
+
+}
+
+
+
+
+
+@media screen and (max-width: 1350px) {
+
+    #dragscrollote
+ {
+        padding-left: 410px;
+    }
+
+	.project{
+		left: 20px;
+	}
+	.codeinfo{
+		left: 20px;
+	}
+
+	.aboutpng{
+		left: 20px;
+	}
+	.indexpng{
+		left: 278px;
+	}
+	.atlaspng{
+		left: 345px;
+	}
+	.instapng{
+		left: 182px;
+	}
+}
+
+
+@media screen and (max-width: 1300px) {
+		.dragscroll{
+	padding-left: 550px;
+
+	}
+		 #dragscrollote{
+	    padding-left: 475px;
+ }
+
+    .project {
+        height: 350px;
+        margin-top: calc((100vh - 350px) / 2);
+    }
+
+
+	.project img{
+		margin-right: 50px;
+	}
+
+	.fotos{
+		margin-right: 50px;
+        width: 525px;
+	}
+
+	.texto{
+		margin-right: 50px;
+        width: 525px;
 	}
 
 	.project{
@@ -1316,24 +1572,6 @@ th{
 
 }
 
-@media screen and (max-width: 1280px) {
-
-	.dragscroll{
-	padding-left: 568px;
-
-	}
-	.project .dragscroll img:last-child{
-
-	padding-right: 568px;
-	}
-}
-@media screen and (min-width: 1150px) {
-
-.p3{
-		
-	margin-left: 50px;
-}
-}
 @media screen and (max-width: 1150px) {
 
 
@@ -1349,12 +1587,75 @@ th{
 	}
 
 	.dragscroll{
-	padding-left: 	477px;
+	padding-left: 	510px;
+	}
+
+	#dragscrollote{
+	padding-left: 	435px;
 	}
 
 	.project .dragscroll img:last-child{
 
-	padding-right: 477px;
+	padding-right: 510px;
+	}
+
+	.project .dragscroll img{
+	padding-right: 20px;
+
+	}
+	html, body {
+
+	margin-bottom: calc(((100vh - 325px) / 2) - 50px);
+
+	}
+
+	.project{
+		height: 325px;
+		width: 400px;
+		margin-top: calc((100vh - 325px) / 2);
+	}
+
+	.fotos{
+		margin-right: 50px;
+	width: 488px;
+	}
+
+	.texto{
+		margin-right: 50px;
+	width: 488px;
+	}
+
+	.project img{
+		margin-right: 50px;
+	}
+
+
+}
+
+
+@media screen and (max-width: 1100px) {
+
+
+
+	p{
+		width: 350px;
+		padding-right: 425px;
+		font-size: 13px;
+		line-height: 15px;
+		column-width: 450px;
+
+
+	}
+
+	.dragscroll{
+	padding-left: 	470px;
+	}
+#dragscrollote{
+	padding-left: 	405px;
+	}
+	.project .dragscroll img:last-child{
+
+	padding-right: 470px;
 	}
 
 	.project .dragscroll img{
@@ -1390,31 +1691,11 @@ th{
 
 }
 
-@media screen and (max-width: 1150px) and (min-width: 850px) {
-
-	.project{
-		left: 20px;
-	}
-	.codeinfo{
-		left: 20px;
-	}
-
-	.aboutpng{
-		left: 20px;
-	}
-	.indexpng{
-		left: 278px;
-	}
-	.atlaspng{
-		left: 345px;
-	}
-	.instapng{
-		left: 182px;
-	}
-}
 
 
 @media screen and (max-width: 1000px) {
+
+
 	p{
 		width: 300px;
 		padding-right: 425px;
@@ -1801,13 +2082,85 @@ th{
 }
 
 
-
-
-
-
-
-@media screen and (max-width: 850px) {
+@media screen and (min-width: 1000px){
+	
 	.aboutpng{
+	position: fixed;
+    top: 18px;
+    
+    width: auto;
+    z-index: 10;
+    height: 19px;
+	}
+	.atlaspng{
+		position: fixed;
+		top: 18px;
+		left: 391px;
+		width: auto;
+		z-index: 10;
+		height: 19px;
+	}
+	.indexpng{
+		position: fixed;
+		top: 18px;
+		left: 318px;
+		width: auto;
+		z-index: 10;
+		height: 19px;
+
+	}
+	.instapng{
+		position: fixed;
+    top: 18px;
+    left: 207px;
+    width: auto;
+    z-index: 10;
+    height: 19px;
+	}
+}
+@media screen and (max-width: 1000px){
+	
+	.aboutpng{
+	position: fixed;
+    top: 18px;
+    
+    width: auto;
+    z-index: 10;
+    height: 18px;
+	}
+	.atlaspng{
+		position: fixed;
+		top: 18px;
+		        left: 381px;
+		width: auto;
+		z-index: 10;
+		height: 18px;
+	}
+	.indexpng{
+		position: fixed;
+		top: 18px;
+		left: 309px;
+		width: auto;
+		z-index: 10;
+		height: 18px;
+
+	}
+	.instapng{
+		position: fixed;
+    top: 18px;
+          left: 200px;
+    width: auto;
+    z-index: 10;
+    height: 18px;
+	}
+}
+
+
+
+
+
+@media screen and (max-width: 1000px) {
+	/* .aboutpng{
 		left: 50px;
 	}
 	.indexpng{
@@ -1818,7 +2171,7 @@ th{
 	}
 	.instapng{
 		left: 212px;
-	}
+	} */
 
 	.dragscroll{
 		display: none;
@@ -1886,11 +2239,10 @@ margin-top: 33vh;
 	/* 	margin-top: calc((100vh - ((100vw - 80px)/2)) / 2); */
 	margin-top: 33vh;
 	}
-	/* 
-	.outer{
-	max-width: calc(100% - 100px);
-	} */
 
+	.index{
+		left: 40px;
+	}
 	
 	.aboutpng{
 	position: fixed;
@@ -1898,49 +2250,36 @@ margin-top: 33vh;
     left: 40px;
     width: auto;
     z-index: 10;
-    height: 14px;
+    height: 15px;
 	}
 	.atlaspng{
 		position: fixed;
 		top: 18px;
-		left: 325px;
+	        left: 335px;
 		width: auto;
 		z-index: 10;
-		height: 14px;
+		height: 15px;
 	}
 	.indexpng{
 		position: fixed;
 		top: 18px;
-		left: 266px;
+		        left: 276px;
 		width: auto;
 		z-index: 10;
-		height: 14px;
+		height: 15px;
 
 	}
 	.instapng{
 		position: fixed;
     top: 18px;
-    left: 181px;
+    left: 188px;
     width: auto;
     z-index: 10;
-    height: 14px;
+    height: 15px;
 	}
-/* 	.linha{
-		width: calc(100vw - 80px);
-max-width: calc(100% - 80px);
-	} */
 	.p3{
 		max-width: calc(100% - 80px);
 	}
-/* 	.outer:nth-child(2){
-	margin-left: 20px;
-
-	} 
-	.outer:nth-last-child(2){
-
-			margin-right: 60px;
-
-	}*/
 
 	.codeinfo{
 		left: 40px;
@@ -1948,11 +2287,17 @@ max-width: calc(100% - 80px);
 }
 
 
-@media screen and (min-width: 475px) {
+@media screen and (min-width: 476px) {
 	.leftpng{
 		
 		display: none;
 			}
+
+			.rightpng{
+		
+		display: none;
+			}
+	
 }
 
 @media screen and (max-width: 475px) {
@@ -2121,7 +2466,7 @@ table{
 		position: absolute;
 		width: calc(100% - 100px);
 		height: auto;
-		left: calc(50% - (50% - 50px));
+		/* left: calc(50% - (50% - 50px)); */
 	}
 
 	tr{
@@ -2208,7 +2553,7 @@ scrollbar-color: black transparent;
 	left: 0;
 	z-index: 3;
 	transform: rotate(-180deg);
-background-image: linear-gradient(-180deg, rgba(252,251,247,0.00) 0%, #F9F7EF 100%);
+background-image: linear-gradient(-180deg, rgba(252,251,247,0.00) 0%, white 100%);
 pointer-events: none;
 }
 .gradientbottom2{
@@ -2219,7 +2564,7 @@ pointer-events: none;
 	bottom: 0;
 	left: 0;
 	z-index: 3;
-	background-image: linear-gradient(-180deg, rgba(252,251,247,0.00) 0%, #F9F7EF 100%);
+	background-image: linear-gradient(-180deg, rgba(252,251,247,0.00) 0%, white 100%);
 }
 
 .gradientright{
@@ -2230,7 +2575,7 @@ pointer-events: none;
 	right: 0;
 	z-index: 3;
 
-background-image: linear-gradient(90deg, rgb(252 251 247 / 0%) 0%, rgb(252 251 247 / 67%) 50%, #F9F7EF 95%);
+background-image: linear-gradient(90deg, rgb(252 251 247 / 0%) 0%, rgb(252 251 247 / 67%) 50%, white 95%);
 pointer-events: none;
 }
 
@@ -2242,7 +2587,7 @@ pointer-events: none;
 	left: 0;
 	z-index: 3;
 transform: rotate(-180deg);
-background-image: linear-gradient(90deg, rgb(252 251 247 / 0%) 0%, rgb(252 251 247 / 67%) 50%, #F9F7EF 95%);
+background-image: linear-gradient(90deg, rgb(252 251 247 / 0%) 0%, rgb(252 251 247 / 67%) 50%, white 95%);
 pointer-events: none;
 }
 
@@ -2255,7 +2600,7 @@ pointer-events: none;
     left: 0;
     z-index: 3;
     transform: rotate(-180deg);
-    background-image: linear-gradient(-180deg, rgba(252, 251, 247, 0.00) 15%, #F9F7EF 87%);
+    background-image: linear-gradient(-180deg, rgba(252, 251, 247, 0.00) 15%, white 87%);
     pointer-events: none;
 }
 .gradientbottom{
@@ -2266,7 +2611,7 @@ pointer-events: none;
     bottom: 0;
     left: 0;
     z-index: 3;
-    background-image: linear-gradient(-180deg, rgba(252, 251, 247, 0.00) 0%, #F9F7EF 125%);}
+    background-image: linear-gradient(-180deg, rgba(252, 251, 247, 0.00) 0%, white 125%);}
 
 
 @media screen and (max-width: 475px) {
@@ -2311,4 +2656,29 @@ pointer-events: none;
 	overflow-y: auto;
 	    width: auto;
     height: 100vh;
+}
+
+
+@media screen and (min-width: 1350px) {
+	
+	.atlaspng{
+	
+		               left: 426px;
+	
+	}
+	.indexpng{
+	
+		             left: 351px;
+		
+
+	}
+	.instapng{
+		
+                 left: 239px;
+  
+	}
+.p3{
+		
+	margin-left: 50px;
+}
 }
