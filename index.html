@@ -713,30 +713,169 @@ if (currentPicture < 1) {
         $(`#fotos${x}`).children(`#fulink${currentPicture}`).css('display', 'inherit');
             break;
 
-        case 40:
-          currentPicture++;
-          if (y >= 0) {
-          window.scrollBy( 0, z - ((z - 448)/ 2));
-          }
-        break;
-
-        case 38:
-            currentPicture++;
-            if (y >= 0) {
-          window.scrollBy( 0, -z + ((z - 448)/ 2));
-            }
-
-                break;
-
-
+        case 40:  // Down arrow
+    currentPicture++;
+    if (y >= 0) {
+        let width = window.innerWidth;
+        let downAmount;
+        if (width >= 1750) {
+            downAmount = z - 190;
+        } else if (width >= 1551 && width <= 1749) {
+            downAmount = z - 190;  // e.g., z - 150 or a fixed number like 200
+        } else if (width >= 1351 && width <= 1550) {
+            downAmount = z - 190;  // e.g., z - 100 or 150
+        } else {
+            downAmount = defaultDownValue;  // Fallback for other widths, e.g., z - 50
+        }
+        window.scrollBy(0, downAmount);
     }
-}; */
+    break;
+
+case 38:  // Up arrow
+    currentPicture--;  // Assuming decrement for up; change back to ++ if needed
+    if (y >= 0) {
+        let width = window.innerWidth;
+        let upAmount;
+        if (width >= 1750) {
+            upAmount = -z + 190;
+        } else if (width >= 1551 && width <= 1749) {
+            upAmount = -z + 190;  // e.g., -z + 150 or a fixed number like -200
+        } else if (width >= 1351 && width <= 1550) {
+            upAmount = -z + 190;  // e.g., -z + 100 or -150
+        } else {
+            upAmount = defaultUpValue;  // Fallback for other widths, e.g., -z + 50
+        }
+        window.scrollBy(0, upAmount);
+    }
+    break;
+
+
+    } 
+};*/
 
 
   });
 
 
   </script>
+
+
+
+
+
+<script>
+  // Separate script for left/right arrow keys to cycle images in the .fotos div of the currently centered .project.
+
+document.addEventListener('DOMContentLoaded', () => {
+    const projects = document.querySelectorAll('.project');
+    const imageIndices = new Array(projects.length).fill(1);  // Per-project image index, starting at 1.
+
+    // Function to find the index of the currently centered project (closest to viewport center).
+    function getCurrentProjectIndex() {
+        const viewportCenter = window.innerHeight / 2;
+        let minDistance = Infinity;
+        let currentIdx = 0;
+        projects.forEach((project, idx) => {
+            const rect = project.getBoundingClientRect();
+            const projectCenter = rect.top + rect.height / 2;
+            const distance = Math.abs(projectCenter - viewportCenter);
+            if (distance < minDistance) {
+                minDistance = distance;
+                currentIdx = idx;
+            }
+        });
+        return currentIdx;
+    }
+
+    // Keydown handler for left/right arrows.
+    document.addEventListener('keydown', (event) => {
+        const keyCode = event.keyCode;
+        if (keyCode !== 37 && keyCode !== 39) return;  // Only handle left (37) and right (39).
+        event.preventDefault();  // Prevent default behavior (e.g., horizontal scroll).
+
+        const currentProjIdx = getCurrentProjectIndex();
+        const project = projects[currentProjIdx];
+        const fotos = project.querySelector('.fotos');  // Assume class="fotos" inside each .project.
+        if (!fotos) return;
+
+        const imgs = fotos.querySelectorAll('img');
+        const numPictures = imgs.length;
+        if (numPictures === 0) return;
+
+        const fulinks = fotos.querySelectorAll('h5');  // Assume h5 elements are the fulinks, one per image.
+
+        let currentImage = imageIndices[currentProjIdx];
+
+        if (keyCode === 37) {  // Left: Previous image, wrap to last.
+            currentImage--;
+            if (currentImage < 1) currentImage = numPictures;
+        } else if (keyCode === 39) {  // Right: Next image, wrap to first.
+            currentImage++;
+            if (currentImage > numPictures) currentImage = 1;
+        }
+
+        imageIndices[currentProjIdx] = currentImage;
+
+        // Hide all images and h5/fulinks.
+        imgs.forEach(img => img.style.display = 'none');
+        fulinks.forEach(h => h.style.display = 'none');
+
+        // Show the current image and corresponding fulink (if exists).
+        imgs[currentImage - 1].style.display = 'inherit';
+        if (fulinks.length >= currentImage) {
+            fulinks[currentImage - 1].style.display = 'inherit';
+        }
+    });
+});
+</script>
+
+
+
+
+
+
+
+
+
+<script>
+  // Separate script for arrow key snapping to .project divs (up/down arrows for previous/next).
+
+document.addEventListener('DOMContentLoaded', () => {  // Ensure DOM is ready.
+    const projects = document.querySelectorAll('.project');
+    let currentIndex = 0;  // Start at first; sync with wheel script if needed (e.g., make global).
+
+    function snapToProject(index) {
+        if (index < 0 || index >= projects.length) return;
+        const project = projects[index];
+        const viewportHeight = window.innerHeight;
+        const projectHeight = project.offsetHeight;
+        const centerOffset = (viewportHeight - projectHeight) / 2;
+        const projectTop = project.getBoundingClientRect().top + window.scrollY;
+        const targetScrollY = projectTop - centerOffset;
+        window.scrollTo({ top: targetScrollY, behavior: 'instant' });
+        currentIndex = index;
+    }
+
+    // Optional: Snap to first on load (if not already in wheel script).
+    snapToProject(currentIndex);
+
+    // Keydown event handler for up/down arrows.
+    document.addEventListener('keydown', (event) => {
+        if (event.keyCode === 40) {  // Down arrow: Next project.
+            event.preventDefault();  // Prevent default page scroll.
+            currentIndex = Math.min(currentIndex + 1, projects.length - 1);
+            snapToProject(currentIndex);
+        } else if (event.keyCode === 38) {  // Up arrow: Previous project.
+            event.preventDefault();
+            currentIndex = Math.max(currentIndex - 1, 0);
+            snapToProject(currentIndex);
+        }
+    });
+
+    // Optional: Resize handler.
+    window.addEventListener('resize', () => snapToProject(currentIndex));
+});
+</script>
 
 
 <div class="pngs">
@@ -800,7 +939,13 @@ if (currentPicture < 1) {
   </div>
 
   <div class="texto" id="texto23">
-        <p4></p4>
+        <p4>Começámos a Casa Crespo com uma descrição detalhada e rica da visão do cliente: o espaço social, especificamente a "sala de estar", deveria ser suficientemente espaçosa para acomodar uma grande mesa de jantar, um sofá bem comprido à frente de uma ampla TV, uma mesa de bilhar e até uma mesa de DJ para os dias de festa. Deveria também ser aberto para a cozinha e usufruir de um duplo pé-direito, tal como o cliente tinha visto numa novela brasileira semanas antes (muito semelhante ao Palais Stoclet de Hoffman, embora prefiramos o seu rival Loos na Villa Müller, por exemplo). O Egyptian Hall for Parties *, descrito por Palladio, foi uma recomendação que levamos a sério na composição deste composto de espaços: Colunas para suporte do pavimento do varandim,sobre o qual uma parede contínua com meias colunas enquadra a vista para baixo e deixa uma luz difusa irradiar (neste caso obtida através da reflexão da luz dos lanternins colocados de forma invertida)
+<br><br>
+Uma espécie de "anti domesticidade", como afirma Pier Vittorio Aureli*, atravessou toda a pesquisa por uma verdade arquitectónica que correspondesse a essa "ficção". Talvez seja um exagero, mas a natureza desta habitação podia ser encontrada nas boarding houses americanas, onde a socialização da vida na área comum ocorria num plano bastante aberto, essencialmente dividido por elementos estruturais do edifício, constituindo uma espécie de domicílio hipostilo que se prolonga para o exterior, com quase todas as funções imagináveis. Posto isto, as áreas privadas e estritamente funcionais devem ser relegadas para uma esfera paralela que separe claramente a vida social da vida privada/íntima e do trabalho reprodutivo. Todos com necessidades cenográficas específicas, os quartos dos pisos superiores eram todos suítes (como num hotel real), permitindo uma performance cenográfica autónoma: o quarto cor-de-rosa para a menina, a grande janela com vista para o quarto principal, o carácter asséptico e lavável da cozinha/lavandaria, etc.
+<br><br>
+
+* Andrea Palladio, Os Quatro Livros de Arquitectura, 1570, MIT Press, pp. 41
+</p4>
   </div>
 
 
@@ -868,7 +1013,16 @@ if (currentPicture < 1) {
   </div>
 
   <div class="texto" id="texto22">
-        <p4></p4>
+        <p4>
+          Na antiga fábrica de biscoitos Imperial, instalada numa casa burguesa da segunda metade do século XIX, havia de tudo: lajes de betão, treliças metálicas, janelas de alumínio, telha de fibrocimento, azulejos industriais e, claro, resquícios da construção original — a estrutura de piso em madeira de castanho, a fachada com cantarias de pedra e azulejos de inícios do século XX, janelas de madeira, tabiques, etc.
+<br><span>A fábrica ocupava a totalidade do lote. Não demolir tudo — opção que tomámos desde cedo — implicava admitir que essa heterogeneidade teria de ser continuada (e até aprofundada) na nova intervenção, destinada a acolher uma habitação colectiva com cinco fogos e um escritório.
+<br><span>A construção seria garantida por pequenas oficinas, senão mesmo por autoconstrução, e nesse processo aprendemos a relativizar o autor. Ou melhor: a diluí-lo na obra, que é também projeto. Serralheiro, carpinteiro, pedreiro, eletricista — todos autores in situ.
+<br><span>Para marcar a obra e demonstrar a todos eles o seu funcionamento, foi necessário montar três tabuleiros horizontais (foi permitido acrescentar um piso), como plantas impressas à escala real. Reutilizámos a estrutura do prédio original até ao tardoz, abrindo um grande saguão ventilado ao centro, que viria a organizar todo o núcleo de acessos e cozinhas, com um elevador metálico que também serve de estrutura aos pisos de madeira.
+<br><span>No antigo logradouro, as paredes meeiras não tinham a mesma qualidade, pelo que optámos por uma estrutura de betão com lajes colaborantes, seguindo uma métrica que permitia coser os principais elementos, incluindo a escada existente. A partir daí, o jogo passou a ser o de adicionar escadas, varandas, elevador, nichos, todos arrumados segundo uma métrica principal de 1,2 m, que dividia o prédio em quatro partes iguais na sua largura. Tudo para que a casa burguesa e a fábrica pudessem dar lugar à habitação colectiva com o mínimo de esforço supérfluo. 
+<br><span>Nenhuma planta é exactamente igual, visando criar diversidade espacial nos espaços “exteriores” aos fogos, mas todas são plenas de elementos reconhecíveis. Os apartamentos com frente de rua expandem-se no eixo vertical, com escada própria entre dois pisos. Os apartamentos com frente de logradouro expandem-se no eixo horizontal e formam um todo volumétrico que se desmonta em pátios, terraços e varandas — todos comunicantes.
+<br><span>Ao contrário dos apartamentos, que são “boxes” estanques, e que conduzem o espaço entre eles sempre na vertical, rematando numa grande claraboia, o escritório funciona no piso térreo como extensão do átrio, com remate visual num grande rochedo, iluminado difusamente.
+
+        </p4>
   </div>
 
 
@@ -1353,8 +1507,7 @@ The piece appears oblique and detached in the middle of a void formed by the fa�
 
     <div class="texto" id="texto14">
       <p4>
-A renovação de um apartamento, com pinturas, envernizamentos e reparações, é motivo para uma intervenção no núcleo de serviços, nomeadamente na casa de banho, quarto e corredor. As mesmas peças existentes são reorganizadas a partir da introdução de dois novos elementos : uma grelha de ladrilhos de marmorite no piso e um caixilho/móvel de madeira que rompeu com a parede fronteira da casa de banho. Rodado face à compartimentação, ficou voltado para a maior área de janela do apartamento e coseu dois alinhamentos das paredes do corredor.
-
+O pedido de renovação de um apartamento, com pinturas, envernizamentos e reparações, torna-se  motivo para uma intervenção mais profunda no núcleo de serviços, nomeadamente na casa de banho (totalmente nova), quarto e corredor. As louças existentes são substituídas e reorganizadas a partir da introdução de dois novos elementos : uma grelha de ladrilhos de marmorite no piso e um caixilho/móvel de madeira que rompeu com a parede fronteira existente da casa de banho. Rodado face à compartimentação, ficou voltado para a maior área de janela do apartamento e coseu dois alinhamentos das paredes do corredor. Face à ruptura em relação ao existente que estes revestimentos representavam, procuramos no vermelho intenso da madeira de Takula a continuidade com a tijoleira de barro pre-existente. O desenho das carpintarias foi ambicioso nos perfis de caixilharia e soluções de remate, porque cedo percebemos que estávamos perante um carpinteiro que ainda podia fazer construção naval. Desenhar é um acto vão se não se souber como construir. E aprender a construir para aprender a desenhar é, por isso, a única via. Sem este carpinteiro seríamos meros programadores do espaço, assim somos apenas intérpretes do seu saber.
       </p4>
     </div>
 
@@ -1907,6 +2060,8 @@ Establishing the relation with the public space around, a street and a square, t
 
 <div class="texto" id="texto6">
       <p4>
+Quando visitamos pela primeira vez o prédio, já não havia prédio - apenas a fachada frontal com 3 pisos, que seria obrigatório manter. Era possível ter mais um piso e um sótão no desvão da cobertura. Pretendia-se instalar 3 fogos e um comércio no Rés do Chão. Apesar de extremamente estreito, o lote tinha duas entradas o que permitiu repensar o sistema de acessos, feito exclusivamente pelo exterior, como um “deambulatório” de escadas em redor do pátio comum do logradouro. O elevador em betão havia de estruturar o novo tardoz, sendo ele o único volume que se projecta além do alinhamento dominante de fachadas da Viela dos Poços, com recurso a uma planta pentagonal suavizada com curvas em dois dos seus lados - interior e exterior - que exigiam um remate mais delicado. Dada a fragmentação de plataformas a diferentes cotas e a sua articulação com as escadas implantadas no logradouro, não se pretendia construir uma fachada de tardoz formal. Por isso, a projecção do elevador é cosida apenas com painéis de ferro e vidro que formam um átrio/ marquise, espaço de transição para o interior de cada fogo. O prolongamento desse tipo de construção metálica às escadas exteriores, simplesmente apoiadas na antiga parede meeira, reforçam essa desmontagem absoluta de um plano marcado ou referência volumétrica do edifício original. 
+<br><br>A pesquisa do projecto concentrou-se ainda noutro aspecto difícil: a maneira de fazer emergir um novo piso e a sua cobertura, num quarteirão bastante compacto e sem novas ampliações recentes, com uma grande unidade métrica e volumétrica, dada pela repetição de cantarias e janelas. Fizemos flutuar uma nova frente em madeira esmaltada, desligada da fachada antiga pela presença de uma varanda metálica que encima a cornija de pedra. Os interiores, livres de qualquer acesso vertical, queriam-se com a maior elementaridade possível, em que a única determinação espacial é a posição das infraestruturas - casa de banho e cozinha - ao centro, gerando dois espaços praticamente equivalentes. 
 
   </p4>
 </div>

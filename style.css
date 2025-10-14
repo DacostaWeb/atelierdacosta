@@ -126,6 +126,7 @@ margin-bottom: calc(((100vh - 450px) / 2) - 50px);
 		user-select: none;
 		-webkit-touch-callout: none;
 		-ms-user-select: none;
+		overscroll-behavior-y: none;
 		
 }
 
@@ -133,12 +134,14 @@ html{
 	overflow-y: scroll;
 	overscroll-behavior-x: none;
 	overscroll-behavior-block: none;
+	overscroll-behavior-y: none;
 }
 
 body{
 	overflow-y: hidden;
 	overscroll-behavior-x: none;
-	
+	overscroll-behavior-y: none;
+	overscroll-behavior-block: none;
 }
 
 .project{
