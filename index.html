@@ -530,235 +530,109 @@ currentPicture = 1;
 
 <body>
 
-<!--
-<div id="loading">
-<div class="loader"></div>
-</div>
- -->
- <!-- <div class="fotos" id="fotos0">
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const projects = document.querySelectorAll('.project');
+    const imageIndices = new Array(projects.length).fill(1);  // Track current image per project
 
-
-<img loading="lazy"  src="images/104.01/6.jpg" style=" display: inherit;" id="foto1" alt="">
-<img loading="lazy"  src="images/140.01/1.jpg" style=" display: none;"    id="foto2" alt="">
-<img loading="lazy"  src="images/100.07/6.jpg" style=" display: none;"    id="foto3" alt="">
-<img loading="lazy"  src="images/114.01/6.jpg" style=" display: none;"    id="foto4" alt="">
-<img loading="lazy"  src="images/145.01/1.jpg" style=" display: none;"    id="foto5" alt="">
-<img loading="lazy"  src="images/118.02/1.jpg" style=" display: none;"    id="foto6" alt="">
-<img loading="lazy"  src="images/118.01/2.jpg" style=" display: none;"    id="foto7" alt="">
-<img loading="lazy"  src="images/109.10/1.jpg" style=" display: none;"    id="foto8" alt="">
-<img loading="lazy"  src="images/046.02/1.jpg" style=" display: none;"    id="foto9" alt="">
-<img loading="lazy"  src="images/121.01/6.jpg" style=" display: none;"    id="foto10" alt="">
-<img loading="lazy"  src="images/100.01/1.jpg" style=" display: none;"    id="foto11" alt="">
-<img loading="lazy"  src="images/078.06/1.jpg" style=" display: none;"    id="foto12" alt="">
-<img loading="lazy"  src="images/157.02/1.jpg" style=" display: none;"    id="foto13" alt="">
-<img loading="lazy"  src="images/053.01/1.jpg" style=" display: none;"    id="foto14" alt="">
-<img loading="lazy"  src="images/002.01/5.jpg" style=" display: none;"    id="foto15" alt="">
-<img loading="lazy"  src="images/097.01/1.jpg" style=" display: none;"    id="foto16" alt="">
-
-<h5 style=" display: inherit;" id="fulink1" ><a href="#104.01" >#104.01</a></h5>
-<h5 style=" display: none;"    id="fulink2" ><a href="#140.01" >#140.01</a></h5>
-<h5 style=" display: none;"    id="fulink3" ><a href="#100.07" >#100.07</a></h5>
-<h5 style=" display: none;"    id="fulink4" ><a href="#114.01">#114.01</a></h5>
-<h5 style=" display: none;"    id="fulink5" ><a href="#145.01">#145.01</a></h5>
-<h5 style=" display: none;"    id="fulink6" ><a href="#118.02">#118.02</a></h5>
-<h5 style=" display: none;"    id="fulink7" ><a href="#118.01">#118.01</a></h5>
-<h5 style=" display: none;"    id="fulink8"><a href="#109.10">#109.10</a></h5>
-<h5 style=" display: none;"    id="fulink9"><a href="#046.02" style=" color: black;">#046.02</a></h5>
-<h5 style=" display: none;"    id="fulink10"><a href="#121.01">#121.01</a></h5>
-<h5 style=" display: none;"    id="fulink11"><a href="#100.01" style=" color: black;">#100.01</a></h5>
-<h5 style=" display: none;"    id="fulink12"><a href="#078.06" style=" color: black;">#078.06</a></h5>
-<h5 style=" display: none;"    id="fulink13"><a href="#157.02" >#157.02</a></h5>
-<h5 style=" display: none;"    id="fulink14"><a href="#053.01" style=" color: black;">#053.01</a></h5>
-<h5 style=" display: none;"    id="fulink15"><a href="#002.01" >#002.01</a></h5>
-<h5 style=" display: none;"    id="fulink16"><a href="#097.01">#097.01</a></h5>
-
- </div> -->
-
-
-<!-- 
-<script type="text/javascript">
-  window.addEventListener("keydown", function(e) {
-    // space and arrow keys
-    if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
-        e.preventDefault();
+    // Get the index of the project currently in the center of viewport
+    function getCurrentProjectIndex() {
+        const viewportCenter = window.innerHeight / 2;
+        let minDistance = Infinity;
+        let currentIdx = 0;
+        projects.forEach((project, idx) => {
+            const rect = project.getBoundingClientRect();
+            const projectCenter = rect.top + rect.height / 2;
+            const distance = Math.abs(projectCenter - viewportCenter);
+            if (distance < minDistance) {
+                minDistance = distance;
+                currentIdx = idx;
+            }
+        });
+        return currentIdx;
     }
-  }, false);
+
+    // Cycle image in given project
+    function cycleImage(projIdx, direction = 'next') {
+        const project = projects[projIdx];
+        const fotos = project.querySelector('.fotos');
+        if (!fotos) return;
+
+        const imgs = fotos.querySelectorAll('img');
+        const fulinks = fotos.querySelectorAll('h5');
+        const numPictures = imgs.length;
+        if (numPictures === 0) return;
+
+        let currentImage = imageIndices[projIdx];
+
+        if (direction === 'prev') {
+            currentImage--;
+            if (currentImage < 1) currentImage = numPictures;
+        } else if (direction === 'next') {
+            currentImage++;
+            if (currentImage > numPictures) currentImage = 1;
+        }
+
+        imageIndices[projIdx] = currentImage;
+
+        // Hide all, show current
+        imgs.forEach(img => img.style.display = 'none');
+        fulinks.forEach(h5 => h5.style.display = 'none');
+
+        imgs[currentImage - 1].style.display = 'inherit';
+        if (fulinks.length >= currentImage) {
+            fulinks[currentImage - 1].style.display = 'inherit';
+        }
+    }
+
+    // --- TOUCH SWIPE HANDLING ---
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchEndX = 0;
+    let touchEndY = 0;
+    const swipeThreshold = 50;
+
+    document.addEventListener('touchstart', (event) => {
+        touchStartX = event.changedTouches[0].screenX;
+        touchStartY = event.changedTouches[0].screenY;
+    }, { passive: true });
+
+    document.addEventListener('touchend', (event) => {
+        touchEndX = event.changedTouches[0].screenX;
+        touchEndY = event.changedTouches[0].screenY;
+
+        const deltaX = touchEndX - touchStartX;
+        const deltaY = touchEndY - touchStartY;
+
+        if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > swipeThreshold) {
+            event.preventDefault();
+            const currentProjIdx = getCurrentProjectIndex();
+            if (deltaX > 0) {
+                cycleImage(currentProjIdx, 'prev');
+            } else {
+                cycleImage(currentProjIdx, 'next');
+            }
+        }
+    }, { passive: false });
+
+    // --- CLICK TO NEXT HANDLING ---
+    projects.forEach((project, idx) => {
+        const fotos = project.querySelector('.fotos');
+        if (fotos) {
+            fotos.addEventListener('click', () => {
+                cycleImage(idx, 'next');
+            });
+        }
+    });
+
+    // Optional: Reset index on history popstate (like back button)
+    window.addEventListener('popstate', () => {
+        for (let i = 0; i < imageIndices.length; i++) {
+            imageIndices[i] = 1;
+        }
+    });
+});
 </script>
- -->
-
-  <script>
-  jQuery(function () {
-    var currentPicture = 1;
-
-
-$('.fotos').click(function() {
-  var numberOfPictures = $(this).children('img').length;
-currentPicture++;
-if (currentPicture > numberOfPictures) {
-  currentPicture = 1;
-}
-
-$(window).on('popstate', function(event) {
-currentPicture = 1;
-});
-$(this).children('img').css('display', 'none');
-$(this).children(`#foto${currentPicture}`).css('display', 'inherit');
-$(this).children('h5').css('display', 'none');
-$(this).children(`#fulink${currentPicture}`).css('display', 'inherit');
-});
-
-
-/* 
-document.onkeydown = function(e) {
-  var y = $(document).scrollTop();
-var x = 19;
-var h = $(document).height();
-var z = $(window).height();
-
-if(window.location.href.indexOf("#") < 1) {
-  x = 19;
-  }
-
-  if (y < 0) {
-    x = 19;
-  }
-  if (y > ((h / 22) * 1) - ((z / 4) / 2)) {
-      x = 18;
-  }
-  if (y > ((h / 22) * 2) - ((z / 4) / 2) + 60) {
-      x = 17;
-  }
-  if (y > ((h / 22) * 3) - ((z / 4) / 2) + 120) {
-      x = 16;
-  }
-  if (y > ((h / 22) * 4) - ((z / 4) / 2) + 180) {
-      x = 15;
-  }
-  if (y > ((h / 22) * 5) - ((z / 4) / 2) + 240) {
-      x = 14;
-  }
-  if (y > ((h / 22) * 6) - ((z / 4) / 2) + 300) {
-      x = 13;
-  }
-  if (y > ((h / 22) * 7) - ((z / 4) / 2) + 360) {
-      x = 12;
-  }
-  if (y > ((h / 22) * 8) - ((z / 4) / 2) + 420) {
-      x = 11;
-  }
-  if (y > ((h / 22) * 9) - ((z / 4) / 2) + 480) {
-      x = 10;
-  }
-  if (y > ((h / 22) * 10) - ((z / 4) / 2) + 540) {
-      x = 9;
-  }
-  if (y > ((h / 22) * 11) - ((z / 4) / 2) + 600) {
-      x = 8;
-  }
-  if (y > ((h / 22) * 12) - ((z / 4) / 2) + 660) {
-      x = 7;
-  }
-  if (y > ((h / 22) * 13) - ((z / 4) / 2) + 720) {
-      x = 6;
-  }
-  if (y > ((h / 22) * 14) - ((z / 4) / 2) + 780) {
-      x = 5;
-  }
-  if (y > ((h / 22) * 15) - ((z / 4) / 2) + 840) {
-      x = 4;
-  }
-  if (y > ((h / 22) * 16) - ((z / 4) / 2) + 900) {
-      x = 3;
-  }
-
-  if (y > ((h / 22) * 17) - ((z / 4) / 2) + 960) {
-      x = 2;
-  }
-
-  if (y > ((h / 22) * 18) - ((z / 4) / 2) + 1020) {
-      x = 1;
-  }
-
-
-
-  var numberOfPictures = $(`#fotos${x}`).children('img').length;
-
-if (currentPicture > numberOfPictures) {
-  currentPicture = 1;
-}
-if (currentPicture < 1) {
-  currentPicture = 1;
-}
-    switch (e.keyCode) {
-        case 37:
-        currentPicture--;
-        if (currentPicture < 1) {
-          currentPicture = numberOfPictures;
-        }
-        $(`#fotos${x}`).children('img').css('display', 'none');
-        $(`#fotos${x}`).children(`#foto${currentPicture}`).css('display', 'inherit');
-        $(`#fotos${x}`).children('h5').css('display', 'none');
-        $(`#fotos${x}`).children(`#fulink${currentPicture}`).css('display', 'inherit');
-            break;
-
-
-        case 39:
-        currentPicture++;
-        if (currentPicture > numberOfPictures) {
-          currentPicture = 1;
-        }
-        $(`#fotos${x}`).children('img').css('display', 'none');
-        $(`#fotos${x}`).children(`#foto${currentPicture}`).css('display', 'inherit');
-        $(`#fotos${x}`).children('h5').css('display', 'none');
-        $(`#fotos${x}`).children(`#fulink${currentPicture}`).css('display', 'inherit');
-            break;
-
-        case 40:  // Down arrow
-    currentPicture++;
-    if (y >= 0) {
-        let width = window.innerWidth;
-        let downAmount;
-        if (width >= 1750) {
-            downAmount = z - 190;
-        } else if (width >= 1551 && width <= 1749) {
-            downAmount = z - 190;  // e.g., z - 150 or a fixed number like 200
-        } else if (width >= 1351 && width <= 1550) {
-            downAmount = z - 190;  // e.g., z - 100 or 150
-        } else {
-            downAmount = defaultDownValue;  // Fallback for other widths, e.g., z - 50
-        }
-        window.scrollBy(0, downAmount);
-    }
-    break;
-
-case 38:  // Up arrow
-    currentPicture--;  // Assuming decrement for up; change back to ++ if needed
-    if (y >= 0) {
-        let width = window.innerWidth;
-        let upAmount;
-        if (width >= 1750) {
-            upAmount = -z + 190;
-        } else if (width >= 1551 && width <= 1749) {
-            upAmount = -z + 190;  // e.g., -z + 150 or a fixed number like -200
-        } else if (width >= 1351 && width <= 1550) {
-            upAmount = -z + 190;  // e.g., -z + 100 or -150
-        } else {
-            upAmount = defaultUpValue;  // Fallback for other widths, e.g., -z + 50
-        }
-        window.scrollBy(0, upAmount);
-    }
-    break;
-
-
-    } 
-};*/
-
-
-  });
-
-
-  </script>
-
 
 
 
@@ -830,19 +704,15 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 
-
-
-
-
-
-
-
 <script>
-  // Separate script for arrow key snapping to .project divs (up/down arrows for previous/next).
+document.addEventListener('DOMContentLoaded', () => {
+    const isMobile = /Mobi|Android|iPhone|iPad|iPod|Touch/.test(navigator.userAgent);
 
-document.addEventListener('DOMContentLoaded', () => {  // Ensure DOM is ready.
+    // If on mobile, skip initializing arrow key behavior.
+    if (isMobile) return;
+
     const projects = document.querySelectorAll('.project');
-    let currentIndex = 0;  // Start at first; sync with wheel script if needed (e.g., make global).
+    let currentIndex = 0;
 
     function snapToProject(index) {
         if (index < 0 || index >= projects.length) return;
@@ -856,26 +726,25 @@ document.addEventListener('DOMContentLoaded', () => {  // Ensure DOM is ready.
         currentIndex = index;
     }
 
-    // Optional: Snap to first on load (if not already in wheel script).
+    // Snap to first on load.
     snapToProject(currentIndex);
 
-    // Keydown event handler for up/down arrows.
     document.addEventListener('keydown', (event) => {
-        if (event.keyCode === 40) {  // Down arrow: Next project.
-            event.preventDefault();  // Prevent default page scroll.
+        if (event.key === 'ArrowDown') {
+            event.preventDefault();
             currentIndex = Math.min(currentIndex + 1, projects.length - 1);
             snapToProject(currentIndex);
-        } else if (event.keyCode === 38) {  // Up arrow: Previous project.
+        } else if (event.key === 'ArrowUp') {
             event.preventDefault();
             currentIndex = Math.max(currentIndex - 1, 0);
             snapToProject(currentIndex);
         }
     });
 
-    // Optional: Resize handler.
     window.addEventListener('resize', () => snapToProject(currentIndex));
 });
 </script>
+
 
 
 <div class="pngs">
