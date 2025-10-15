@@ -531,11 +531,15 @@ currentPicture = 1;
 <body>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('DOMContentLoaded', () => {
     const projects = document.querySelectorAll('.project');
-    const imageIndices = new Array(projects.length).fill(1);  // Track current image per project
+    let currentIndex = 0;  // Current project index for snapping.
+    const imageIndices = new Array(projects.length).fill(1);  // Per-project image index, starting at 1.
+    const isMobile = /Mobi|Android|iPhone|iPad|iPod|Touch/.test(navigator.userAgent);
 
-    // Get the index of the project currently in the center of viewport
+    console.log(`Found ${projects.length} .project elements.`);  // Debug if needed.
+
+    // Get the index of the project currently in the center of viewport.
     function getCurrentProjectIndex() {
         const viewportCenter = window.innerHeight / 2;
         let minDistance = Infinity;
@@ -552,7 +556,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return currentIdx;
     }
 
-    // Cycle image in given project
+    // Cycle image in given project.
     function cycleImage(projIdx, direction = 'next') {
         const project = projects[projIdx];
         const fotos = project.querySelector('.fotos');
@@ -575,7 +579,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         imageIndices[projIdx] = currentImage;
 
-        // Hide all, show current
+        // Hide all, show current.
         imgs.forEach(img => img.style.display = 'none');
         fulinks.forEach(h5 => h5.style.display = 'none');
 
@@ -584,6 +588,22 @@ document.addEventListener('DOMContentLoaded', () => {
             fulinks[currentImage - 1].style.display = 'inherit';
         }
     }
+
+    // Snap to a project (up/down navigation).
+    function snapToProject(index) {
+        if (index < 0 || index >= projects.length) return;
+        const project = projects[index];
+        const viewportHeight = window.innerHeight;
+        const projectHeight = project.offsetHeight;
+        const centerOffset = (viewportHeight - projectHeight) / 2;
+        const projectTop = project.getBoundingClientRect().top + window.scrollY;
+        const targetScrollY = projectTop - centerOffset;
+        window.scrollTo({ top: targetScrollY, behavior: 'instant' });
+        currentIndex = index;
+    }
+
+    // Initialize: Snap to first project on load.
+    snapToProject(currentIndex);
 
     // --- TOUCH SWIPE HANDLING ---
     let touchStartX = 0;
@@ -625,7 +645,33 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Optional: Reset index on history popstate (like back button)
+    // --- KEYDOWN HANDLING (ARROWS) ---
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowDown' && !isMobile) {
+            event.preventDefault();
+            currentIndex = getCurrentProjectIndex();  // Update index to closest project before snapping.
+            currentIndex = Math.min(currentIndex + 1, projects.length - 1);
+            snapToProject(currentIndex);
+        } else if (event.key === 'ArrowUp' && !isMobile) {
+            event.preventDefault();
+            currentIndex = getCurrentProjectIndex();  // Update index to closest project before snapping.
+            currentIndex = Math.max(currentIndex - 1, 0);
+            snapToProject(currentIndex);
+        } else if (event.key === 'ArrowLeft') {
+            event.preventDefault();
+            const currentProjIdx = getCurrentProjectIndex();
+            cycleImage(currentProjIdx, 'prev');
+        } else if (event.key === 'ArrowRight') {
+            event.preventDefault();
+            const currentProjIdx = getCurrentProjectIndex();
+            cycleImage(currentProjIdx, 'next');
+        }
+    });
+
+    // --- RESIZE HANDLER ---
+    window.addEventListener('resize', () => snapToProject(currentIndex));
+
+    // --- POPSTATE RESET ---
     window.addEventListener('popstate', () => {
         for (let i = 0; i < imageIndices.length; i++) {
             imageIndices[i] = 1;
@@ -633,119 +679,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 </script>
-
-
-
-
-<script>
-  // Separate script for left/right arrow keys to cycle images in the .fotos div of the currently centered .project.
-
-document.addEventListener('DOMContentLoaded', () => {
-    const projects = document.querySelectorAll('.project');
-    const imageIndices = new Array(projects.length).fill(1);  // Per-project image index, starting at 1.
-
-    // Function to find the index of the currently centered project (closest to viewport center).
-    function getCurrentProjectIndex() {
-        const viewportCenter = window.innerHeight / 2;
-        let minDistance = Infinity;
-        let currentIdx = 0;
-        projects.forEach((project, idx) => {
-            const rect = project.getBoundingClientRect();
-            const projectCenter = rect.top + rect.height / 2;
-            const distance = Math.abs(projectCenter - viewportCenter);
-            if (distance < minDistance) {
-                minDistance = distance;
-                currentIdx = idx;
-            }
-        });
-        return currentIdx;
-    }
-
-    // Keydown handler for left/right arrows.
-    document.addEventListener('keydown', (event) => {
-        const keyCode = event.keyCode;
-        if (keyCode !== 37 && keyCode !== 39) return;  // Only handle left (37) and right (39).
-        event.preventDefault();  // Prevent default behavior (e.g., horizontal scroll).
-
-        const currentProjIdx = getCurrentProjectIndex();
-        const project = projects[currentProjIdx];
-        const fotos = project.querySelector('.fotos');  // Assume class="fotos" inside each .project.
-        if (!fotos) return;
-
-        const imgs = fotos.querySelectorAll('img');
-        const numPictures = imgs.length;
-        if (numPictures === 0) return;
-
-        const fulinks = fotos.querySelectorAll('h5');  // Assume h5 elements are the fulinks, one per image.
-
-        let currentImage = imageIndices[currentProjIdx];
-
-        if (keyCode === 37) {  // Left: Previous image, wrap to last.
-            currentImage--;
-            if (currentImage < 1) currentImage = numPictures;
-        } else if (keyCode === 39) {  // Right: Next image, wrap to first.
-            currentImage++;
-            if (currentImage > numPictures) currentImage = 1;
-        }
-
-        imageIndices[currentProjIdx] = currentImage;
-
-        // Hide all images and h5/fulinks.
-        imgs.forEach(img => img.style.display = 'none');
-        fulinks.forEach(h => h.style.display = 'none');
-
-        // Show the current image and corresponding fulink (if exists).
-        imgs[currentImage - 1].style.display = 'inherit';
-        if (fulinks.length >= currentImage) {
-            fulinks[currentImage - 1].style.display = 'inherit';
-        }
-    });
-});
-</script>
-
-
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    const isMobile = /Mobi|Android|iPhone|iPad|iPod|Touch/.test(navigator.userAgent);
-
-    // If on mobile, skip initializing arrow key behavior.
-    if (isMobile) return;
-
-    const projects = document.querySelectorAll('.project');
-    let currentIndex = 0;
-
-    function snapToProject(index) {
-        if (index < 0 || index >= projects.length) return;
-        const project = projects[index];
-        const viewportHeight = window.innerHeight;
-        const projectHeight = project.offsetHeight;
-        const centerOffset = (viewportHeight - projectHeight) / 2;
-        const projectTop = project.getBoundingClientRect().top + window.scrollY;
-        const targetScrollY = projectTop - centerOffset;
-        window.scrollTo({ top: targetScrollY, behavior: 'instant' });
-        currentIndex = index;
-    }
-
-    // Snap to first on load.
-    snapToProject(currentIndex);
-
-    document.addEventListener('keydown', (event) => {
-        if (event.key === 'ArrowDown') {
-            event.preventDefault();
-            currentIndex = Math.min(currentIndex + 1, projects.length - 1);
-            snapToProject(currentIndex);
-        } else if (event.key === 'ArrowUp') {
-            event.preventDefault();
-            currentIndex = Math.max(currentIndex - 1, 0);
-            snapToProject(currentIndex);
-        }
-    });
-
-    window.addEventListener('resize', () => snapToProject(currentIndex));
-});
-</script>
-
-
+  
 
 <div class="pngs">
 <a href="about/index.html"> <img    class="aboutpng hidepng" src="atelierdacosta.svg"  alt=""></a>
@@ -826,7 +760,7 @@ Uma espécie de "anti domesticidade", como afirma Pier Vittorio Aureli*, atraves
   <img    src="images/162.01/d4.jpg" alt="">
   <img    src="images/162.01/d5.jpg" alt="">
   <img    src="images/162.01/d6.jpg" alt="">
-  <img    src="images/162.01/d1.jpg" alt="">
+
 
 
 
@@ -997,10 +931,10 @@ Uma espécie de "anti domesticidade", como afirma Pier Vittorio Aureli*, atraves
   <div class="project">
 
     <div class="fotos" id="fotos20">
-    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/157.13/1.jpg" style=" display: inherit;" id="foto1" alt="">
-    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/157.13/2.jpg" style=" display: none;" id="foto2" alt="">
-    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/157.13/3.jpg" style=" display: none;" id="foto3" alt="">
-    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/157.13/4.jpg" style=" display: none;" id="foto4" alt="">
+          <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/157.13/12.jpg" style=" display: inherit;" id="foto11" alt="">
+    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/157.13/1.jpg" style=" display: none;" id="foto2" alt="">
+    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/157.13/2.jpg" style=" display: none;" id="foto3" alt="">
+    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/157.13/3.jpg" style=" display: none;" id="foto4" alt="">
     <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/157.13/5.jpg" style=" display: none;" id="foto5" alt="">
     <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/157.13/6.jpg" style=" display: none;" id="foto6" alt="">
     <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/157.13/7.jpg" style=" display: none;" id="foto7" alt="">
@@ -1008,8 +942,6 @@ Uma espécie de "anti domesticidade", como afirma Pier Vittorio Aureli*, atraves
     <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/157.13/9.jpg" style=" display: none;" id="foto9" alt="">
     <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/157.13/10.jpg" style=" display: none;" id="foto10" alt="">
     <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/157.13/11.jpg" style=" display: none;" id="foto11" alt="">
-    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/157.13/12.jpg" style=" display: none;" id="foto12" alt="">
-    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/157.13/13.jpg" style=" display: none;" id="foto13" alt="">
 
     </div>
 
@@ -1112,7 +1044,7 @@ Uma espécie de "anti domesticidade", como afirma Pier Vittorio Aureli*, atraves
   <div class="project">
 
     <div class="fotos" id="fotos18">
-    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/140.01/1.jpg" style=" display: inherit;" id="foto1" alt="">
+        <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/140.01/13.jpg" style=" display: inherit;" id="foto1" alt="">
     <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/140.01/2.jpg" style=" display: none;" id="foto2" alt="">
     <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/140.01/3.jpg" style=" display: none;" id="foto3" alt="">
     <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/140.01/4.jpg" style=" display: none;" id="foto4" alt="">
@@ -1121,10 +1053,8 @@ Uma espécie de "anti domesticidade", como afirma Pier Vittorio Aureli*, atraves
     <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/140.01/7.jpg" style=" display: none;" id="foto7" alt="">
     <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/140.01/8.jpg" style=" display: none;" id="foto8" alt="">
     <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/140.01/9.jpg" style=" display: none;" id="foto9" alt="">
-    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/140.01/10.jpg" style=" display: none;" id="foto10" alt="">
-    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/140.01/11.jpg" style=" display: none;" id="foto11" alt="">
-    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/140.01/12.jpg" style=" display: none;" id="foto12" alt="">
-    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/140.01/13.jpg" style=" display: none;" id="foto13" alt="">
+    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/140.01/12.jpg" style=" display: none;" id="foto10" alt="">
+  
 
     </div>
 
@@ -1198,6 +1128,225 @@ Uma espécie de "anti domesticidade", como afirma Pier Vittorio Aureli*, atraves
 
 
 
+
+
+<section id="118.01" class="hiddenSection">
+<div class="project">
+
+  <div class="fotos" id="fotos10">
+      <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/1.jpg" style=" display: inherit;" id="foto1" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/2.jpg" style=" display: none;" id="foto2" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/3.jpg" style=" display: none;" id="foto3" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/4.jpg" style=" display: none;" id="foto4" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/5.jpg" style=" display: none;" id="foto5" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/6.jpg" style=" display: none;" id="foto6" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/7.jpg" style=" display: none;" id="foto7" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/8.jpg" style=" display: none;" id="foto8" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/9.jpg" style=" display: none;" id="foto9" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/10.jpg" style=" display: none;" id="foto10" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/11.jpg" style=" display: none;" id="foto11" alt="">
+
+
+
+
+
+  </div>
+
+<div class="texto" id="texto10">
+      <p4>
+        Deito coisas vivas e mortas no espírito da obra.<br>
+        Minha vida extasia-se como uma câmara de tochas.<br>
+        - Era uma casa - como direi? - absoluta.<br>
+        Eu jogo, eu juro.<br>
+        Era uma casinfância.<br>
+        Sei como era uma casa louca.<br>
+        Eu metias as mãos na água: adormecia,<br>
+        relembrava.<br>
+        Os espelhos rachavam-se contra a nossa mocidade.<br>
+        Apalpo agora o girar das brutais,<br>
+        líricas rodas da vida.<br>
+        Há no esquecimento, ou na lembrança<br>
+        total das coisas,<br>
+        uma rosa como uma alta cabeça,<br>
+        um peixe como um movimento<br>
+        rápido e severo.<br>
+        Uma rosapeixe dentro da minha ideia<br>
+        desvairada.<br>
+        Há copos, garfos inebriados dentro de mim.<br>
+        - Porque o amor das coisas no seu<br>
+        tempo futuro<br>
+        é terrivelmente profundo, é suave,<br>
+        devastador.<br>
+        (...)<br>
+<br>
+        Herberto Helder
+<br>
+        “Súmula”, In «Ou o Poema Contínuo», Assírio & Alvim, 2001
+
+
+
+
+
+  </p4>
+</div>
+
+
+  <div class="dragscroll">
+
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/d0.jpg" alt="">
+    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/d1.jpg" alt="">
+
+    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/d2.jpg" alt="">
+    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/d3.jpg" alt="">
+    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/d4.jpg" alt="">
+    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/d5.jpg" alt="">
+
+    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/e1.jpg" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/e2.jpg" alt="">
+
+
+  </div>
+
+</div>
+</section>
+<div class="codeinfo" class="hiddenSection">
+  <h1 onclick="myFunction(10)" id="myBtn"># 118.01</h1>
+  <p class="more" id="more10">
+  Casa de Férias<br>
+  2016 - 2019<br>
+  Esposende<br>
+  fotografias de Tiago Casanova
+  </p>
+</div>
+
+
+
+
+
+<section id="109.10" class="hiddenSection">
+<div class="project">
+
+  <div class="fotos" id="fotos9">
+      <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/1.jpg" style=" display: inherit;" id="foto1" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/2.jpg" style=" display: none;" id="foto2" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/3.jpg" style=" display: none;" id="foto3" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/4.jpg" style=" display: none;" id="foto4" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/5.jpg" style=" display: none;" id="foto5" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/6.jpg" style=" display: none;" id="foto6" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/7.jpg" style=" display: none;" id="foto7" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/8.jpg" style=" display: none;" id="foto8" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/9.jpg" style=" display: none;" id="foto9" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/10.jpg" style=" display: none;" id="foto10" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/11.jpg" style=" display: none;" id="foto11" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/12.jpg" style=" display: none;" id="foto12" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/13.jpg" style=" display: none;" id="foto13" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/14.jpg" style=" display: none;" id="foto14" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/15.jpg" style=" display: none;" id="foto15" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/16.jpg" style=" display: none;" id="foto16" alt="">
+
+
+
+
+  </div>
+
+<div class="texto" id="texto9">
+      <p4>When we first visited the corner space and heard the program description from the client, a clear motto came: the program could easily be settled by designing only a kind of a solo device, a cabinet, an apparatus of wood or/and metal, placed inside that space. The functions asked in the program could be arranged in two big groups in terms of scale: one of those consuming preferably open-spaces or subspaces inside it, but all above 10 squaremeteres (barberspace, boutique area), and another of those like the fitting rooms, exhibitors, small warehouse, counter, most of them transformable into niches spaces. That lead us to keep the existing masonry as found (the bathroom was kept) and adjust the device that would host the less scale objects, even if obbeying to a very recongizable structural grid, helping the wood and metal construction to take place. This piece, to be placed in the core of the store plot, backing up to the rear walls, released the facade perimetrer and moulded the empty space in-between it and this perimeter. Therefore, the apparatus should be designed as if it landed in a continuous floor and ceiling. The piece can be divided into  3 parts, from the heaviest to the lightest: the structure in wood, creating the support to the piece and regular limits, the semi-open mesh to the warehouse and mechanical room in metal with outter limits and the HVAC piping in inox, expelling out of its borders even more. The piece is the machine that makes the productiveness of the empty space it defines around and where consumption takes place.
+Establishing the relation with the public space around, a street and a square, the heavy outter shell of stone and windows remains with no classic showcase, but only transparent as much as possible, and deliberately punctuated with new reddish awnings and big industrial white lighting lamps.. The second layer, defined by the device designed, offset from the heaviest, is perceived from the outside as an interior inside an interior, a collection of cosy niches for showcasing, and the lighting is rather warm and gold/ yellowish. Between the two shells people live (in) the “thershold” space, between white and goldish;  stone and wood; in and out; public and private.
+
+
+  </p4>
+</div>
+
+
+  <div class="dragscroll">
+
+
+    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/d1.jpg" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/d2.jpg" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/p1.jpg" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/p2.jpg" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/p3.jpg" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/c1.jpg" alt="">
+  </div>
+
+</div>
+</section>
+<div class="codeinfo" class="hiddenSection">
+  <h1 onclick="myFunction(9)" id="myBtn"># 109.10</h1>
+  <p class="more" id="more9">
+  Barber Shop e Boutique<br>
+  2017 - 2018<br>
+  Viana do Castelo<br>
+  fotografias de Tiago Casanova
+  </p>
+</div>
+
+
+
+
+
+
+
+<section id="100.01" class="hiddenSection">
+<div class="project">
+
+  <div class="fotos" id="fotos6">
+      <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/100.01/1.jpg" style=" display: inherit;" id="foto1" alt="">
+      <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/100.01/2.jpg" style=" display: none;" id="foto2" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/100.01/3.jpg" style=" display: none;" id="foto3" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/100.01/4.jpg" style=" display: none;" id="foto4" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/100.01/5.jpg" style=" display: none;" id="foto5" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/100.01/6.jpg" style=" display: none;" id="foto6" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/100.01/7.jpg" style=" display: none;" id="foto7" alt="">
+
+
+  </div>
+
+<div class="texto" id="texto6">
+      <p4>
+Quando visitamos pela primeira vez o prédio, já não havia prédio - apenas a fachada frontal com 3 pisos, que seria obrigatório manter. Era possível ter mais um piso e um sótão no desvão da cobertura. Pretendia-se instalar 3 fogos e um comércio no Rés do Chão. Apesar de extremamente estreito, o lote tinha duas entradas o que permitiu repensar o sistema de acessos, feito exclusivamente pelo exterior, como um “deambulatório” de escadas em redor do pátio comum do logradouro. O elevador em betão havia de estruturar o novo tardoz, sendo ele o único volume que se projecta além do alinhamento dominante de fachadas da Viela dos Poços, com recurso a uma planta pentagonal suavizada com curvas em dois dos seus lados - interior e exterior - que exigiam um remate mais delicado. Dada a fragmentação de plataformas a diferentes cotas e a sua articulação com as escadas implantadas no logradouro, não se pretendia construir uma fachada de tardoz formal. Por isso, a projecção do elevador é cosida apenas com painéis de ferro e vidro que formam um átrio/ marquise, espaço de transição para o interior de cada fogo. O prolongamento desse tipo de construção metálica às escadas exteriores, simplesmente apoiadas na antiga parede meeira, reforçam essa desmontagem absoluta de um plano marcado ou referência volumétrica do edifício original. 
+<br><br>A pesquisa do projecto concentrou-se ainda noutro aspecto difícil: a maneira de fazer emergir um novo piso e a sua cobertura, num quarteirão bastante compacto e sem novas ampliações recentes, com uma grande unidade métrica e volumétrica, dada pela repetição de cantarias e janelas. Fizemos flutuar uma nova frente em madeira esmaltada, desligada da fachada antiga pela presença de uma varanda metálica que encima a cornija de pedra. Os interiores, livres de qualquer acesso vertical, queriam-se com a maior elementaridade possível, em que a única determinação espacial é a posição das infraestruturas - casa de banho e cozinha - ao centro, gerando dois espaços praticamente equivalentes. 
+
+  </p4>
+</div>
+
+
+  <div class="dragscroll">
+    <!--
+    <p3>Levantamento -
+    </p3>
+     -->
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/100.01/d3.jpg" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/100.01/d4.jpg" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/100.01/d2.jpg" alt="">
+
+    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/100.01/d1.jpg" alt="">
+      <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/100.01/d5.jpg" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/100.01/e1.jpg" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/100.01/e2.jpg" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/100.01/e3.jpg" alt="">
+
+  </div>
+
+</div>
+</section>
+<div class="codeinfo" class="hiddenSection">
+  <h1 onclick="myFunction(6)" id="myBtn"># 100.01</h1>
+  <p class="more" id="more6">
+  Edifício multifamiliar e comércio Noshi<br>
+  2016 - 2018<br>
+  Porto<br>
+  fotografias de "a caixa negra"
+  </p>
+</div>
+
+
+
+
+
+
+
+
 <section id="100.07" class="hiddenSection">
   <div class="project">
 
@@ -1213,8 +1362,7 @@ Uma espécie de "anti domesticidade", como afirma Pier Vittorio Aureli*, atraves
   <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/100.07/9.jpg" style=" display: none;" id="foto9" alt="">
   <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/100.07/10.jpg" style=" display: none;" id="foto10" alt="">
   <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/100.07/11.jpg" style=" display: none;" id="foto11" alt="">
-  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/100.07/12.jpg" style=" display: none;" id="foto12" alt="">
-  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/100.07/13.jpg" style=" display: none;" id="foto13" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/100.07/13.jpg" style=" display: none;" id="fotos12" alt="">
 
     </div>
 
@@ -1263,13 +1411,12 @@ Uma espécie de "anti domesticidade", como afirma Pier Vittorio Aureli*, atraves
   <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/114.01/5.jpg" style=" display: none;" id="foto5" alt="">
   <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/114.01/6.jpg" style=" display: none;" id="foto6" alt="">
   <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/114.01/7.jpg" style=" display: none;" id="foto7" alt="">
-  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/114.01/8.jpg" style=" display: none;" id="foto8" alt="">
+    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/114.01/8.jpg" style=" display: none;" id="foto8" alt="">
   <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/114.01/9.jpg" style=" display: none;" id="foto9" alt="">
   <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/114.01/10.jpg" style=" display: none;" id="foto10" alt="">
   <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/114.01/11.jpg" style=" display: none;" id="foto11" alt="">
   <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/114.01/12.jpg" style=" display: none;" id="foto12" alt="">
-  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/114.01/13.jpg" style=" display: none;" id="foto13" alt="">
-  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/114.01/14.jpg" style=" display: none;" id="foto14" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/114.01/14.jpg" style=" display: none;" id="foto13" alt="">
     </div>
 
   <div class="texto" id="texto16">
@@ -1613,165 +1760,12 @@ A thick mass of plants bordered the perimeter of a plateau terrain on a hillside
 
 
 
-<section id="118.01" class="hiddenSection">
-<div class="project">
-
-  <div class="fotos" id="fotos10">
-      <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/1.jpg" style=" display: inherit;" id="foto1" alt="">
-  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/2.jpg" style=" display: none;" id="foto2" alt="">
-  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/3.jpg" style=" display: none;" id="foto3" alt="">
-<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/4.jpg" style=" display: none;" id="foto4" alt="">
-<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/5.jpg" style=" display: none;" id="foto5" alt="">
-<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/6.jpg" style=" display: none;" id="foto6" alt="">
-<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/7.jpg" style=" display: none;" id="foto7" alt="">
-<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/8.jpg" style=" display: none;" id="foto8" alt="">
-<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/9.jpg" style=" display: none;" id="foto9" alt="">
-<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/10.jpg" style=" display: none;" id="foto10" alt="">
-<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/11.jpg" style=" display: none;" id="foto11" alt="">
-<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/12.jpg" style=" display: none;" id="foto12" alt="">
-<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/13.jpg" style=" display: none;" id="foto13" alt="">
-
-
-
-
-
-  </div>
-
-<div class="texto" id="texto10">
-      <p4>
-        Deito coisas vivas e mortas no espírito da obra.<br>
-        Minha vida extasia-se como uma câmara de tochas.<br>
-        - Era uma casa - como direi? - absoluta.<br>
-        Eu jogo, eu juro.<br>
-        Era uma casinfância.<br>
-        Sei como era uma casa louca.<br>
-        Eu metias as mãos na água: adormecia,<br>
-        relembrava.<br>
-        Os espelhos rachavam-se contra a nossa mocidade.<br>
-        Apalpo agora o girar das brutais,<br>
-        líricas rodas da vida.<br>
-        Há no esquecimento, ou na lembrança<br>
-        total das coisas,<br>
-        uma rosa como uma alta cabeça,<br>
-        um peixe como um movimento<br>
-        rápido e severo.<br>
-        Uma rosapeixe dentro da minha ideia<br>
-        desvairada.<br>
-        Há copos, garfos inebriados dentro de mim.<br>
-        - Porque o amor das coisas no seu<br>
-        tempo futuro<br>
-        é terrivelmente profundo, é suave,<br>
-        devastador.<br>
-        (...)<br>
-<br>
-        Herberto Helder
-<br>
-        “Súmula”, In «Ou o Poema Contínuo», Assírio & Alvim, 2001
-
-
-
-
-
-  </p4>
-</div>
-
-
-  <div class="dragscroll">
-
-<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/d0.jpg" alt="">
-    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/d1.jpg" alt="">
-
-    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/d2.jpg" alt="">
-    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/d3.jpg" alt="">
-    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/d4.jpg" alt="">
-    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/d5.jpg" alt="">
-
-    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/e1.jpg" alt="">
-<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/118.01/e2.jpg" alt="">
-
-
-  </div>
-
-</div>
-</section>
-<div class="codeinfo" class="hiddenSection">
-  <h1 onclick="myFunction(10)" id="myBtn"># 118.01</h1>
-  <p class="more" id="more10">
-  Casa de Férias<br>
-  2016 - 2019<br>
-  Esposende<br>
-  fotografias de Tiago Casanova
-  </p>
-</div>
 
 
 
 
 
 
-
-
-
-
-
-
-<section id="109.10" class="hiddenSection">
-<div class="project">
-
-  <div class="fotos" id="fotos9">
-      <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/1.jpg" style=" display: inherit;" id="foto1" alt="">
-  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/2.jpg" style=" display: none;" id="foto2" alt="">
-  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/3.jpg" style=" display: none;" id="foto3" alt="">
-  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/4.jpg" style=" display: none;" id="foto4" alt="">
-  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/5.jpg" style=" display: none;" id="foto5" alt="">
-  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/6.jpg" style=" display: none;" id="foto6" alt="">
-  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/7.jpg" style=" display: none;" id="foto7" alt="">
-  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/8.jpg" style=" display: none;" id="foto8" alt="">
-  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/9.jpg" style=" display: none;" id="foto9" alt="">
-  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/10.jpg" style=" display: none;" id="foto10" alt="">
-  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/11.jpg" style=" display: none;" id="foto11" alt="">
-  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/12.jpg" style=" display: none;" id="foto12" alt="">
-  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/13.jpg" style=" display: none;" id="foto13" alt="">
-  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/14.jpg" style=" display: none;" id="foto14" alt="">
-  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/15.jpg" style=" display: none;" id="foto15" alt="">
-  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/16.jpg" style=" display: none;" id="foto16" alt="">
-
-
-
-
-  </div>
-
-<div class="texto" id="texto9">
-      <p4>When we first visited the corner space and heard the program description from the client, a clear motto came: the program could easily be settled by designing only a kind of a solo device, a cabinet, an apparatus of wood or/and metal, placed inside that space. The functions asked in the program could be arranged in two big groups in terms of scale: one of those consuming preferably open-spaces or subspaces inside it, but all above 10 squaremeteres (barberspace, boutique area), and another of those like the fitting rooms, exhibitors, small warehouse, counter, most of them transformable into niches spaces. That lead us to keep the existing masonry as found (the bathroom was kept) and adjust the device that would host the less scale objects, even if obbeying to a very recongizable structural grid, helping the wood and metal construction to take place. This piece, to be placed in the core of the store plot, backing up to the rear walls, released the facade perimetrer and moulded the empty space in-between it and this perimeter. Therefore, the apparatus should be designed as if it landed in a continuous floor and ceiling. The piece can be divided into  3 parts, from the heaviest to the lightest: the structure in wood, creating the support to the piece and regular limits, the semi-open mesh to the warehouse and mechanical room in metal with outter limits and the HVAC piping in inox, expelling out of its borders even more. The piece is the machine that makes the productiveness of the empty space it defines around and where consumption takes place.
-Establishing the relation with the public space around, a street and a square, the heavy outter shell of stone and windows remains with no classic showcase, but only transparent as much as possible, and deliberately punctuated with new reddish awnings and big industrial white lighting lamps.. The second layer, defined by the device designed, offset from the heaviest, is perceived from the outside as an interior inside an interior, a collection of cosy niches for showcasing, and the lighting is rather warm and gold/ yellowish. Between the two shells people live (in) the “thershold” space, between white and goldish;  stone and wood; in and out; public and private.
-
-
-  </p4>
-</div>
-
-
-  <div class="dragscroll">
-
-
-    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/d1.jpg" alt="">
-  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/d2.jpg" alt="">
-  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/p1.jpg" alt="">
-<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/p2.jpg" alt="">
-<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/p3.jpg" alt="">
-<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/109.10/c1.jpg" alt="">
-  </div>
-
-</div>
-</section>
-<div class="codeinfo" class="hiddenSection">
-  <h1 onclick="myFunction(9)" id="myBtn"># 109.10</h1>
-  <p class="more" id="more9">
-  Barber Shop e Boutique<br>
-  2017 - 2018<br>
-  Viana do Castelo<br>
-  fotografias de Tiago Casanova
-  </p>
-</div>
 
 
 
@@ -1858,8 +1852,6 @@ Establishing the relation with the public space around, a street and a square, t
     <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/121.01/10.jpg" style=" display: none;" id="foto10" alt="">
     <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/121.01/11.jpg" style=" display: none;" id="foto11" alt="">
     <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/121.01/12.jpg" style=" display: none;" id="foto12" alt="">
-    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/121.01/13.jpg" style=" display: none;" id="foto13" alt="">
-    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/121.01/14.jpg" style=" display: none;" id="foto14" alt="">
 
 
 
@@ -1913,58 +1905,6 @@ Establishing the relation with the public space around, a street and a square, t
 
 
 
-<section id="100.01" class="hiddenSection">
-<div class="project">
-
-  <div class="fotos" id="fotos6">
-      <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/100.01/1.jpg" style=" display: inherit;" id="foto1" alt="">
-      <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/100.01/2.jpg" style=" display: none;" id="foto2" alt="">
-<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/100.01/3.jpg" style=" display: none;" id="foto3" alt="">
-<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/100.01/5.jpg" style=" display: none;" id="foto4" alt="">
-<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/100.01/6.jpg" style=" display: none;" id="foto5" alt="">
-<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/100.01/7.jpg" style=" display: none;" id="foto6" alt="">
-
-
-  </div>
-
-<div class="texto" id="texto6">
-      <p4>
-Quando visitamos pela primeira vez o prédio, já não havia prédio - apenas a fachada frontal com 3 pisos, que seria obrigatório manter. Era possível ter mais um piso e um sótão no desvão da cobertura. Pretendia-se instalar 3 fogos e um comércio no Rés do Chão. Apesar de extremamente estreito, o lote tinha duas entradas o que permitiu repensar o sistema de acessos, feito exclusivamente pelo exterior, como um “deambulatório” de escadas em redor do pátio comum do logradouro. O elevador em betão havia de estruturar o novo tardoz, sendo ele o único volume que se projecta além do alinhamento dominante de fachadas da Viela dos Poços, com recurso a uma planta pentagonal suavizada com curvas em dois dos seus lados - interior e exterior - que exigiam um remate mais delicado. Dada a fragmentação de plataformas a diferentes cotas e a sua articulação com as escadas implantadas no logradouro, não se pretendia construir uma fachada de tardoz formal. Por isso, a projecção do elevador é cosida apenas com painéis de ferro e vidro que formam um átrio/ marquise, espaço de transição para o interior de cada fogo. O prolongamento desse tipo de construção metálica às escadas exteriores, simplesmente apoiadas na antiga parede meeira, reforçam essa desmontagem absoluta de um plano marcado ou referência volumétrica do edifício original. 
-<br><br>A pesquisa do projecto concentrou-se ainda noutro aspecto difícil: a maneira de fazer emergir um novo piso e a sua cobertura, num quarteirão bastante compacto e sem novas ampliações recentes, com uma grande unidade métrica e volumétrica, dada pela repetição de cantarias e janelas. Fizemos flutuar uma nova frente em madeira esmaltada, desligada da fachada antiga pela presença de uma varanda metálica que encima a cornija de pedra. Os interiores, livres de qualquer acesso vertical, queriam-se com a maior elementaridade possível, em que a única determinação espacial é a posição das infraestruturas - casa de banho e cozinha - ao centro, gerando dois espaços praticamente equivalentes. 
-
-  </p4>
-</div>
-
-
-  <div class="dragscroll">
-    <!--
-    <p3>Levantamento -
-    </p3>
-     -->
-<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/100.01/d3.jpg" alt="">
-  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/100.01/d4.jpg" alt="">
-  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/100.01/d2.jpg" alt="">
-
-    <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/100.01/d1.jpg" alt="">
-      <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/100.01/d5.jpg" alt="">
-  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/100.01/e1.jpg" alt="">
-  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/100.01/e2.jpg" alt="">
-<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/100.01/e3.jpg" alt="">
-
-  </div>
-
-</div>
-</section>
-<div class="codeinfo" class="hiddenSection">
-  <h1 onclick="myFunction(6)" id="myBtn"># 100.01</h1>
-  <p class="more" id="more6">
-  Edifício multifamiliar e comércio Noshi<br>
-  2016 - 2018<br>
-  Porto<br>
-  fotografias de "a caixa negra"
-  </p>
-</div>
-
 
 
 
@@ -1981,17 +1921,14 @@ Quando visitamos pela primeira vez o prédio, já não havia prédio - apenas a 
 
   <div class="fotos" id="fotos5">
   <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/078.06/1.jpg" style=" display: inherit;" id="foto1" alt="">
-  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/078.06/2.jpg" style=" display: none;" id="foto2" alt="">
-<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/078.06/3.jpg" style=" display: none;" id="foto3" alt="">
-<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/078.06/4.jpg" style=" display: none;" id="foto4" alt="">
-<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/078.06/5.jpg" style=" display: none;" id="foto5" alt="">
-<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/078.06/6.jpg" style=" display: none;" id="foto6" alt="">
-<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/078.06/7.jpg" style=" display: none;" id="foto7" alt="">
-<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/078.06/8.jpg" style=" display: none;" id="foto8" alt="">
-<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/078.06/9.jpg" style=" display: none;" id="foto9" alt="">
-<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/078.06/10.jpg" style=" display: none;" id="foto10" alt="">
-<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/078.06/11.jpg" style=" display: none;" id="foto11" alt="">
-<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/078.06/12.jpg" style=" display: none;" id="foto12" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/078.06/3.jpg" style=" display: none;" id="foto2" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/078.06/4.jpg" style=" display: none;" id="foto3" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/078.06/5.jpg" style=" display: none;" id="foto4" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/078.06/6.jpg" style=" display: none;" id="foto5" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/078.06/8.jpg" style=" display: none;" id="foto6" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/078.06/10.jpg" style=" display: none;" id="foto7" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/078.06/11.jpg" style=" display: none;" id="foto8" alt="">
+<img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/078.06/12.jpg" style=" display: none;" id="foto9" alt="">
 
 
   </div>
@@ -2049,10 +1986,9 @@ Quando visitamos pela primeira vez o prédio, já não havia prédio - apenas a 
   <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/157.02/3.jpg" style=" display: none;" id="foto3" alt="">
   <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/157.02/4.jpg" style=" display: none;" id="foto4" alt="">
   <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/157.02/5.jpg" style=" display: none;" id="foto5" alt="">
-  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/157.02/6.jpg" style=" display: none;" id="foto6" alt="">
-  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/157.02/7.gif" style=" display: none;" id="foto7" alt="">
-  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/157.02/8.jpg" style=" display: none;" id="foto8" alt="">
-  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/157.02/9.jpg" style=" display: none;" id="foto9" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/157.02/7.gif" style=" display: none;" id="foto6" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/157.02/8.jpg" style=" display: none;" id="foto7" alt="">
+  <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/157.02/9.jpg" style=" display: none;" id="foto8" alt="">
   </div>
 
   <div class="texto" id="texto4">
@@ -2156,7 +2092,6 @@ Quando visitamos pela primeira vez o prédio, já não havia prédio - apenas a 
       <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/002.01/6.jpg" style=" display: none;" id="foto6" alt="">
       <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/002.01/7.gif" style=" display: none;" id="foto7" alt="">
       <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/002.01/8.jpg" style=" display: none;" id="foto8" alt="">
-      <img    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" data-src="images/002.01/9.jpg" style=" display: none;" id="foto9" alt="">
 
 
       </div>
