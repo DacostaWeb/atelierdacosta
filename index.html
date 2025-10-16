@@ -1,19 +1,10 @@
 
 <!DOCTYPE html>
-<!--   __      ___            __                 __
- ___ _/ /____ / (____ _______/ ___ ________  ___/ /____ _
-/ _ `/ __/ -_/ / / -_/ __/ _  / _ `/ __/ _ \(_-/ __/ _ `/
-\_,_/\__/\__/_/_/\__/_/  \_,_/\_,_/\__/\___/___\__/\_,_/
-        https://cdn.rawgit.com/asvd/dragscroll/master/dragscroll.js      -->
+
 
 <html lang="pt">
 
-<!--
-<script>
-window.onload = function(){ document.getElementById("loading").style.display = "none" }
 
-</script>
- -->
 
 <head>
 
@@ -143,15 +134,7 @@ window.onload = function(){ document.getElementById("loading").style.display = "
         }));
 
   </script>
-  <!-- Global Site Tag (gtag.js) - Google Analytics -->
-<!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-106609615-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments)};
-  gtag('js', new Date());
 
-  gtag('config', 'UA-106609615-1');
-</script> -->
 <script type="application/ld+json">
 {
   "@context": "http://schema.org",
@@ -163,16 +146,21 @@ window.onload = function(){ document.getElementById("loading").style.display = "
 </script>
   <meta charset="utf-8">
   <meta name="author" content="Eduardo Barros">
-  <meta name="description" content="info@atelierdacosta.com
-~
-+351 913 586 843
-+351 917 777 945
-~
-Sede: Rua Avelino Barros 303, 4490-479, Póvoa de Varzim
-Delegação(em construção): Rua de Entreparedes 25/27, 4000-198 Porto">
+  <meta name="description" 
+content="info@atelierdacosta.com
+--
++351 252 683 337
+(Chamada para a rede fixa nacional)
+Rua Avelino Barros, 303
+Póvoa de Varzim, Portugal
+--
++351 223 166 592
+(Chamada para a rede fixa nacional)
+Rua de Entreparedes, 25
+Porto, Portugal">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, target-densityDpi=device-dpi" />
   <link rel="stylesheet" type="text/css" href="style.css">
-  <title>ATELIERDACOSTA — ARQUITETURA & REABILITAÇÃO</title>
+  <title>ATELIERDACOSTA</title>
 <link rel="icon" sizes="192x192" href="favicon.ico">
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -533,13 +521,12 @@ currentPicture = 1;
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     const projects = document.querySelectorAll('.project');
-    let currentIndex = 0;  // Current project index for snapping.
-    const imageIndices = new Array(projects.length).fill(1);  // Per-project image index, starting at 1.
+    let currentIndex = 0;
+    const imageIndices = new Array(projects.length).fill(1);
     const isMobile = /Mobi|Android|iPhone|iPad|iPod|Touch/.test(navigator.userAgent);
 
-    console.log(`Found ${projects.length} .project elements.`);  // Debug if needed.
+    console.log(`Found ${projects.length} .project elements.`);
 
-    // Get the index of the project currently in the center of viewport.
     function getCurrentProjectIndex() {
         const viewportCenter = window.innerHeight / 2;
         let minDistance = Infinity;
@@ -556,7 +543,6 @@ currentPicture = 1;
         return currentIdx;
     }
 
-    // Cycle image in given project.
     function cycleImage(projIdx, direction = 'next') {
         const project = projects[projIdx];
         const fotos = project.querySelector('.fotos');
@@ -579,7 +565,6 @@ currentPicture = 1;
 
         imageIndices[projIdx] = currentImage;
 
-        // Hide all, show current.
         imgs.forEach(img => img.style.display = 'none');
         fulinks.forEach(h5 => h5.style.display = 'none');
 
@@ -589,8 +574,8 @@ currentPicture = 1;
         }
     }
 
-    // Snap to a project (up/down navigation).
     function snapToProject(index) {
+        if (isMobile) return; // disable snapping on mobile/touch
         if (index < 0 || index >= projects.length) return;
         const project = projects[index];
         const viewportHeight = window.innerHeight;
@@ -602,8 +587,10 @@ currentPicture = 1;
         currentIndex = index;
     }
 
-    // Initialize: Snap to first project on load.
-    snapToProject(currentIndex);
+    // Only snap to first project if not mobile
+    if (!isMobile) {
+        snapToProject(currentIndex);
+    }
 
     // --- TOUCH SWIPE HANDLING ---
     let touchStartX = 0;
@@ -647,14 +634,14 @@ currentPicture = 1;
 
     // --- KEYDOWN HANDLING (ARROWS) ---
     document.addEventListener('keydown', (event) => {
-        if (event.key === 'ArrowDown' && !isMobile) {
+        if (!isMobile && event.key === 'ArrowDown') {
             event.preventDefault();
-            currentIndex = getCurrentProjectIndex();  // Update index to closest project before snapping.
+            currentIndex = getCurrentProjectIndex();
             currentIndex = Math.min(currentIndex + 1, projects.length - 1);
             snapToProject(currentIndex);
-        } else if (event.key === 'ArrowUp' && !isMobile) {
+        } else if (!isMobile && event.key === 'ArrowUp') {
             event.preventDefault();
-            currentIndex = getCurrentProjectIndex();  // Update index to closest project before snapping.
+            currentIndex = getCurrentProjectIndex();
             currentIndex = Math.max(currentIndex - 1, 0);
             snapToProject(currentIndex);
         } else if (event.key === 'ArrowLeft') {
@@ -669,7 +656,9 @@ currentPicture = 1;
     });
 
     // --- RESIZE HANDLER ---
-    window.addEventListener('resize', () => snapToProject(currentIndex));
+    window.addEventListener('resize', () => {
+        if (!isMobile) snapToProject(currentIndex);
+    });
 
     // --- POPSTATE RESET ---
     window.addEventListener('popstate', () => {
@@ -678,6 +667,7 @@ currentPicture = 1;
         }
     });
 });
+
 </script>
   
 
