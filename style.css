@@ -647,6 +647,11 @@ scrollbar-width: thin;
 	margin-right: 10px;
 }
 
+.outer2 #welcome a {
+	    max-width: 435px;
+ 
+}
+
 .outer2 a:hover{
 	transition-duration: 1s;
 	opacity: .5;
@@ -2656,6 +2661,10 @@ pointer-events: none;
 
 .outer2 img{
 	    max-height: 580px;
+}
+
+.outer2 #welcome img{
+	    max-height: 347px;
 }
 
 /* .outer2 h2 b{

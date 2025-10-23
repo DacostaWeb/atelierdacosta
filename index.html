@@ -7,6 +7,12 @@
 
 
 <head>
+  <script>
+  if (!localStorage.getItem('hasVisited') && !window.location.hash) {
+    localStorage.setItem('hasVisited', 'true');
+    window.location.href = '/welcome/';  // Replace with your subfolder path
+  }
+</script>
 
    <script>
         // Function to load images and make hiddenSection elements visible
