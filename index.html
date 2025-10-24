@@ -43,7 +43,7 @@
         window.addEventListener('hashchange', loadHiddenSectionImages);
     </script>
 
-  <script>
+  <script defer>
         /**
        * @fileoverview dragscroll - scroll area by dragging
        * @version 0.0.8
@@ -169,10 +169,9 @@ Porto, Portugal">
   <title>ATELIERDACOSTA</title>
 <link rel="icon" sizes="192x192" href="favicon.ico">
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-<!-- <meta name="google-site-verification" content="sbNtRFqW4b7_Af-jCpZybr9JxYmdaALAtpg6lLpSi0U"/> -->
 
+<!-- 
 <script>
 $(document).ready(function() {
 
@@ -194,8 +193,8 @@ $(document).ready(function() {
 
 
 </script>
-
-
+ -->
+<!-- 
 <script >
   $(document).ready(function() {
 if(window.location.href.indexOf("#") < 1) {
@@ -227,9 +226,9 @@ if(window.location.href.indexOf("#") > 1) {
 
   });
 
-</script>
+</script> -->
 
-
+<!-- 
 <script>
 $(window).on('popstate', function(event) {
   if(window.location.href.indexOf("#") < 1) {
@@ -254,8 +253,8 @@ $(window).on('popstate', function(event) {
          });
   }
 });
-</script>
-
+</script> -->
+<!-- 
 <script>
 $(window).on('popstate', function(event) {
   if(window.location.href.indexOf("#") > 1) {
@@ -285,216 +284,9 @@ $("html").css("overflow", "auto");
 currentPicture = 1;
 });
 });
-</script>
+</script> -->
 
 
-
-<!-- papiro click -->
-    <!-- <script>
-
-      jQuery(function ($) {
-          $.fn.wScroll = function (amount) {
-              amount = amount || 1;
-              $(this).bind("DOMMouseScroll mousewheel", function (e) {
-                  var oEvent = e.originalEvent,
-                      direction = oEvent.detail ? oEvent.detail * -amount : oEvent.wheelDelta,
-                      position = $(this).scrollLeft();
-                  position += direction > 0 ? -amount : amount;
-                  $(this).scrollLeft(position);
-                  e.preventDefault();
-                e.stopPropagation();
-              })
-          };
-      });
-
-      $(document).ready(function() {
-          $('.dragscroll').wScroll(60);
-          500,
-         'cubic' // You can pass (optionally) scrolling amount
-      });
-
-    </script> -->
-
-    <!-- papiro que antes estava no head -->
-    <!-- <script   defer>
-      /**
-       * @fileoverview dragscroll - scroll area by dragging
-       * @version 0.0.8
-       *
-       * @license MIT, see http://github.com/asvd/dragscroll
-       * @copyright 2015 asvd <heliosframework@gmail.com>
-       */
-       var dragload = 0;
-
-
-
-      $('.dragscroll').ready(function ola (root, factory) {
-
-          if (typeof define === 'function' && define.amd) {
-              define(['exports'], factory);
-          } else if (typeof exports !== 'undefined') {
-              factory(exports);
-          } else {
-              factory((root.dragscroll = {}));
-          }
-      }(this, function (exports) {
-          var _window = window;
-          var _document = document;
-          var mousemove = 'mousemove';
-          var mouseup = 'mouseup';
-          var mousedown = 'mousedown';
-
-          var EventListener = 'EventListener';
-          var addEventListener = 'add'+EventListener;
-          var removeEventListener = 'remove'+EventListener;
-          var newScrollX;
-
-
-
-          var dragged = [];
-          var reset = function(i, el) {
-
-
-              for (i = 0; i < dragged.length;) {
-                  el = dragged[i++];
-                  el = el.container || el;
-                  el[removeEventListener](mousedown, el.md, 0);
-                  _window[removeEventListener](mouseup, el.mu, 0);
-                  _window[removeEventListener](mousemove, el.mm, 0);
-              }
-
-              // cloning into array since HTMLCollection is updated dynamically
-              dragged = [].slice.call(_document.getElementsByClassName('dragscroll'));
-              for (i = 0; i < dragged.length;) {
-                  (function(el, lastClientX, pushed, scroller, cont){
-                      (cont = el.container || el)[addEventListener](
-                          mousedown,
-                          cont.md = function(e) {
-                              if (!el.hasAttribute('nochilddrag')  ||
-                                  _document.elementFromPoint(
-                                      e.pageX
-                                  ) == cont
-                              ) {
-                                  pushed = 1;
-                                  lastClientX = e.clientX;
-
-
-                                  e.preventDefault();
-                              }
-
-                          }, 0
-                      );
-
-                      _window[addEventListener](
-
-                          mouseup, cont.mu = function() {pushed = 0;}, 0
-                      );
-
-                      _window[addEventListener](
-                          mousemove,
-                          cont.mm = function(e) {
-                              if (pushed) {
-                                  (scroller = el.scroller||el).scrollLeft -=
-                                      newScrollX = (- lastClientX + (lastClientX=e.clientX));
-
-                                  if (el == _document.body) {
-                                      (scroller = _document.documentElement).scrollLeft -= newScrollX;
-
-                                  }
-                              }
-                          }, 0
-                      );
-                   })(dragged[i++]);
-              }
-          }
-
-
-
-
-      if (document.readyState == 'complete') {
-      window[addEventListener]('dragstart', reset, 0);
-
-       } else {
-           window[addEventListener]('dragstart', reset, 0);
-
-       }
-
-
-          exports.reset = reset;
-    }));
-
-
-
-    $('.dragscroll').ready(function() {
-
-
-
-
-
-      $('.dragscroll').mouseenter(function(){
-
-          if (dragload == 1) {
-            $(this).css('cursor', 'ew-resize');
-        }else if (dragload == 0) {
-            $(this).css('cursor', 'ew-resize');
-        }
-      });
-
-      });
-
-      document.onreadystatechange = () => {
-      if (document.readyState === 'complete') {
-
-        dragload = 1;
-      }
-    };
-
-
-    </script> -->
-
-    <!-- parar scroll quando hover no papiro
-      <script>
-      $(".dragscroll").hover(function() {
-      var oldScrollPos = $(window).scrollTop();
-
-      $(window).on('scroll.scrolldisabler', function(e) {
-        $(window).scrollTop(oldScrollPos);
-        e.preventDefault();
-        e.stopPropagation();
-      });
-      }, function() {
-      $(window).off('scroll.scrolldisabler');
-      });
-
-      </script>
-      -->
-
-  <!--
-      <script>
-      jQuery(function ($) {
-          $.fn.wScroll = function (amount) {
-              amount = amount || 1;
-              $(this).bind("DOMMouseScroll mousewheel", function (e) {
-                  var oEvent = e.originalEvent,
-                      direction = oEvent.detail ? oEvent.detail * -amount : oEvent.wheelDelta,
-                      position = $(this).scrollLeft();
-                  position += direction > 0 ? -amount : amount;
-                  $(this).scrollLeft(position);
-                  e.preventDefault();
-                e.stopPropagation();
-              })
-          };
-      });
-
-      $(document).ready(function() {
-          $('.dragscroll').wScroll(60);
-          500,
-         'cubic' // You can pass (optionally) scrolling amount
-      });
-    </script>
-
-     -->
-<!-- codigo click -->
 <script>
   function myFunction(e) {
     var moreText = document.getElementById("more" + e);
@@ -701,9 +493,7 @@ currentPicture = 1;
       </a>
   </div>
 
-<!-- <div class="linha">
 
-</div> -->
 
 <div class="gradientup">
 

@@ -2326,6 +2326,14 @@ margin-top: 33vh;
 
 @media screen and (max-width: 475px) {
 
+/* .outer2 #welcome img{
+margin: auto;
+    display: block;
+} */
+	
+.outer2 #welcome a{
+display: block !important;
+}
 
 	.leftpng{
 left: 20px;
@@ -2663,10 +2671,11 @@ pointer-events: none;
 	    max-height: 580px;
 }
 
+@media screen and (min-width: 425px) {
 .outer2 #welcome img{
 	    max-height: 347px;
 }
-
+}
 /* .outer2 h2 b{
 	font-weight: bold;
 }

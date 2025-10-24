@@ -1,10 +1,6 @@
 
 <!DOCTYPE html>
-<!--   __      ___            __                 __
- ___ _/ /____ / (____ _______/ ___ ________  ___/ /____ _
-/ _ `/ __/ -_/ / / -_/ __/ _  / _ `/ __/ _ \(_-/ __/ _ `/
-\_,_/\__/\__/_/_/\__/_/  \_,_/\_,_/\__/\___/___\__/\_,_/
-        https://cdn.rawgit.com/asvd/dragscroll/master/dragscroll.js      -->
+
 
 <html lang="pt">
 <head>
@@ -36,7 +32,6 @@ Porto, Portugal">
   <title>ATELIERDACOSTA</title>
 <link rel="icon" sizes="192x192" href="../favicon.ico">
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 
 
@@ -44,262 +39,6 @@ Porto, Portugal">
 
 
 
-<script>
-
-$(document).ready(function(){
-  $(".backtop").click(function () { //#A_ID is an example. Use the id of your Anchor
-
-      $(this).parent( ".p2" ).animate({
-          scrollTop: 0 //#DIV_ID is an example. Use the id of your destination on the page
-      }, 'slow');
-
-  });
-});
-
-</script>
-
-
-<!-- papiro click -->
-<!--  if ($('.backtop:hover').length == 0) { -->
-<!-- 
-<script>
-  $(document).ready(function() {
-    var winwid = $(window).width() - 65;
-    $('.leftclick')
-      .on('mousedown', function() { $(this).one("click", handleClick); })
-      .on('mousemove mouseout', function() { $(this).off('click'); });
-
-  function handleClick(){
-
-
-
-        if ($(window).width() > 575) {
-   $('.appcontainer').animate( { scrollLeft: '-=570' }, 200);
-  }
-  else {
-  $('.appcontainer').animate( { scrollLeft: '-=210' }, 200);
-  }
-
-
-  }
-  });
-</script>
- -->
-<!-- 
-<script>
-  $(document).ready(function() {
-      var winwid = $(window).width() - 65;
-    $('.rightclick')
-      .on('mousedown', function() { $(this).one("click", handleClick); })
-      .on('mousemove mouseout', function() { $(this).off('click'); });
-
-  function handleClick(){
-
-
-
-        if ($(window).width() > 575) {
-   $('.appcontainer').animate( { scrollLeft: '+=570' }, 200);
-  }
-  else {
-  $('.appcontainer').animate( { scrollLeft: '+=210' }, 200);
-  }
-
-
-
-  }
-  });
-</script>
- -->
-<!-- papiro que antes estava no head -->
-<!--
-<script type="text/javascript"  defer>
-  /**
-   * @fileoverview dragscroll - scroll area by dragging
-   * @version 0.0.8
-   *
-   * @license MIT, see http://github.com/asvd/dragscroll
-   * @copyright 2015 asvd <heliosframework@gmail.com>
-   */
-
-
-  (function (root, factory) {
-      if (typeof define === 'function' && define.amd) {
-          define(['exports'], factory);
-      } else if (typeof exports !== 'undefined') {
-          factory(exports);
-      } else {
-          factory((root.appcontainer = {}));
-      }
-  }(this, function (exports) {
-      var _window = window;
-      var _document = document;
-      var mousemove = 'mousemove';
-      var mouseup = 'mouseup';
-      var mousedown = 'mousedown';
-
-      var EventListener = 'EventListener';
-      var addEventListener = 'add'+EventListener;
-      var removeEventListener = 'remove'+EventListener;
-      var newScrollX;
-
-      var dragged = [];
-      var reset = function(i, el) {
-          for (i = 0; i < dragged.length;) {
-              el = dragged[i++];
-              el = el.container || el;
-              el[removeEventListener](mousedown, el.md, 0);
-              _window[removeEventListener](mouseup, el.mu, 0);
-              _window[removeEventListener](mousemove, el.mm, 0);
-          }
-
-          // cloning into array since HTMLCollection is updated dynamically
-          dragged = [].slice.call(_document.getElementsByClassName('appcontainer'));
-          for (i = 0; i < dragged.length;) {
-              (function(el, lastClientX, pushed, scroller, cont){
-                  (cont = el.container || el)[addEventListener](
-                      mousedown,
-                      cont.md = function(e) {
-                          if (!el.hasAttribute('nochilddrag') ||
-                              _document.elementFromPoint(
-                                  e.pageX
-                              ) == cont
-                          ) {
-                              pushed = 1;
-                              lastClientX = e.clientX;
-
-
-                              e.preventDefault();
-                          }
-                      }, 0
-                  );
-
-                  _window[addEventListener](
-                      mouseup, cont.mu = function() {pushed = 0;}, 0
-                  );
-
-                  _window[addEventListener](
-                      mousemove,
-                      cont.mm = function(e) {
-                          if (pushed) {
-                              (scroller = el.scroller||el).scrollLeft -=
-                                  newScrollX = (- lastClientX + (lastClientX=e.clientX));
-
-                              if (el == _document.body) {
-                                  (scroller = _document.documentElement).scrollLeft -= newScrollX;
-
-                              }
-                          }
-                      }, 0
-                  );
-               })(dragged[i++]);
-          }
-      }
-
-
-      if (_document.readyState == 'complete') {
-          reset();
-      } else {
-          _window[addEventListener]('load', reset, 0);
-      }
-
-      exports.reset = reset;
-}));</script>
--->
-
-<!--
-<script type="text/javascript"  defer>
-  /**
-   * @fileoverview dragscroll - scroll area by dragging
-   * @version 0.0.8
-   *
-   * @license MIT, see http://github.com/asvd/dragscroll
-   * @copyright 2015 asvd <heliosframework@gmail.com>
-   */
-
-
-  (function (root, factory) {
-      if (typeof define === 'function' && define.amd) {
-          define(['exports'], factory);
-      } else if (typeof exports !== 'undefined') {
-          factory(exports);
-      } else {
-          factory((root.p2 = {}));
-      }
-  }(this, function (exports) {
-      var _window = window;
-      var _document = document;
-      var mousemove = 'mousemove';
-      var mouseup = 'mouseup';
-      var mousedown = 'mousedown';
-
-      var EventListener = 'EventListener';
-      var addEventListener = 'add'+EventListener;
-      var removeEventListener = 'remove'+EventListener;
-      var newScrollY;
-
-      var dragged = [];
-      var reset = function(i, el) {
-          for (i = 0; i < dragged.length;) {
-              el = dragged[i++];
-              el = el.container || el;
-              el[removeEventListener](mousedown, el.md, 0);
-              _window[removeEventListener](mouseup, el.mu, 0);
-              _window[removeEventListener](mousemove, el.mm, 0);
-          }
-
-          // cloning into array since HTMLCollection is updated dynamically
-          dragged = [].slice.call(_document.getElementsByClassName('p2'));
-          for (i = 0; i < dragged.length;) {
-              (function(el, lastClientY, pushed, scroller, cont){
-                  (cont = el.container || el)[addEventListener](
-                      mousedown,
-                      cont.md = function(e) {
-                          if (!el.hasAttribute('nochilddrag') ||
-                              _document.elementFromPoint(
-                                  e.pageY
-                              ) == cont
-                          ) {
-                              pushed = 1;
-                              lastClientY = e.clientY;
-
-
-                              e.preventDefault();
-                          }
-                      }, 0
-                  );
-
-                  _window[addEventListener](
-                      mouseup, cont.mu = function() {pushed = 0;}, 0
-                  );
-
-                  _window[addEventListener](
-                      mousemove,
-                      cont.mm = function(e) {
-                          if (pushed) {
-                              (scroller = el.scroller||el).scrollTop -=
-                                  newScrollY = (- lastClientY + (lastClientY=e.clientY));
-
-                              if (el == _document.body) {
-                                  (scroller = _document.documentElement).scrollTop -= newScrollY;
-
-                              }
-                          }
-                      }, 0
-                  );
-               })(dragged[i++]);
-          }
-      }
-
-
-      if (_document.readyState == 'complete') {
-          reset();
-      } else {
-          _window[addEventListener]('load', reset, 0);
-      }
-
-      exports.reset = reset;
-}));</script>
--->
 
 
 </head>
@@ -308,16 +47,8 @@ $(document).ready(function(){
 
 
 <body>
-<!-- <a href="10/"><img class="apparrowright" src="../appendixarrowright.svg" alt="">
-</a>
-<a href="10/"><img style="opacity: 0.3;" class="apparrowleft" src="../appendixarrowleft.svg" alt="">
-</a> -->
 
 <img class="apparrowright" src="../appendixarrowright.svg" alt="">
-<!-- <img  class="apparrowleft" src="../appendixarrowleft.svg" alt=""> -->
-
-<!-- <img class="apparrowleft" src="../appendixarrowleft.svg" alt="">
- -->
 
   <div class="pngs">
     <a href="../about/index.html"> <img    class="aboutpng hidepng" src="../atelierdacosta.svg" alt=""></a>
@@ -345,11 +76,6 @@ $(document).ready(function(){
 
     </div>
 
-<!--  <a href="../">
-      <div class="leftclick">
-
-    </div> -->
-
 
     <a href="../">
       <div class="rightclick">
@@ -364,12 +90,6 @@ $(document).ready(function(){
     <div class="gradientbottom">
 
     </div>
-    <!-- <div class="gradientright">
-
-    </div>
-    <div class="gradientleft">
-
-    </div> -->
 
 <div class="appcontainer">
 
@@ -388,7 +108,7 @@ $(document).ready(function(){
               padding-right: 0px;
     display: inline-block;
     font-size: 20px;
-    font-weight: lighter;">↗</span><br><br>Portuguese Technical Architecture Magazine<br>Já Disponível!
+    font-weight: lighter;">↗</span><br><br>Já Disponível!
         
           </h2>
 <p2>
@@ -434,25 +154,6 @@ $(document).ready(function(){
               <br><br>  <br>   
 </a>
 
-<!-- 
-<a href="../index.html#162.01" style="user-select: text;">
-     
-         
-         <h2>
-          <b>#162.01</b><span style="float: right;
-              padding-right: 0px;
-    display: inline-block;
-    font-size: 20px;
-    font-weight: lighter;"><b>+</b></span><br><br>Casa Crespo<br>Póvoa de Varzim
-        
-          </h2>
-<p2>
-                 <br>
-<img class="full" src="../images/162.01/8.jpg" alt="">
-              <br><br>  <br>   
-</a>
-
- -->
 
 
 
@@ -493,11 +194,11 @@ $(document).ready(function(){
      <br><br>
          
          <h2 style="text-align: left;">
-          <b>FOLLOW FOR UPDATES</b><span style="float: right;
+          <b>📸 FOLLOW FOR UPDATES</b><span style="float: right;
               padding-right: 0px;
     display: inline-block;
     font-size: 20px;
-    font-weight: lighter;"><b>↗</b></span><br><br>News as well as our research on our ATLAS(Instagram)
+    font-weight: lighter;"><b>↗</b></span><br><br>News and research on our ATLAS(Instagram)
         
           </h2>
  <br>
@@ -507,7 +208,7 @@ $(document).ready(function(){
      <br><br>
          
          <h2 style="text-align: left;">
-          <b>NEW APPENDIX ESSAYS</b><span style="float: right;
+          <b>✍ NEW APPENDIX ESSAYS</b><span style="float: right;
               padding-right: 0px;
     display: inline-block;
     font-size: 20px;

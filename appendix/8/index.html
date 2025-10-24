@@ -1,10 +1,5 @@
 
 <!DOCTYPE html>
-<!--   __      ___            __                 __
- ___ _/ /____ / (____ _______/ ___ ________  ___/ /____ _
-/ _ `/ __/ -_/ / / -_/ __/ _  / _ `/ __/ _ \(_-/ __/ _ `/
-\_,_/\__/\__/_/_/\__/_/  \_,_/\_,_/\__/\___/___\__/\_,_/
-        https://cdn.rawgit.com/asvd/dragscroll/master/dragscroll.js      -->
 
 <html lang="pt">
 <head>
@@ -36,271 +31,29 @@ Porto, Portugal">
   <title>APPENDIX #8</title>
 <link rel="icon" sizes="192x192" href="../../favicon.ico">
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-
-
 
 
 
 
 
 <script>
-
-$(document).ready(function(){
-  $(".backtop").click(function () { //#A_ID is an example. Use the id of your Anchor
-
-      $(this).parent( ".p2" ).animate({
-          scrollTop: 0 //#DIV_ID is an example. Use the id of your destination on the page
-      }, 'slow');
-
-  });
+document.addEventListener('DOMContentLoaded', function() {
+    const backtopButtons = document.querySelectorAll('.backtop');
+    
+    backtopButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const parent = this.closest('.p2');
+            parent.scrollTo({
+                top: 0,
+               
+            });
+        });
+    });
 });
 
 </script>
 
 
-<!-- papiro click -->
-<!--  if ($('.backtop:hover').length == 0) { -->
-<!-- 
-<script>
-  $(document).ready(function() {
-    var winwid = $(window).width() - 65;
-    $('.leftclick')
-      .on('mousedown', function() { $(this).one("click", handleClick); })
-      .on('mousemove mouseout', function() { $(this).off('click'); });
-
-  function handleClick(){
-
-
-
-        if ($(window).width() > 575) {
-   $('.appcontainer').animate( { scrollLeft: '-=570' }, 200);
-  }
-  else {
-  $('.appcontainer').animate( { scrollLeft: '-=210' }, 200);
-  }
-
-
-  }
-  });
-</script>
- -->
-<!-- 
-<script>
-  $(document).ready(function() {
-      var winwid = $(window).width() - 65;
-    $('.rightclick')
-      .on('mousedown', function() { $(this).one("click", handleClick); })
-      .on('mousemove mouseout', function() { $(this).off('click'); });
-
-  function handleClick(){
-
-
-
-        if ($(window).width() > 575) {
-   $('.appcontainer').animate( { scrollLeft: '+=570' }, 200);
-  }
-  else {
-  $('.appcontainer').animate( { scrollLeft: '+=210' }, 200);
-  }
-
-
-
-  }
-  });
-</script>
- -->
-<!-- papiro que antes estava no head -->
-<!--
-<script type="text/javascript"  defer>
-  /**
-   * @fileoverview dragscroll - scroll area by dragging
-   * @version 0.0.8
-   *
-   * @license MIT, see http://github.com/asvd/dragscroll
-   * @copyright 2015 asvd <heliosframework@gmail.com>
-   */
-
-
-  (function (root, factory) {
-      if (typeof define === 'function' && define.amd) {
-          define(['exports'], factory);
-      } else if (typeof exports !== 'undefined') {
-          factory(exports);
-      } else {
-          factory((root.appcontainer = {}));
-      }
-  }(this, function (exports) {
-      var _window = window;
-      var _document = document;
-      var mousemove = 'mousemove';
-      var mouseup = 'mouseup';
-      var mousedown = 'mousedown';
-
-      var EventListener = 'EventListener';
-      var addEventListener = 'add'+EventListener;
-      var removeEventListener = 'remove'+EventListener;
-      var newScrollX;
-
-      var dragged = [];
-      var reset = function(i, el) {
-          for (i = 0; i < dragged.length;) {
-              el = dragged[i++];
-              el = el.container || el;
-              el[removeEventListener](mousedown, el.md, 0);
-              _window[removeEventListener](mouseup, el.mu, 0);
-              _window[removeEventListener](mousemove, el.mm, 0);
-          }
-
-          // cloning into array since HTMLCollection is updated dynamically
-          dragged = [].slice.call(_document.getElementsByClassName('appcontainer'));
-          for (i = 0; i < dragged.length;) {
-              (function(el, lastClientX, pushed, scroller, cont){
-                  (cont = el.container || el)[addEventListener](
-                      mousedown,
-                      cont.md = function(e) {
-                          if (!el.hasAttribute('nochilddrag') ||
-                              _document.elementFromPoint(
-                                  e.pageX
-                              ) == cont
-                          ) {
-                              pushed = 1;
-                              lastClientX = e.clientX;
-
-
-                              e.preventDefault();
-                          }
-                      }, 0
-                  );
-
-                  _window[addEventListener](
-                      mouseup, cont.mu = function() {pushed = 0;}, 0
-                  );
-
-                  _window[addEventListener](
-                      mousemove,
-                      cont.mm = function(e) {
-                          if (pushed) {
-                              (scroller = el.scroller||el).scrollLeft -=
-                                  newScrollX = (- lastClientX + (lastClientX=e.clientX));
-
-                              if (el == _document.body) {
-                                  (scroller = _document.documentElement).scrollLeft -= newScrollX;
-
-                              }
-                          }
-                      }, 0
-                  );
-               })(dragged[i++]);
-          }
-      }
-
-
-      if (_document.readyState == 'complete') {
-          reset();
-      } else {
-          _window[addEventListener]('load', reset, 0);
-      }
-
-      exports.reset = reset;
-}));</script>
--->
-
-<!--
-<script type="text/javascript"  defer>
-  /**
-   * @fileoverview dragscroll - scroll area by dragging
-   * @version 0.0.8
-   *
-   * @license MIT, see http://github.com/asvd/dragscroll
-   * @copyright 2015 asvd <heliosframework@gmail.com>
-   */
-
-
-  (function (root, factory) {
-      if (typeof define === 'function' && define.amd) {
-          define(['exports'], factory);
-      } else if (typeof exports !== 'undefined') {
-          factory(exports);
-      } else {
-          factory((root.p2 = {}));
-      }
-  }(this, function (exports) {
-      var _window = window;
-      var _document = document;
-      var mousemove = 'mousemove';
-      var mouseup = 'mouseup';
-      var mousedown = 'mousedown';
-
-      var EventListener = 'EventListener';
-      var addEventListener = 'add'+EventListener;
-      var removeEventListener = 'remove'+EventListener;
-      var newScrollY;
-
-      var dragged = [];
-      var reset = function(i, el) {
-          for (i = 0; i < dragged.length;) {
-              el = dragged[i++];
-              el = el.container || el;
-              el[removeEventListener](mousedown, el.md, 0);
-              _window[removeEventListener](mouseup, el.mu, 0);
-              _window[removeEventListener](mousemove, el.mm, 0);
-          }
-
-          // cloning into array since HTMLCollection is updated dynamically
-          dragged = [].slice.call(_document.getElementsByClassName('p2'));
-          for (i = 0; i < dragged.length;) {
-              (function(el, lastClientY, pushed, scroller, cont){
-                  (cont = el.container || el)[addEventListener](
-                      mousedown,
-                      cont.md = function(e) {
-                          if (!el.hasAttribute('nochilddrag') ||
-                              _document.elementFromPoint(
-                                  e.pageY
-                              ) == cont
-                          ) {
-                              pushed = 1;
-                              lastClientY = e.clientY;
-
-
-                              e.preventDefault();
-                          }
-                      }, 0
-                  );
-
-                  _window[addEventListener](
-                      mouseup, cont.mu = function() {pushed = 0;}, 0
-                  );
-
-                  _window[addEventListener](
-                      mousemove,
-                      cont.mm = function(e) {
-                          if (pushed) {
-                              (scroller = el.scroller||el).scrollTop -=
-                                  newScrollY = (- lastClientY + (lastClientY=e.clientY));
-
-                              if (el == _document.body) {
-                                  (scroller = _document.documentElement).scrollTop -= newScrollY;
-
-                              }
-                          }
-                      }, 0
-                  );
-               })(dragged[i++]);
-          }
-      }
-
-
-      if (_document.readyState == 'complete') {
-          reset();
-      } else {
-          _window[addEventListener]('load', reset, 0);
-      }
-
-      exports.reset = reset;
-}));</script>
--->
 
 
 </head>
@@ -309,16 +62,12 @@ $(document).ready(function(){
 
 
 <body>
-<!-- <a href="../10/"><img class="apparrowright" src="../../appendixarrowright.svg" alt="">
-</a>
-<a href="../10/"><img style="opacity: 0.3;" class="apparrowleft" src="../../appendixarrowleft.svg" alt="">
-</a> -->
+
 
 <img class="apparrowright" src="../../appendixarrowright.svg" alt="">
 <img class="apparrowleft" src="../../appendixarrowleft.svg" alt="">
 
-<!-- <img class="apparrowleft" src="../../appendixarrowleft.svg" alt="">
- -->
+
 
   <div class="pngs">
     <a href="../../about/index.html"> <img    class="aboutpng hidepng" src="../../atelierdacosta.svg" alt=""></a>
@@ -343,11 +92,6 @@ $(document).ready(function(){
           </a>
       </div>
   
-<!--   <div class="linha">
-
-  </div>
-
- -->
 
  <a href="../9/">
       <div class="leftclick">
@@ -367,60 +111,10 @@ $(document).ready(function(){
     <div class="gradientbottom">
 
     </div>
-    <!-- <div class="gradientright">
 
-    </div>
-    <div class="gradientleft">
-
-    </div> -->
 
 <div class="appcontainer">
 
-
-<!--   <div class="outer50" id="leftouter">
-    <div class="p2">
-  
-      <h2 style="margin-bottom: 33px">
-  
-    </h2>
-  
-  
-  
-      <br><br><br>
-      <p2>
-      </p2>
-  
-        <div >
-          <p2>
-    </div>
-    <div >
-    <p2>
-        </p2>
-    <div>
-    <br><br><br><br>
-  
-    </div>
-  
-    
-  
-  
-  </div>
-  
-  </div>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  </div>
- -->
 
 
 
@@ -429,20 +123,12 @@ $(document).ready(function(){
 
   <div class="outer" id="APP.08">
     <div class="p2">
-      <!-- <p2> 
-        <b> The language of a house<sup>1</sup></b><br>
-         </p2>  
-         <h2 style="justify-content: left;"><i>Filipe Magalhães, Fala - Doma magazine</i></h2>
-         <br> -->
+
          <h2 style="margin-bottom: 33px">
           The language of a house<sup style="vertical-align: bottom; font-size: x-small;">1</sup> - Doma magazine<br>Filipe Magalhães, Fala
         
           </h2>
-   <!--    <img src="../doma/1.png" alt=""><br> -->
-      
-      <!-- <h2>&nbsp<br>
-      (equipa: Hugo Barros e Sara Garcia)
-      </h2> -->
+
         
         
           <img class="full" src="../doma/1.jpg" alt="">
